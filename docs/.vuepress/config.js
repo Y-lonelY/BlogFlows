@@ -7,6 +7,9 @@ module.exports = {
 		['link', { rel: 'icon', href: '/logo.ico'}]
 	],
 	port: 7727,
+	markdown: {
+		lineNumbers: true
+	},
 	themeConfig: {
 		// github 地址
 		repo: 'https://github.com/yanGo1221',
