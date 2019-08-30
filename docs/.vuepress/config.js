@@ -21,29 +21,23 @@ module.exports = {
 		sidebar: {
 			'/core/': getCoreSide('JavaScript', 'Swift4.x'),
 			'/project/': getProjectSide('Swift4.x'),
+			'/concept/': getConceptSide('Concept'),
+			// '/tools/': getToolsSide('tools'),
 		}
 	}
 }
 
-function getCoreSide(groupA, groupB) {
+function getConceptSide(groupA) {
 	return [
-	'/core/',
-	{
-		title: groupA,
-		// 表示不会关闭
-		collapsable: false,
-		children: [
-			'js-esx',
-			'js-typescript'
-		]
-	}, {
-		title: groupB,
-		collapsable: false,
-		children: [
-			'sw-swift',
-			'sw-uikit'
-		]
-	}]
+		'/concept/',
+		{
+			title: groupA,
+			collapsable: false,
+			children: [
+				'network'
+			]
+		}
+	]
 }
 
 function getProjectSide(groupA) {
@@ -54,7 +48,28 @@ function getProjectSide(groupA) {
 		// 表示不会关闭
 		collapsable: false,
 		children: [
-			'sw-swift'
+			'Swift/a.swift'
+		]
+	}]
+}
+
+function getCoreSide(groupA, groupB) {
+	return [
+	'/core/',
+	{
+		title: groupA,
+		// 表示不会关闭
+		collapsable: false,
+		children: [
+			'JavaScript/a.esx',
+			'JavaScript/b.typescript'
+		]
+	}, {
+		title: groupB,
+		collapsable: false,
+		children: [
+			'Swift/a.swift',
+			'Swift/b.uikit'
 		]
 	}]
 }

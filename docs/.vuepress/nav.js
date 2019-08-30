@@ -1,8 +1,8 @@
 module.exports = [{
-	text: '系统化',
+	text: '系统',
 	link: '/core/'
 }, {
-	text: '工程化',
+	text: '工程',
 	items: [
 		{
 			text: '项目',
@@ -13,4 +13,10 @@ module.exports = [{
 			link: '/normalize/'
 		}
 	]
+}, {
+	text: '概念',
+	link: '/concept/'
+}, {
+	text: '工具',
+	link: '/tools/'
 }]
