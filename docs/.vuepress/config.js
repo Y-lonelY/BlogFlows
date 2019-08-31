@@ -1,7 +1,7 @@
 module.exports = {
 	// 页面 title 类似 logo 角色
 	title: "LoreFlows",
-	description: "The Knowledge Palace!",
+	description: "Welcome To The Knowledge Palace!",
 	head: [
 	// logo
 		['link', { rel: 'icon', href: '/logo.ico'}]
