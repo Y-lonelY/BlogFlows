@@ -21,10 +21,24 @@ module.exports = {
 		sidebar: {
 			'/core/': getCoreSide('JavaScript', 'Swift4.x'),
 			'/project/': getProjectSide('Swift4.x'),
+			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
 			// '/tools/': getToolsSide('tools'),
 		}
 	}
+}
+
+function getNormalizeSide(groupA) {
+	return [
+		'/normalize/',
+		{
+			title: groupA,
+			collapsable: false,
+			children: [
+				'css'
+			]
+		}
+	]
 }
 
 function getConceptSide(groupA) {
