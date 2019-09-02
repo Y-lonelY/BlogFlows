@@ -2,7 +2,7 @@
 
 test
 
-## tuple
+## Tuple
 
 元组一个比较重要的概念，可以结合 ES6 的变量的解构赋值和 `Python.tuple` 来理解
 
@@ -30,4 +30,43 @@ print(tuple_case.1) -> "success"
  */
 let (a, b, _) = tuple_case 相当于 let a = tuple_case.0
 print(a) -> 200
+```
+
+
+## Loop
+
+### For In
+
+Swift 内通过 `for in` 循环来遍历可迭代（indexable）的数据类型，比如字符串，数据区间，集合，数组
+
+在循环过程中，循环体内的 index 是一个常量，在每次遍历循环开始时被隐式声明
+
+
+```Swift
+/**
+ * 数据区间
+ * 设置 `stride(from:through:by:)` 或者 `stride(from:to:by:)` 来有规律地跳过某些值
+ * 区别在于前者是闭区间，而后者是开区间
+ */
+for index in stride(from: 0, through: 10, by: 2) {
+    print(index) // 0 2 4 6 8 10
+}
+
+/**
+ * 数组
+ * index 会被隐式声明
+ */
+let array: [String] = ["a", "b", "c"]
+for value in array {
+	print("\(index) is \(value)!")
+}
+
+/**
+ * 字典
+ * 省略键
+ */
+let dict: [String: String] = ["a": "hi", "b": "nihao"] 
+for (_, value) in dict {
+	print(value)
+}
 ```
