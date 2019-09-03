@@ -32,6 +32,68 @@ let (a, b, _) = tuple_case 相当于 let a = tuple_case.0
 print(a) -> 200
 ```
 
+## Array
+
+Swift 内数组是用来存放**相同类型**的有序值，Swift 对于数组内类型的控制，是有别于JavaScript等弱语言的
+
+对于JavaScript，数组内可以存放任意类型的值，更像是将Swift内tuple和array结合的产物
+
+> Arrays同样遵循Indexable协议
+
+
+**项目内的数组常用操作**
+
+```swift
+// 声明一个 Int 类型的空数组，更复杂的数据结构可以对结构进行拆分或者通过Any来声明
+var arr = [Int]()
+
+/**
+ * 利用Array类型提供的初始化方法来声明一个确定大小且元素值相同的默认数组
+ * 类似 ES6 的 let arr = new Array(3).fill(7) 实现
+ */
+var arr = Array(repeating: 7, count: 3)
+
+/**
+ * 添加元素
+ * 通过 `+` 来连接两个数组，并返回一个新数组
+ * 类似 ES6 的 `Array.concat(arr)` 方法
+ */
+let arr1: [Int] = [1, 2]
+let arr2: [Int] = [3, 4]
+arr1 + arr2 -> [1, 2, 3, 4]
+// 通过append()来向数组内添加元素
+arr1.append(5) -> [1, 2, 5]
+
+
+/**
+ * 插入元素
+ * 通过`insert(element, at: index)`方法来向数组指定位置插入元素
+ * 类比 Python 的`insert(element, index)`方法
+ * 类比 JavaScript 的`arr.splice(index, 0, element)`方法
+ */
+arr2.insert(6, at: 1) -> [3, 4, 6]
+
+// 通过下角标（index）对数组进行访问，类似JavaScript
+// Swift支持区间表达式，因此可以利用区间表达式访问多个元素
+arr1[0] -> 1
+
+// `arr.reverse()` 将原数组倒序排列
+arr1.reverse() -> [5, 2, 1]
+```
+
+**通常用来进行判断的属性**
+
+- 利用 `arr.count` 来统计数组内元素个数
+- 利用 `arr.isEmpty` 来判断数组的count是否为0，返回布尔值
+- 利用 `arr.contains(element)` 判断元素是否在数组内，返回一个布尔值
+
+**删除元素**
+
+- `arr.remove(at: index)` 删除指定位置index的元素，类似 Python 的 `pop(index)` 和 JavaScript 的 `splice(1, index)` 方法
+- `arr.removeLast()` 删除数组内最后一个元素，等同于 `arr.remove(arr.count - 1)`
+- `arr.removeFirst()` 删除数组内第一个元素
+- `arr.removeAll()` 删除数组内所有元素
+
 
 ## Loop
 
@@ -55,6 +117,8 @@ for index in stride(from: 0, through: 10, by: 2) {
 /**
  * 数组
  * index 会被隐式声明
+ * 通过 `for (index, value) in arr.enumerated()` 来遍历索引和值
+ * 类比 Python `for i,value in enumerate(list)`
  */
 let array: [String] = ["a", "b", "c"]
 for value in array {
