@@ -28,6 +28,59 @@
 5. 选择刚刚拖入的 ImageView，点击右上角 `Size` 图标，设置其尺寸，点击右上角 `Attributes` 图标，选择图片
 6. 重启app
 
+### DarkMode
+
+适配iOS13新增的dark模式特性，适配主要基于：
+
+- color，系统已经适配了颜色（即不设置颜色时），同时支持自定义动态颜色
+- image，支持系统图标的切换，同时支持自定义的动态图标
+- 监听模式变化，从而触发自定义事件
+- 为模式变化添加 log
+
+**获取当前模式**
+
+在 UIView 或者 UIViewController 内通过 `traitCollection.userInterfaceStyle` 返回当前的模式，其值对应一个枚举
+
+```swift
+// userInterfaceStyle 是一个枚举，声明如下
+public enum UIUserInterfaceStyle: Int {
+	case unspecified
+	case light
+	case dark
+}
+
+/**
+ * UIColor
+ * 在 iOS13 之前，仅支持一种颜色，但是之后，提供一个回调方法，用来动态设置颜色
+ */
+var backColor: UIColor!
+let label = UILabel()
+backColor = UIColor(dynamicProvider: { (trainCollection) -> UIColor in
+    if self.traitCollection.userInterfaceStyle == .dark {
+        return UIColor.black
+    } else {
+        return UIColor.white
+    }
+})
+label.textColor = backColor
+
+// 监听模式变化
+override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+        self.setModeLabel()
+    }
+}
+```
+
+**图片适配**
+
+![dark模式适配](../assets/darkImage.png)
+
+**添加log**
+
+在 `Product > Scheme > Edit Scheme > Run > Arguments Passed On Launch` 设置 `-UITraitCollectionChangeLoggingEnabled YES` 
+
 
 ## EventBind
 

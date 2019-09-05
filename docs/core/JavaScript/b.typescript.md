@@ -39,3 +39,79 @@ let a: number[] = [1,2,3] 或者 let a: Array<number> = [1,2,3]
 :::tip
 基本类型都是小写
 :::
+
+
+## Interface
+
+接口是 TypeScript 中的一个核心概念，它用来将多个类型声明合并至一个类型声明，并且不必关心接口内属性的组织顺序
+
+**基本使用**
+
+```typescript
+/**
+ * Interface 内各个属性通过 `;` 进行分隔
+ * `[propName: string]: any;` 来添加一个字符串索引签名
+ * 表示的是该interface可以有任意数量的属性，并且只要它们不是其他已经定义的属性，那么就无所谓它们的类型是什么
+ */
+interface Test {
+    x: string;
+    y?: string;
+    readonly z: number;
+    [propName: string]: any;
+}
+
+let test: Test = {
+    x: "x",
+    z: "z"
+}
+test.z = "newz" -> error
+```
+
+通过 `readonly` 关键字来标记某个属性为**只读属性**，表示该属性只能在创建时设置值，一旦赋值，则不能再更改
+
+接口内可以通过 `?` 来标记某个属性为**可选属性**，它用来表示该属性不是必须的，两个好处：
+
+- 可以对可能存在的属性进行预定义
+- 可以捕获引用了不存在的属性时的错误
+
+**接口添加属性和接口的继承**
+
+```swift
+interface A {
+    a: number
+}
+
+/**
+ * 声明同名接口来实现接口的重写
+ * 注意区别接口重写，一个是修改原接口定义，一个是创建一个新的接口
+ */
+interface A {
+    b: number
+}
+let a: A = {
+    a: 1,
+    b: 2
+}
+
+/**
+ * 通过 extends 关键字来实现接口继承
+ * 继承可以更灵活地将接口分割到可重用的模块里，并且一个接口可以继承至多个接口
+ */
+interface B extends A {
+    c: number
+}
+let b: B = {
+    a: 1,
+    b: 2,
+    c: 3
+}
+
+/**
+ * 通过 `implements` 强制类来符合接口定义
+ * 比如定义了一个方法，则必须在 class 内实现该方法，属性同理
+ */
+class C implements A {
+    a: 1;
+    b: 2;
+}
+```
