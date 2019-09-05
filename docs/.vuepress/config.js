@@ -76,7 +76,8 @@ function getCoreSide(groupA, groupB) {
 		collapsable: false,
 		children: [
 			'JavaScript/a.esx',
-			'JavaScript/b.typescript'
+			'JavaScript/b.typescript',
+			'JavaScript/c.react'
 		]
 	}, {
 		title: groupB,

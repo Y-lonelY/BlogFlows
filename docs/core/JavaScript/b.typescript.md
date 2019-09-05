@@ -115,3 +115,54 @@ class C implements A {
     b: 2;
 }
 ```
+
+## function
+
+注意区分函数类型和函数返回值类型
+
+如下所示，通过一个变量来承载一个匿名函数，需要为该变量设置其函数类型，同时要给该匿名函数的形参和函数返回值设置类型
+
+注意，有默认值的形参，在函数类型时与可选类型属于同类
+
+```typescript
+/**
+ * 综合用法
+ * 在声明函数时需要考虑到输入和输出类型，在JavaScript的基础上，为形参添加类型
+ * TypeScript能够根据返回语句自动推断出返回值类型，因此我们通常省略它
+ * 如果带默认值的参数出现在必须参数前面，用户必须明确的传入`undefined`值来获得默认值
+ * 函数形参的传递顺序，必选参数>带默认值的参数>可选参数
+ */
+function sum(x: number, y: number = 1, c?: number): number {
+    return x + y;
+}
+
+let result = sun(1, undefined);
+
+/**
+ * 函数表达式
+ * 函数类型返回值的关键字是 =>，必须声明返回值类型，如果函数没有返回任何值，则返回值类型为void
+ * 不要混淆了 TypeScript 中的 => 和 ES6 中的 =>
+ */
+let mySum: (x: number, y: number) => number = function (x: number, y: number): number {
+    return x + y;
+};
+
+// 利用接口定义函数的形状
+interface SearchFunc {
+    (source: string, subString: string): boolean;
+}
+
+let mySearch: SearchFunc;
+mySearch = function(source, subString) {
+    return source.search(subString) !== -1;
+}
+
+/**
+ * 在JavaScript里，你可以使用 arguments来访问所有传入的参数
+ * 在 TypeScript 内通过 `...restName: string[]` 的形参来接受剩余参数，关键是三点运算符 `...`
+ */
+function test(first: string, ...restOfName: string[]) {
+  return first + " " + restOfName.join(" ");
+}
+test("a", "b", "c")
+```
