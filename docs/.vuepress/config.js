@@ -62,7 +62,8 @@ function getProjectSide(groupA) {
 		// 表示不会关闭
 		collapsable: false,
 		children: [
-			'Swift/a.swift'
+			'Swift/a.swift',
+			'TypeScript/a.typescript'
 		]
 	}]
 }
