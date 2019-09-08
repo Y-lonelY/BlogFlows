@@ -76,6 +76,7 @@ function getCoreSide(groupA, groupB) {
 		// 表示不会关闭
 		collapsable: false,
 		children: [
+			'JavaScript/d.javascript',
 			'JavaScript/a.esx',
 			'JavaScript/b.typescript',
 			'JavaScript/c.react'
