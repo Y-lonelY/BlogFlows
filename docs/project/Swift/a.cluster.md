@@ -1,20 +1,20 @@
-# Swift4.x
+# Cluster
 
-> 用来记录在使用Swift4进行实际开发过程中遇到的综合性较强的问题
+> 用来记录在使用Swift4进行实际开发过程中遇到的综合性较强的方案实现
 
 ## System
 
-::: tip
-记录**系统**相关问题
+:::tip
+记录系统相关问题
 :::
 
-### Could not locate device support files
+### 通过 Xcode 来检查当前手机的 log
 
-由于手机 ios 升级到13之后，现在版本的Xcode缺少相应的文件，导致无法在真机上进行测试，解决办法：
+1. 打开Xcode，手机连接至 Mac
+2. `Window > Device and Simulator`
+3. 点击 `open console`
 
-1. 直接更新 Xcode，时间长，另外通过网盘来安装 Xcode 会出现很多问题，所以一般忽略这种办法；
-2. 将相应的 SDK 文件导入，在应用程序内找到Xcode，右键“显示包内容”，根据路径 `Contents-->Developer-->Platforms-->iPhoneOS.platform-->DeviceSupport`，将相应的包复制进去之后重启Xcode
-3. 在[开发者官网](https://developer.apple.com/download/) 下载更新的 Xcode beta，一般 Xcode 会和新版iOS一起发布
+![console board](../assets/console.png)
 
 ### 为 App 启动页设置图片展示
 
@@ -56,19 +56,27 @@ public enum UIUserInterfaceStyle: Int {
 var backColor: UIColor!
 let label = UILabel()
 backColor = UIColor(dynamicProvider: { (trainCollection) -> UIColor in
-    if self.traitCollection.userInterfaceStyle == .dark {
-        return UIColor.black
-    } else {
-        return UIColor.white
+    if #available(iOS 13.0, *) {
+        if UITraitCollection.current.userInterfaceStyle == .dark {
+            return UIColor.black
+        } else if UITraitCollection.current.userInterfaceStyle == .light {
+            return UIColor.white
+        }
     }
 })
 label.textColor = backColor
 
-// 监听模式变化
+/**
+ * 监听模式变化
+ * 只会在当前 viewController 内触发，不会影响其他的 viewController
+ * 在app进入后台和激活时都会触发该事件，且不会正确处理其darkmode，因此需要一个阀门来控制是否监测该事件
+ */
 override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
-    if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-        self.setModeLabel()
+    if #available(iOS 13.0, *) {
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            self.renderWithTheme()
+        }
     }
 }
 ```
