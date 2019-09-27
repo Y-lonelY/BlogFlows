@@ -2,11 +2,13 @@
 
 > 记录在实际开发过程中，TypeScript与其他语言结合使用的综合性问题
 
+
 ## Assets
 
 [第三方typescript package 网站](https://microsoft.github.io/TypeSearch/)
 
 [Redux With TypeScript官方文档](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
+
 
 ## Questiones
 
@@ -33,6 +35,7 @@
 描述：object 上不存在某个属性
 
 解决：使用 any 语法，例如 `let obj = {} as any`
+
 
 ## Create My App
 
@@ -118,6 +121,7 @@ const Header: React.FC<Props> = (props: Props) => (
 
 export { TodoInput }
 ```
+
 
 ## Redux
 

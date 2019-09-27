@@ -93,7 +93,7 @@ function getCoreSide(groupA, groupB) {
 		collapsable: false,
 		children: [
 			'Swift/a.swift',
-			'Swift/b.uikit'
+			'Swift/b.component'
 		]
 	}]
 }

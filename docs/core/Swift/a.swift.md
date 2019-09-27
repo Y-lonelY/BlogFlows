@@ -1,7 +1,5 @@
 # Swift4.x
 
-test
-
 ## Tuple
 
 元组一个比较重要的概念，可以结合 ES6 的变量的解构赋值和 `Python.tuple` 来理解
