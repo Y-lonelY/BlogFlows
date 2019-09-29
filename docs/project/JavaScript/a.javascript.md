@@ -97,6 +97,76 @@ for (let i = 0; i < 5; i++) {
 }
 ```
 
+## 类型判断
+
+> JavaScript 中比较常用的类型判断，在实际场景中，比如实现深拷贝，判断服务端返回数据等会经常用到
+
+`==` 和 `===`，判断值和值及其类型，推荐使用后者，通常判断具体值以及 `null`, `undefined`
+
+```javascript
+1 == "1" // true
+1 === "1" // false
+NaN == NaN // false
+null == undefined // true
+null === undefined // false
+```
+
+`typeof` 操作符返回一个字符串，表示未经计算的操作数的类型，**在判断对象和数组问题上不太行**
+
+`typeof(null)` 的结果是 'object'，因为在JavaScript的最初实现中，JavaScript中的值是由一个表示类型的标签和实际数值表示的，对象的类型标签是0，null代表的是空指针，因此null的类型标签也是0
+
+``` javascript
+typeof(window) // "object"
+typeof(null) // "object"
+var a = [1,2,3]
+typeof(a) // "object"
+```
+
+对于数组和对象两种数据类型判断
+- `Array.isArray(arr)`
+- `Object.prototype.toString.call(arr)`
+- `instanceof`
+
+```javascript
+let arr = [1,2,3];
+Array.isArray(arr) -> true
+Object.prototype.toString.call(arr) -> "[object Array]"
+arr instanceof Array -> true
+```
+
+## 数组去重
+
+最直接的方法就是利用循环来进行比较，如果没有，则将其添加至新数组，最终将新数组返回
+
+
+```javascript
+/**
+ * 利用 hash 进行去重，时间性能表现良好，但是不够简洁
+ * 因为有些数据本身是不能排序的，所以不能对其进行比较查找
+ * 如果数据本身很难比较，即使采用折半查找，要比较的次数也是非常多的
+ * 哈希并不查找数据本身，而是先将数据映射为一个哈希值
+ */
+_mergeArray = function(arr) {
+  var res = [],
+      hash = {};
+  for (var i = 0, elem;
+      (elem = arr[i]) != null; i++) {
+        // 如果hash对象内没有此属性，则返回undefined，此时将此属性值写入数组，并将其映射为一个哈希值
+      if (!hash[elem]) {
+          res.push(elem);
+          hash[elem] = true;
+      }
+  }
+  return res;
+}
+
+/**
+ * 利用 ES6 set 数据结构和三点运算符
+ * 时间性能表现不错，而且足够简洁
+ */
+let arr = [...new Set([1, 1, 3, 4])] -> [1, 3, 4]
+```
+
 
 ## 全屏切换
 
