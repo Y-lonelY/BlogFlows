@@ -23,9 +23,23 @@ module.exports = {
 			'/project/': getProjectSide('JavaScript', 'Swift4.x', 'TypeScript'),
 			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
-			// '/tools/': getToolsSide('tools'),
+			'/tools/': getToolsSide('Tools'),
 		}
 	}
+}
+
+function getToolsSide(groupA) {
+	return [
+		'/tools/',
+		{
+			title: groupA,
+			collapsable: false,
+			children: [
+				'a.babel',
+				'b.shell'
+			]
+		}
+	]
 }
 
 function getNormalizeSide(groupA) {

@@ -136,6 +136,7 @@ let legend =  {
 }
 ```
 
+
 ## ajax
 
 ### 多个 ajax 请求问题
