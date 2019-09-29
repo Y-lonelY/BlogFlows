@@ -15,6 +15,14 @@ JavaScript 中的冷知识
 4. 在 JavaScript 源文件开头包含 `use strict` 好处在于在运行时自动执行更高标准的 JavaScript 代码解析和错误处理方式
 5. `String.replace()` 本身只能替换第一个匹配的元素，可以在正则表达式末尾添加 `/g` 来模拟 `replaceAll()`
 
+## 常用正则
+
+1. 第一个"（" 换行，第二个"）"为空，`String(this.value).replace(/（/,'<br>').replace(/）/, '')`
+
+2. 数字千分：`number.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')`
+
+3. 清除span标签: `str.replace(/<span.*?>|<\/span>/ig,"");`
+
 
 ## 函数节流与防抖
 

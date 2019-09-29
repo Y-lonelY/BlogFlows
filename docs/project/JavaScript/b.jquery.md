@@ -95,3 +95,57 @@ toArray: function() {
 函数前的 `;` 作用：自调用匿名函数与上一段代码相连，如果上一段代码没有以分号结束，而我们又没有主动地加上分好，那么会导致函数编译出错
 
 将系统变量以参数形式传递到插件内部，可以提高对系统变量的访问速度，其中 `undefined` 的妙处在于：为了得到没有被修改的  `undefined`，我们并没有传递这个参数，但却在接收时接收了它，因为实际并没有传，所以`undefined`那个位置接收到的就是真实的`undefined`
+
+
+## highcharts
+
+### 两个散点图的 tooltips 联动
+
+思路就是将两个散点图数据的共有属性之一传入ID，当在chart1上hover点位的时候，获取该点ID，然后通过ID获取到chart2的highchart对象，获取对应点位以及tooltip对象，通过 `point.setState()` 和 `tooltip.refresh()` 来响应事件
+
+```javascript
+point: {
+    events: {
+        mouseOver: function(e) {
+            var id = this.series.data[0].id;
+            var targetChart = $(elseEle).siblings().highcharts();
+            var pointer = targetChart.get(id);
+            var tooltip = targetChart.tooltip;
+            pointer.setState('hover');
+            tooltip.refresh(pointer, e);
+        }
+    }
+},
+```
+
+### 处理由于词段太长导致 legend 展示不下的问题
+
+解决思路：放置在图形下方，根据 item-nums 来动态设置 itemWidth
+
+```javascript
+// legend 属性设置
+// 根据图例数量来动态设置 itemWidth
+let legend =  {
+    align: 'left',
+    verticalAlign: 'bottom',
+    x: -10,
+    y: 0,
+    floating: false,
+    maxHeight: 120,
+    itemWidth: 80
+}
+```
+
+## ajax
+
+### 多个 ajax 请求问题
+
+同一个方法里面如果有两个 ajax 请求，两个ajax异步请求冲突，因为异步问题，在onload方法中调用两个ajax异步，其实相当于同时发送两个请求。执行的快与慢，要看响应的数据量的大小及后台逻辑的复杂程度，若后者快于前者，则会出现错误
+
+解决办法
+
+- Ajax2()方法的执行放到Ajax1()的success回调函数的最后一行
+- Ajax1()的异步请求方法中，增加一个回调函数 ：complete : Ajax2
+- 把Ajax1()的异步设为同步：async : false
+
+对于两个 ajax 请求冲突的情况，上述代码是可行的，但是对于多个，利用 ES6 的 `Promise.all(array)` 语法糖会更简洁
