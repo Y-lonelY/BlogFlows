@@ -10,7 +10,7 @@
 [Redux With TypeScript官方文档](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
 
 
-## Questiones
+## Matters
 
 ### Import Module
 

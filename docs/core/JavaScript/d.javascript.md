@@ -20,72 +20,60 @@ function test() {
 }
 ```
 
-## 执行机制
+## 运算相关
 
-::: tip
-JavaScript是一门单线程语言，事件循环（Event Loop）是 JavaScript 的执行机制
-:::
+### 操作符
 
-由于JavaScript引擎是单线程机制，它无法执行多段代码，当一段代码执行的时候，所有后续任务必须等待，从而形成一个任务队列。一旦当前任务完成，再从队列中取出下一个任务执行，这也被称为 ‘阻塞式执行’
+使用 `+` 将变量转换为数字，但是其只适用于数字字符串，否则返回 NaN
 
-<img src="../assets/eventLoop.png">
+使用 `+` 也可以作用于 Date，返回时间戳，`console.log(+new Date())`
 
-- `setTimeout()` 设置的延迟参数是从 EventTable 中注册回调函数到 EventQueue 的时延，所有**执行其回调函数的时延 >= 其设置的时延**
-- 即使主线程执行栈为空，0ms 实际上也是达不到的，根据HTML标准，最低是 4ms
-- `setInterval()` 会每隔指定的时延将回调函数注册进入 EventQueue 中，一旦 `setInterval` 的回调函数的执行时间超过其设置的延迟，那么完全看不出来有时间间隔
-- 除了广义的同步任务和异步任务，任务还有更加精细的定义
-	- macro-task(宏任务)：正常执行script、setTimeout()、setInterval()
-	- mirco-task(微任务)：Promise、process.nextTick(类似node.js版的setTimeout，其回调函数在事件循环的下一次循环中调用)
+使用 `!!` 将变量转换为布尔类型，只有 0、null、undefined、'' 以及 NaN 会返回 false，其他均返回 true
 
-整体script作为第一个宏任务执行结束，会在 EventQueue 中检查还有哪些微任务，并对其依次执行，至此完成第一次 EventLoop，然后再在 EventQueue 内检查宏任务，进行 EventLoop
+`1 && 2` 返回值为 2：原因在于在 `x && y` 的表达式中，先评估 x 值并将其解释为布尔值，如果布尔值为0，则直接返回 0 ，不用评估 y；但是如果 x 布尔值为 1，则继续评估 y 值，&& 操作符有趣在于，当表达式评估为真时，会返回表达式本身
+
+### NaN
+
+NaN（not a number）是数字类型
+
+在 JavaScript 中，NaN 最特殊的地方在于，不能使用 == 或者 === 来判断一个值是否等于 NaN，因为 `NaN ==(=) NaN` 也会返回 false
+
+`window.isNaN()` 方法会强制将非数字类型转换成数字类型，比如 `window.isNaN('1.2')` 会返回 false
+
+相较之下，ES6 提出了一个更好的解决办法，即 `Number.isNaN()`，它不会对参数进行强制转换，只有当类型为数字，且值为 NaN 时才会返回 true
+
+### 数学任务
+
+Math对象用于执行数学任务，主要用于处理整数任务
 
 ```javascript
-console.log('1');
+// 获取0-1之间随机数
+Math.random() // 0.27407576343031925
 
-setTimeout(function() {
-    console.log('5');
-    process.nextTick(function() {
-        console.log('7');
-    })
-    new Promise(function(resolve) {
-        console.log('6');
-        resolve();
-    }).then(function() {
-        console.log('8')
-    })
-});
+// 返回数的绝对值（absolute）
+Math.abs(-9) // 9
 
-process.nextTick(function() {
-    console.log('3');
-});
+// 返回四舍五入的整数值
+Math.round(1.6) // 2
 
-new Promise(function(resolve) {
-    console.log('2');
-    resolve();
-}).then(function() {
-    console.log('4')
-});
+// 返回向下取整的整数值
+Math.floor(1.6) // 1
 
-setTimeout(function() {
-    console.log('9');
-    process.nextTick(function() {
-        console.log('11');
-    })
-    new Promise(function(resolve) {
-        console.log('10');
-        resolve();
-    }).then(function() {
-        console.log('12')
-    })
-});
+// 返回向上取整的整数值
+Math.ceil(1.6) // 2
 
-// 输出结果
-1,2,3,4,5,6,7,8,9,10,11,12
+// 返回最大值，最小值 min 同理
+Math.max(1, 2) // 2
+// 如果需要返回数组内的最大值，可以通过ES6语法 `Math.max(...arr)` 或者通过 apply 方法 `Math.max.apply(null, arr)`
+let arr = [1, 2, 3];
+Math.max.apply(null, arr) // 3
+Math.max(...arr) // 3
 ```
+
 
 ## window 对象
 
-### scroll
+### Scroll
 
 scroll 处理浏览器 sider 滚动
 
@@ -110,7 +98,7 @@ window.onmousewheel = document.onmousewheel = function(){...};
 document.addEventListener('DOMMouseScroll', function(){...}, false);
 ```
 
-### url
+### Url
 
 通过 `window.location ` 获取当前页面 url 的相关信息。以 `https://github.com/YLoNe666` 为例
 

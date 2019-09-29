@@ -1,4 +1,4 @@
-# Libraries
+# Library
 
 > 用来记录项目内常用的第三方库
 
