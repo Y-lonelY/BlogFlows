@@ -119,8 +119,14 @@ function getCoreSide() {
 		children: [
 			'JavaScript/d.javascript',
 			'JavaScript/a.esx',
-			'JavaScript/b.typescript',
-			'JavaScript/c.react'
+			'JavaScript/b.typescript'
+		]
+	}, {
+		title: 'React',
+		// 表示不会关闭
+		collapsable: false,
+		children: [
+			'React/a.basic'
 		]
 	}, {
 		title: 'Swift4.x',
