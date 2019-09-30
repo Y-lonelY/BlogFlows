@@ -5,15 +5,12 @@
 
 ## Trivia
 
-:::tip
-JavaScript 中的冷知识
-:::
-
 1. `for in` 会改变原对象顺序，因此构建的数组需要重新排序
 2. JS内对数值判断，不能用 `11 < x < 111` , 应该写成 `x > 11 && x < 111`
 3. 选择框一般通过 `onchange` 事件监听，`onchange` 在输入框内容改变且 **失去焦点** 的时候触发
 4. 在 JavaScript 源文件开头包含 `use strict` 好处在于在运行时自动执行更高标准的 JavaScript 代码解析和错误处理方式
 5. `String.replace()` 本身只能替换第一个匹配的元素，可以在正则表达式末尾添加 `/g` 来模拟 `replaceAll()`
+
 
 ## 常用正则
 

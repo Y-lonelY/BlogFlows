@@ -97,7 +97,7 @@ toArray: function() {
 将系统变量以参数形式传递到插件内部，可以提高对系统变量的访问速度，其中 `undefined` 的妙处在于：为了得到没有被修改的  `undefined`，我们并没有传递这个参数，但却在接收时接收了它，因为实际并没有传，所以`undefined`那个位置接收到的就是真实的`undefined`
 
 
-## highcharts
+## Highcharts
 
 ### 两个散点图的 tooltips 联动
 

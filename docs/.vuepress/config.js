@@ -37,7 +37,8 @@ function getToolsSide(groupA) {
 			children: [
 				'a.babel',
 				'b.shell',
-				'c.developTools'
+				'c.developTools',
+				'd.nginx'
 			]
 		}
 	]
@@ -79,7 +80,9 @@ function getProjectSide(groupA, groupB, groupC) {
 		collapsable: false,
 		children: [
 			'JavaScript/a.javascript',
-			'JavaScript/b.jquery'
+			'JavaScript/b.jquery',
+			'JavaScript/c.h5',
+			'JavaScript/last.units'
 		]
 	}, {
 		title: groupB,
