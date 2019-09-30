@@ -36,7 +36,8 @@ function getToolsSide(groupA) {
 			collapsable: false,
 			children: [
 				'a.babel',
-				'b.shell'
+				'b.shell',
+				'c.developTools'
 			]
 		}
 	]
