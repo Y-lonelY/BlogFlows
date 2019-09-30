@@ -6,8 +6,10 @@
 
 目前已支持系统化的模块有：
 
-- Swift4.x
+- JavaScript
+- React
 - Typescript
+- Swift
 
 本项目执行机制
 

@@ -3,7 +3,9 @@
 > JavaScript 工具类
 
 
-## 在浏览器上为每个元素添加轮廓线
+## 元素轮廓线
+
+在浏览器上为每个元素添加轮廓线
 
 ```javascript
 function addEleOutline() {
@@ -14,7 +16,9 @@ function addEleOutline() {
 ```
 
 
-## 类似 jquery 的 empty()
+## 清空元素
+
+类似 jquery 的 empty()
 
 ```javascript
 function empty(ele) {
@@ -25,7 +29,9 @@ function empty(ele) {
 ```
 
 
-## 两个数组的交叉并补集合
+## 数组的集合操作
+
+两个数组的交叉并补操作
 
 ```javascript
 /** 求两个数组的交集，差集，并集，补集

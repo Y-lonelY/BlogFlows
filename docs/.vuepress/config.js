@@ -19,7 +19,7 @@ module.exports = {
 		docsDir: 'docs',
 		lastUpdated: 'Last Updated',
 		sidebar: {
-			'/core/': getCoreSide('JavaScript', 'Swift4.x'),
+			'/core/': getCoreSide(),
 			'/project/': getProjectSide(),
 			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
@@ -90,6 +90,7 @@ function getProjectSide() {
 		collapsable: false,
 		children: [
 			'React/a.library',
+			'React/b.redux',
 		]
 	}, {
 		title: 'Swift',
@@ -108,11 +109,11 @@ function getProjectSide() {
 	}]
 }
 
-function getCoreSide(groupA, groupB) {
+function getCoreSide() {
 	return [
 	'/core/',
 	{
-		title: groupA,
+		title: 'JavaScript',
 		// 表示不会关闭
 		collapsable: false,
 		children: [
@@ -122,11 +123,18 @@ function getCoreSide(groupA, groupB) {
 			'JavaScript/c.react'
 		]
 	}, {
-		title: groupB,
+		title: 'Swift4.x',
 		collapsable: false,
 		children: [
 			'Swift/a.swift',
 			'Swift/b.component'
+		]
+	}, {
+		title: 'Python3',
+		collapsable: false,
+		children: [
+			'Python3/a.basic',
+			'Python3/b.advanced'
 		]
 	}]
 }
