@@ -20,7 +20,7 @@ module.exports = {
 		lastUpdated: 'Last Updated',
 		sidebar: {
 			'/core/': getCoreSide('JavaScript', 'Swift4.x'),
-			'/project/': getProjectSide('JavaScript', 'Swift4.x', 'TypeScript'),
+			'/project/': getProjectSide(),
 			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
 			'/tools/': getToolsSide('Tools'),
@@ -71,11 +71,11 @@ function getConceptSide(groupA) {
 	]
 }
 
-function getProjectSide(groupA, groupB, groupC) {
+function getProjectSide() {
 	return [
 	'/project/',
 	{
-		title: groupA,
+		title: 'JavaScript',
 		// 表示不会关闭
 		collapsable: false,
 		children: [
@@ -85,8 +85,14 @@ function getProjectSide(groupA, groupB, groupC) {
 			'JavaScript/last.units'
 		]
 	}, {
-		title: groupB,
+		title: 'React',
 		// 表示不会关闭
+		collapsable: false,
+		children: [
+			'React/a.library',
+		]
+	}, {
+		title: 'Swift',
 		collapsable: false,
 		children: [
 			'Swift/a.cluster',
@@ -94,7 +100,7 @@ function getProjectSide(groupA, groupB, groupC) {
 			'Swift/c.library'
 		]
 	}, {
-		title: groupC,
+		title: 'TypeScript',
 		collapsable: false,
 		children: [
 			'TypeScript/a.typescript'
