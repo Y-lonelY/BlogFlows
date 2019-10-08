@@ -86,6 +86,33 @@ react router 内包含三种类型组件：
 2. 路由器匹配组件
 3. 导航组件
 
+理解：路由器匹配组件一般映射一个模块，当 url 改变时则会去匹配该模块并展示，但是所有的路由器匹配组件都必须被包裹在路由器组件内
+
+### withRouter
+
+给空间绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现
+
+```js
+import { withRouter } from 'react-router-dom';
+class FlowHeader extends React.Component<FlowHeaderProps, FlowHeaderState> {
+	// statement
+
+    handleRouter = (index) => {
+        const selectedItem = flowItems[index];
+        if (selectedItem.label === this.state.currentItem) {
+            return;
+        } else {
+            this.props.history.push('/');
+        }
+    }
+}
+
+export default withRouter(FlowHeader);
+
+// use in redux
+export default withRouter(connect(...)(MyComponent))
+```
+
 ### router
 
 路由器组件，是 react router 的**地基**，两个关注组件 `<BroswerRouter>` 和 `<HashRouter>`
