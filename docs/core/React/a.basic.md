@@ -19,9 +19,9 @@
 
 ```javascript
 // 一个 react 的组件模版
-import React, { Component } from "react";
+import React from "react";
 
-class Test extends Component {
+class Test extends React.Component {
 	// 添加状态
 	constructor(props) {
 		super(props);

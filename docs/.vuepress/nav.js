@@ -1,5 +1,5 @@
 module.exports = [{
-	text: '系统',
+	text: '核心',
 	link: '/core/'
 }, {
 	text: '工程',
@@ -9,8 +9,12 @@ module.exports = [{
 			link: '/project/'
 		},
 		{
-			text: '标准',
+			text: '规范',
 			link: '/normalize/'
+		},
+		{
+			text: '类库',
+			link: '/packages/'
 		}
 	]
 }, {

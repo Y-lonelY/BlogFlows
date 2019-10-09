@@ -1,11 +1,10 @@
-# Library
+# React
 
 > Record React Materials In Project
 
-
 ## Create React App
 
-官方推荐脚手架，快速搭建 react 开发环境，创建单页面，简称CRA
+[Create React App](https://www.html.cn/create-react-app/docs/getting-started/)为官方推荐脚手架，快速搭建 react 开发环境，创建单页面，简称CRA
 
 1. 不必过多了解构建工具，更专注于开发
 2. 只需要引入一个依赖项，即 creat react app，它来确保顶层的部分无缝协调工作
@@ -76,13 +75,11 @@ create-react-app 会自动压缩 css 并通过 Autoprefixer 来补全前缀
 
 ## React Router
 
-[react 路由组件](https://reacttraining.com/react-router/web/guides/quick-start)
-
-通过 `npm install react-router-dom --save` 来引入
+[react 路由组件](https://reacttraining.com/react-router/web/guides/quick-start) 通过 `npm install react-router-dom --save` 来引入
 
 react router 内包含三种类型组件：
 
-1. 路由器组件，
+1. 路由器组件
 2. 路由器匹配组件
 3. 导航组件
 
@@ -146,9 +143,7 @@ export default withRouter(connect(...)(MyComponent))
 
 > React Hot Loader is a plugin that allows React components to be live reloaded without the loss of state
 
-[官方文档](https://github.com/gaearon/react-hot-loader)
-
-React-hot-loader 是一个插件，允许 React 组件在不丢失状态的条件下进行实时重新加载操作
+[React-hot-loader](https://github.com/gaearon/react-hot-loader) 是一个插件，允许 React 组件在不丢失状态的条件下进行实时重新加载操作
 
 webpack-dev-server 也实现了热加载，但是是在代码改动后，经过重新打包，进而重新刷新整个页面
 
@@ -204,4 +199,3 @@ clone 一个 react 项目后，在执行 `npm install` 之后，发现 node-sass
 - 手动下载需要引入的文件，一般在 install 时会自动下载，将下载文件放在nodejs的根目录下
 - 进入项目根目录，设置 sass 路径，`set SASS_BINARY_PATH=[file path]`
 - 继续执行 `npm i node-sass -D -verbose` 即可
-

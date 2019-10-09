@@ -1,3 +1,8 @@
+/**
+ * 规范：
+ * 模块内容大于三个支持关闭
+ */
+
 module.exports = {
 	// 页面 title 类似 logo 角色
 	title: "LoreFlows",
@@ -21,6 +26,7 @@ module.exports = {
 		sidebar: {
 			'/core/': getCoreSide(),
 			'/project/': getProjectSide(),
+			'/packages/': getPackagesSide(),
 			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
 			'/tools/': getToolsSide('Tools'),
@@ -57,6 +63,21 @@ function getNormalizeSide(groupA) {
 	]
 }
 
+function getPackagesSide() {
+	return [
+		'/packages/',
+		{
+			title: 'Packages',
+			collapsable: false,
+			children: [
+				'a.cluster',
+				'b.react',
+				'c.swift'
+			]
+		}
+	]
+}
+
 function getConceptSide(groupA) {
 	return [
 		'/concept/',
@@ -77,7 +98,7 @@ function getProjectSide() {
 	{
 		title: 'JavaScript',
 		// 表示不会关闭
-		collapsable: false,
+		collapsable: true,
 		children: [
 			'JavaScript/a.javascript',
 			'JavaScript/b.jquery',
@@ -95,16 +116,14 @@ function getProjectSide() {
 		// 表示不会关闭
 		collapsable: false,
 		children: [
-			'React/a.library',
-			'React/b.redux',
+			'React/a.redux',
 		]
 	}, {
 		title: 'Swift',
 		collapsable: false,
 		children: [
 			'Swift/a.cluster',
-			'Swift/b.matters',
-			'Swift/c.library'
+			'Swift/b.matters'
 		]
 	}, {
 		title: 'TypeScript',
