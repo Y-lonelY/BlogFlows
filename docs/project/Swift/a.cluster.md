@@ -28,7 +28,77 @@
 5. 选择刚刚拖入的 ImageView，点击右上角 `Size` 图标，设置其尺寸，点击右上角 `Attributes` 图标，选择图片
 6. 重启app
 
-### DarkMode
+### 点击 Today widgets，跳转到 app 内指定页面
+
+主要利用以下 api 来进行实现：
+- `self.extensionContext?.open(URL(string:), completionHandler: {...})`
+- `func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool{...}`
+
+下面介绍具体的代码实现：
+
+`TodayServiceViewController` 用于监听点击事件，拼接并传递URL
+
+```swift
+/**
+ * 用于承载点击事件，添加事件监听
+ * 下面列举关键代码
+ */
+override func viewDidLoad() {
+    super.viewDidLoad()
+    // statement
+    NotificationCenter.default.addObserver(self, selector: #selector(self.openUrlContainingApp), name: NSNotification.Name(rawValue: "GameDidSelect"), object: nil)
+}
+
+// 跳转的关键方法，通过 url 来传递参数
+@objc func openUrlContainingApp() {
+    self.extensionContext?.open(URL(string: "xxx://rank?\(TodayService.selectedGame!.gameId)")!, completionHandler: { success in
+        print(success)
+    })
+}
+
+// 点击 tableCell 后 post 事件
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let game = data[indexPath.row]
+    TodayService.selectedGame = game
+    NotificationCenter.default.post(name: Notification.Name(rawValue: "GameDidSelect"), object: nil)
+}
+```
+
+`AppDelegate` 内用于接受 URL 并执行相应的操作，将重定向的 URL 信息进行缓存
+
+```swift
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    var redirect = url.absoluteString
+    // 如果以指定字符串开头，则将其进行格式化处理
+    if redirect.hasPrefix("xxx://") {
+        redirect.replaceFirst(matching: "xxx://", with: "")  
+        MainService.redirectTo = redirect
+    }
+}
+```
+
+`TabViewController` 在 viewWillAppear 方法内根据有无 MainService.redirectTo 来执行相应的重定向操作
+
+```swift
+override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // statement
+    if !MainService.redirectTo.isEmpty {
+        if MainService.redirectTo.hasPrefix("rank") {
+            self.selectedViewController = self.viewControllers![0]
+            // 如果需要重定向到具体的详情页，则可以继续进行相应处理，这里不再展开
+            if MainService.redirectTo.contains("?") {
+                let currentValue = MainService.redirectTo.components(separatedBy: "?")[1]
+                MainService.redirectGameId = currentValue
+            }
+        }
+    }
+}
+```
+
+
+## DarkMode
 
 适配iOS13新增的dark模式特性，适配主要基于：
 
@@ -88,6 +158,7 @@ override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollect
 **添加log**
 
 在 `Product > Scheme > Edit Scheme > Run > Arguments Passed On Launch` 设置 `-UITraitCollectionChangeLoggingEnabled YES` 
+
 
 
 ## EventBind
