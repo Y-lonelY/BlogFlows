@@ -74,3 +74,46 @@ function arraySetbyES5(arr1, arr2) {
     return params;
 }
 ```
+
+## 处理url
+
+```js
+/** 获取 url 里面的查询参数
+ *  query - 查询参数对象
+ *  hash - hash 值
+ */
+function getUrlParams() {
+    let params = {};
+    const urlStr = window.location;
+    const hashStr = urlStr.hash; // #then-done
+    const queryStr = urlStr.search; // ?query=test02
+
+    params['query'] = {};
+    params['hash'] = '';
+
+    // deal query
+    if (queryStr !== '') {
+        let query = queryStr.split("?")[1];
+        let queryArr = query.split("&");
+        let queryObj = {};
+
+        queryArr.forEach(function(item) {
+            var q_key = item.split('=')[0];
+            var q_val = item.split('=')[1];
+            queryObj[q_key] = q_val;
+        });
+
+        params['query'] = queryObj;
+    }
+
+    // deal hash
+    if (hashStr !== '') {
+        const hash = decodeURI(hashStr);
+        const oriHash = hashStr;
+        params['hash'] = hash;
+        params['oriHash'] = oriHash;
+    }
+
+    return params;
+}
+```

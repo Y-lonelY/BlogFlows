@@ -22,8 +22,9 @@ JavaScript是一门单线程语言，事件循环（Event Loop）是 JavaScript 
 整体script作为第一个宏任务执行结束，会在 EventQueue 中检查还有哪些微任务，并对其依次执行，至此完成第一次 EventLoop，然后再在 EventQueue 内检查宏任务，进行 EventLoop
 
 ```javascript
-console.log('1');
+console.log('1'); // 同步任务
 
+// 整体作为一个异步任务
 setTimeout(function() {
     console.log('5');
     process.nextTick(function() {
@@ -37,10 +38,12 @@ setTimeout(function() {
     })
 });
 
+// 异步任务-微任务，在下一次循环内执行
 process.nextTick(function() {
     console.log('3');
 });
 
+// 微任务-微任务
 new Promise(function(resolve) {
     console.log('2');
     resolve();
@@ -48,19 +51,7 @@ new Promise(function(resolve) {
     console.log('4')
 });
 
-setTimeout(function() {
-    console.log('9');
-    process.nextTick(function() {
-        console.log('11');
-    })
-    new Promise(function(resolve) {
-        console.log('10');
-        resolve();
-    }).then(function() {
-        console.log('12')
-    })
-});
-
 // 输出结果
-1,2,3,4,5,6,7,8,9,10,11,12
+// 即 Promise > nextTick > Promise.then
+1,2,3,4,5,6,7,8
 ```
