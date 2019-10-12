@@ -55,3 +55,19 @@ new Promise(function(resolve) {
 // 即 Promise > nextTick > Promise.then
 1,2,3,4,5,6,7,8
 ```
+
+## 在浏览器输入 URL 的执行过程
+
+URL 结构：
+
+- scheme: 通信协议，比如 https 等
+- host: 主机地址
+- port: 端口号，用来标志进程
+- path: 虚拟文件路径，说明资源位于服务器什么地方
+- query: 查询参数
+- hash: 信息片段字符串，锚点部分
+
+明确一个概念，一个 URL 就是一个特定资源，该资源可能需要引用多个其他资源作为支撑
+
+1. 服务端交互获取渲染对象，参考[network.HTTP]
+2. 通过浏览器渲染指定的资源文件
