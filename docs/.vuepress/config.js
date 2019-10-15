@@ -102,7 +102,6 @@ function getProjectSide() {
 		children: [
 			'JavaScript/a.javascript',
 			'JavaScript/b.jquery',
-			'JavaScript/c.h5',
 			'JavaScript/last.units'
 		]
 	}, {
@@ -119,17 +118,23 @@ function getProjectSide() {
 			'React/a.redux',
 		]
 	}, {
+		title: 'TypeScript',
+		collapsable: false,
+		children: [
+			'TypeScript/a.typescript'
+		]
+	}, {
+		title: 'HTML5',
+		collapsable: false,
+		children: [
+			'HTML5/a.html5'
+		]
+	}, {
 		title: 'Swift',
 		collapsable: false,
 		children: [
 			'Swift/a.cluster',
 			'Swift/b.matters'
-		]
-	}, {
-		title: 'TypeScript',
-		collapsable: false,
-		children: [
-			'TypeScript/a.typescript'
 		]
 	}]
 }
@@ -151,7 +156,15 @@ function getCoreSide() {
 		// 表示不会关闭
 		collapsable: false,
 		children: [
-			'React/a.basic'
+			'React/a.basic',
+			'React/b.hook'
+		]
+	}, {
+		title: 'HTML5',
+		// 表示不会关闭
+		collapsable: false,
+		children: [
+			'HTML5/a.basic'
 		]
 	}, {
 		title: 'Swift4.x',
