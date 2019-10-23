@@ -2,6 +2,90 @@
 
 > Advanced Features
 
+## 面向对象编程
+
+面向对象中需要重点理解两个东西：类（class）和实例（instance）
+
+就比如：人是一个class，人具有年龄，爱好等属性，同时人可以制造工具或者进行其他活动，这可以视为人的属性和方法，而地球上的每一个人就是人这个类的 instance
+
+类是抽象的模版，实例是类的具体表现
+
+面向对象的**核心思想**是抽象出 class，再利用 class 创建出 instance
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+'wakatime scripts'
+
+__author__ = 'Y-lonelY'
+
+import json
+import requests
+
+class Person(object):
+	# 普通成员变量
+	url = 'https://wakatime.com/api/v1/users/current/summaries'
+    cache = True
+    # 私有成员变量
+    __api_key = 'xxx'
+
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def getData(self):
+    	try:
+    		print(self.start)
+    	except Exception as e:
+    		raise
+    	else:
+    		pass
+    	finally:
+    		pass
+
+    # 通过 classmethod 来声明静态方法，通过 cls 来取代 self
+    @classmethod
+    def get_lang_sql(cls, lang, date):
+    	# statement
+
+if __name__ == "__main__":
+	person = Person('2019-10-10', '2019-10-20')
+	person.getData()
+
+```
+
+### 访问限制
+
+限制访问的目的在于不让类外部方法随意更改类的内部属性，保护内部状态
+
+类比私有属性的概念，关键字为 `__`，比如 `self.__name`，这样实例对象就不能访问到 `__name` 这个属性，这个属性仅在类的内部使用
+
+可以通过内部定义的 `get || set` 方法，将私有变量返回或者修改
+
+写法比较
+
+- `_name` 这种写法，在类外部是可以访问的，但是它按照python习惯，表示“可以访问，但是不要随意改变”
+
+- `__name__` 表示特殊变量，在类外部是可以访问的
+
+### class && instance
+
+python 中的类通过 `class` 关键字声明，类的完整声明 `class Person(object):` 表示 person 这个类继承至 object，**注意**，所有的类本质上都继承至 object
+
+通过 `__init__(self, params)` 来约定创建实例时，强制需要传入的参数，作用是将属性绑定到 `self` 上，`__self__` 就是实例本身，不用传入，且默认为第一个参数，可以类比 es6 的 `constructor()` 方法
+
+通过 `self` 是给类的生成实例绑定属性，在类里面直接声明变量就是直接给类绑定属性，如果绑定了同名的属性，python3 会优先选择实例属性，所以一般不要声明同名属性
+
+数据封装：因为实例在声明时就已经有了声明的数据，所以可以直接在类的内部去访问这些数据，而没必要去再在外部通过函数去访问（这意味着你需要维护实例初始化的数据，来随时作为参数传入函数）
+
+**注意**
+
+1. class 的名字第一个字母约定为大写
+2. 类中定义方法的第一个参数必须是 `self`，可以类比 javascript 中的 `this` 关键字，指向实例本身
+3. 与 javascript 不同之处之一在于：python 中创建一个实例不需要使用 `new` 关键字
+
+
 ## 切片
 
 切换用于取 list 或者 tuple 部分元素

@@ -2,6 +2,71 @@
 
 > Python3 基本知识和使用
 
+## 字符串
+
+字符串格式化，通常有两种方式：
+
+- 用 `%` 实现格式化
+	- %d 代表整数
+	- %s 代表字符串
+	- %f 代表浮点数
+	- %x 代表16进制整数
+	- %% 代表对 % 的转义
+- 通过 `format()` 实现
+
+```python
+# 用 `%` 实现格式化
+str = 'hello, %s%d%.2f' %('yango', 777, 3.6666)
+
+# format 会通过位置映射和关键字映射来找寻元素，通过 {} 来包裹关键字
+str = "{server}:{}:{}".format('abc', '123', server='port') # port:abc:123
+```
+
+`str()` 用来实现字符串强制转换
+
+
+## list && tuple
+
+### list
+
+> list 和 tuple 是 python 内置的有序集合，前者可变，后者不可变（可类比 let && const）
+
+list 是一种有序的集合，可以随时添加或者删除元素，可类比 Array，主要方法：
+
+```python
+list = [1, 2, 3]
+
+# 删除最后一个元素或者指定位置元素
+list.pop(index)
+
+# 向 list 中追加元素到末尾
+list.append(element)
+
+# 向 list 指定位置插入元素
+list.insert(index, element)
+
+# 返回 list 的长度
+len(list)
+
+# 字符串数组转字符串
+# 对于非字符串数组，则通过遍历来进行转换
+str_list = ['a', 'b', 'c']
+str = ''.join(str_list)
+
+# 通过 + 合并两个数组
+new_list = list + str_list
+```
+
+### tuple
+
+> tuple 可以看作是 list 的进化版，它拥有更强的“控制欲”，一旦tuple初始化就不能更改
+
+需要注意的是：
+
+- list 用 `[]`，而 tuple 用 `()`
+- tuple 引用的元素不能变更，但是存在一个“陷阱”，即当其元素仍存在一个新的引用时(即嵌套引用)，可以改变二维的引用值，而不会报错
+- 当tuple初始化时，如果只有一个值，此时python会以小括号来进行解释，所以此时需要添加一个逗号，来消除歧义
+
 
 ## 基础
 
@@ -136,28 +201,6 @@ python3 提供 `ord()` 和 `chr()` 用来获取字符的编码/转码对应的�
 `len(String)` 方法用来计算字符的长度
 
 **key point**: 当源代码包含中文时，在保存源码时，需要制定其保存为 UTF-8，因此在python解释器读取源码时，为了让它以 UTF-8 编码，通常在文件开头写入以下代码
-
-
-## list && tuple
-
-> list 和 tuple 是 python 内置的有序集合，前者可变，后者不可变（可类比 let && const）
-
-list 是一种有序的集合，可以随时添加或者删除元素，可类比 Array，主要方法：
-
-- `pop(index)` 删除最后一个元素或者指定位置元素
-- `append(element)` 向 list 中追加元素到末尾
-- `len(list)` list 的长度
-- `insert(index, element)` 向 list 指定位置插入元素
-
-tuple
-
-> tuple 可以看作是 list 的进化版，它拥有更强的“控制欲”，一旦tuple初始化就不能更改
-
-需要注意的是：
-
-- list 用 `[]`，而 tuple 用 `()`
-- tuple 引用的元素不能变更，但是存在一个“陷阱”，即当其元素仍存在一个新的引用时(即嵌套引用)，可以改变二维的引用值，而不会报错
-- 当tuple初始化时，如果只有一个值，此时python会以小括号来进行解释，所以此时需要添加一个逗号，来消除歧义
 
 
 ## dict && set

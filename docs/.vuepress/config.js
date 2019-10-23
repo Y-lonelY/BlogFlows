@@ -72,7 +72,8 @@ function getPackagesSide() {
 			children: [
 				'a.cluster',
 				'b.react',
-				'c.swift'
+				'c.swift',
+				'd.python'
 			]
 		}
 	]

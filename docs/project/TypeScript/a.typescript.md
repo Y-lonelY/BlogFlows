@@ -174,12 +174,17 @@ export const dashBoardData: (state: StoreState, action: ChangeChart) => StoreSta
 
 各个模块的**view.tsx**文件，关键是对 props 的验证和 redux.connect
 
+**注意：reducer 返回变量名与当前 props 内变量名保持一致**
+
 ```typescript
 class DailyView extends React.Component<DashBoardProps> {
 	// statements
 }
 
-// 建立 state.dashBoardData 和 this.props.dashBoardData 的对应关系
+/**
+ * 建立 store.state.dashBoardData 和 this.props.dashBoardData 的对应关系
+ * reducer 返回变量名为 dashBoardData，则当前 props 内定义的变量名必须为 dashBoardData，否则无法进行对应
+ */
 function mapStateToProps({ dashBoardData }: any) {
     return {
         dashBoardData,

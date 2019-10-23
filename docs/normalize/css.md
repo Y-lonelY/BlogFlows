@@ -40,6 +40,52 @@ CSS3 编程规范
 }
 ```
 
+
+## SCSS
+
+出于 SCSS 语法对 CSS 语法友好的兼容性和扩展性，在 SASS 和 SCSS 中，选择后者作为语法
+
+其规范与 CSS 类似
+
+```scss
+@charset "utf-8";
+// 样式表第一行声明样式表编码*/
+
+/**
+ * 多行注释
+ * 模块样式
+ */
+// 可复用属性进行抽离成变量，便于统一维护
+$white: #fff;
+
+/**
+ * mixin 来建立类似函数的样式控制
+ * 设置默认值为 5px
+ * 通过 @include 来对其进行使用
+ */
+@mixin radius($radisu: 5px) {
+    -webkit-border-radius: $radius;
+    border-radius: $radius;
+}
+
+.module {
+    // & 作为选择器进行嵌套，表示 module_name
+    &_name {
+        @include radius(10px);
+
+        // 属性嵌套
+        background: {
+            color: $white;
+            repeat: no-repeat;
+        }
+        
+        // 运算规则，以空格进行分隔，单位也会进行计算
+        width: 100px / 2;
+    }
+}
+```
+
+
 ## Assets
 
 ::: tip
