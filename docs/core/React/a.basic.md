@@ -2,6 +2,54 @@
 
 > React 基础知识和概念
 
+## JSX
+
+JavaScript 的语法扩展，执行更快，编译过程就能过滤出一些错误
+
+在 react 中，所有的元素都是 object，区别于浏览器的 DOM 元素
+
+React DOM 用来识别 JSX，将其转换为 object，然后渲染出来，并确保两者保持一致
+
+React Dom 使用**驼峰命名法（camelcase）**来定义属性或者内联样式，这点区别于 HTML
+
+值得一提，React DOM 在渲染之前都会过滤传入的值，将其转换成字符串来有效防范注入攻击
+
+```jsx
+// 特例字典，只要原因是处理 javascript 内的保留字
+let dict = {
+	class: 'className',
+	tabindex: 'tabIndex',
+	for: 'htmlFor',
+	// 事件绑定
+	onclick: 'onClick',
+}
+
+function Jsx() {
+	return (
+		{/** htmlFor - for **/}
+		{/** tabIndex - tabindex **/}
+		<div className='jsx' tabIndex={tabIndex} htmlFor={htmlFor} onClick={onClick}>
+
+		{/** 条件判断 **/}
+		{arr.length &&
+			<div>...</div>
+		}
+
+		{/** 三元表达式 **/}
+		{arr.length > 0 ?
+			<div>True</div> : <div>False</div>
+		}
+
+		{/** 循环 **/}
+		{list.map(item => {
+			return (<div>item</div>)
+			})
+		}
+		</div>
+	);
+}
+```
+
 
 ## 组件
 
@@ -63,6 +111,11 @@ class Test extends React.Component {
 		// statement
 	}
 
+	// 自定义事件
+	event = (data) => {
+		//statement
+	}
+
 	// 一个使用场景就是，当我们接受到新的props时，想去修改原 state 时
 	static getDerivedStateFromProps(nextProps, prevState) {
     	if (nextProps.currentRow !== prevState.lastRow) {
@@ -77,6 +130,27 @@ class Test extends React.Component {
 }
 
 export default Test
+```
+
+### class 组件转换为 function
+
+对于纯函数组件，即输入决定输出，输出映射输入的函数，能够进行响应的转换，对比 class 声明组件方式：
+
+- 不需要声明周期函数，直接 `return` jsx template
+- 自定义函数声明方式改变
+
+```javascript
+function Test(props) {
+	const event = (data) => {
+		//statement
+	};
+
+	return(
+		<div className={props.className}>
+		// dom element
+		</div>
+	);
+}
 ```
 
 ### constructor

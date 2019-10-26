@@ -28,7 +28,7 @@ Hook 是一个特殊的函数，它可以让你“钩入” React 的特性，�
 ```js
 import React, { useState, useEffect } from 'react';
 
-function Test() {
+function Test(props) {
 	/**
 	 * 设置一个变量名为 count 的 state，并规定其初始值为 0
 	 * useState() 方法传参就是初始 state，且该方法可以调用多次
