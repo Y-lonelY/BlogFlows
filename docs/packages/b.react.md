@@ -139,6 +139,28 @@ export default withRouter(connect(...)(MyComponent))
 3. 在 `app.js` 内引入 `RouteConfig.js` 和 `Router.js`，并通过 `<BrowserRouter>` 或者其他 API 来封装启动路由
 
 
+## Bizcharts
+
+### scale
+
+```js
+const scale = {
+	// 针对 date 数据列
+    date: {
+        // 数据类型，非连续的时间类型
+        type: 'cat',
+        /**
+         * range 用来控制坐标轴两边的留白
+         * 对于分类数据的坐标轴两边默认会有留白
+         * 连续数据的坐标轴的两端没有空白刻度
+         * 留白程度通过 range 来控制
+         */
+        range: [0.1, 0.9]
+    }
+};
+```
+
+
 ## React Hot Loader
 
 > React Hot Loader is a plugin that allows React components to be live reloaded without the loss of state
