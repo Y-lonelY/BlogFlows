@@ -6,13 +6,15 @@
 用来连接数据库的中间件
 :::
 
-**Install**
+### Install
 
 在 terminal 内执行命令 `sudo pip3 install PyMysql`，安装 pymysql server
 
 在 .py 中 `import pymysql` 即可
 
 ### 基本用法
+
+**注意：一次只能执行一次插入/更新语句，不能一次执行多条**
 
 ```python
 import pymysql
@@ -47,4 +49,30 @@ data = cursor.fetchall()
 
 # 关闭数据库连接
 conn.close()
+```
+
+## sys
+
+sys 能够解决：
+
+- 通过 `sys.argv` 在脚本内获取外部传递参数
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+wakatime scripts
+"""
+
+__author__ = 'Y-lonelY'
+
+import sys
+
+# 例如执行命令 python3 file.py yang 666
+# 传递参数通过空格进行分隔
+# 则会获取一个 list，其值为 ['file.py', 'yang', '666']
+if __name__ == '__main__':
+	name = sys.argv[1]
+	label = sys.argv[2]
 ```
