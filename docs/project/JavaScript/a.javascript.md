@@ -172,6 +172,44 @@ _mergeArray = function(arr) {
 let arr = [...new Set([1, 1, 3, 4])] -> [1, 3, 4]
 ```
 
+## 等待多个异步请求
+
+即同时发出n个异步请求，但是需要它们都执行完毕再进行下一步处理
+
+第一个思路，通过 `promise.all()` 来实现，其本质是一个 promise 对象，接受一个 promise 对象的数组作为参数，当数组内所有的 promise 对象的状态全部变成 `resolve` 状态或者出现 `reject` 状态时，则会执行 `then`方法
+
+```js
+// 模拟请求
+var p1 = Promise.resolve(1),
+    p2 = Promise.resolve(2),
+    p3 = Promise.resolve(3);
+
+Promise.all([p1, p2, p3]).then(function (results) {
+    console.log(results);  // [1, 2, 3]
+});
+```
+
+第二个思路，利用 `promise.all` 的实现原理，结合 `async...await` 来实现，通过判断到最后一个异步请求完成，再执行相应的动作
+
+```js
+async function getDateRange() {
+    const list = ['lang', 'project'];
+    for (let index = 0; index < list.length; index++) {
+        const item = list[index];
+        const sql = `SELECT MAX(date) AS date FROM waka_${item}`;
+        try {
+            const max_date = await sequelizeCase.query({ sql: sql, queryType: 'select'});
+            // 拿到所有数据之后进行处理
+            if (index === list.length - 1) {
+                // statements
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+```
+
 
 ## 全屏切换
 
