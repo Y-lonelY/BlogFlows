@@ -23,4 +23,4 @@ module.exports = [{
 }, {
 	text: '工具',
 	link: '/tools/'
-}]
+}];
