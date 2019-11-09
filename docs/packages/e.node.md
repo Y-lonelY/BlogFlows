@@ -12,6 +12,14 @@ Sequelize 是基于 promise 的 Node.js ORM，它具有可靠的事务支持，�
 
 `npm install --save mysql2` 安装 mysql 驱动程序
 
+### Travia
+
+对于 insert 语句返回值为一个数组 [插入的id, 受影响的行]
+
+### 封装一个类
+
+封装一个 Sequelize class
+
 ```js
 // 引入 mysql
 import Sequelize from "sequelize"
@@ -61,7 +69,12 @@ class Mysql {
         })
     }
 
-    // raw query
+    /**
+     * 使用 raw query 来进行查询
+     * @param  sql raw sql
+     * @param  queryType 查询类型：select, insert
+     * @return 一个 promise 对象
+     */
     query({sql: sql, queryType: queryType}) {
         const sequelizeCase = this.createConnection();
         // 默认为 select，可以为 insert

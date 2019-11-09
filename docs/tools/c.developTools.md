@@ -30,17 +30,21 @@
 
 解决端口占用
 
-`sudo lsof -i :7177` 查看占用7177端口的进程
-
-`sudo kill -9 [pid]` 关闭指定pid的进程
+- `ps` 查看所有系统进程
+- `sudo lsof -i :7177` 查看占用7177端口的进程
+- `sudo kill -9 [pid]` 关闭指定pid的进程
 
 ### terminal command
 
-t-command: `open .`  打开当前目录文件
+`open .`  打开当前目录文件
 
-t-command: `cd Desktop` 进入桌面目录
+`cd Desktop` 进入桌面目录
 
-t-command: `cd ～` 进入根目录
+`cd ～` 进入根目录
+
+`ls -al` 查看目录下文件的详细信息
+
+`du -sh *` 查看每个目录的大小
 
 为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
 
@@ -53,6 +57,20 @@ t-command: `cd ～` 进入根目录
 `echo $SHELL` 查看当前系统默认的 shell
 
 `sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"` 安装 [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)，它是一个开源的，社区驱动的用来管理 zsh 配置的框架
+
+### 解决系统占用100多G问题
+
+查看 系统 -> 当前用户 -> 显示隐藏文件 -> 资源库，在资源库内进行查找，查看哪些大文件占用了系统内存
+
+主要原因是 Xcode 的支持iOS版本、模拟器、已经打包的资源文件占用过高，通过 `cmd - shift - g` 前往目标文件夹
+
+`iOS DeviceSupport -- ~/Library/Developer/Xcode/iOS DeviceSupport` 建议删除不常用的iOS版本
+
+`iPhone Simulator -- ~/Library/Application Support/iPhone Simulator` iPhone 模拟器路径
+
+`Archives -- ~/Library/Developer/Xcode/Archives` 打包生产的 Archives 文件
+
+`DerivedData -- ~/Library/Developer/Xcode/DerivedData` 可重新生成；会删除build生成的项目索引、build输出以及日志，重新打开项目时会重新生成
 
 
 ## Windows
