@@ -94,4 +94,35 @@ font-family: "Roboto Mono",monospace;
 ```
 
 
+## text
+
+### text-overflow
+
+`text-overflow` 属性确定如何向用户发出未显示的溢出内容信号，包含三个属性值
+
+- `clip`: 默认值，在内容区域的极限初裁剪文本
+- `ellipsis`: 用 **...** 来代替被截断的文本
+- `<string>`: 通过自定义字段来代替被截断的文本。如果空间太小到连省略号都容纳不下，那么这个字符串也会被截断
+
+这个属性只对那些在块级元素溢出的内容有效，但是必须要与块级元素内联(inline)方向一致
+
+一般用法
+
+```css
+.text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+```
+
+### text-transform
+ 
+`text-transform` 属性用来控制文本的大小写
+
+- `capitalize` 每个单词的首字母大写
+- `uppercase` 所有字母大写
+- `lowercase` 所有字母小写
+
+
 

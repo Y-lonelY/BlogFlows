@@ -8,6 +8,8 @@
 
 - JavaScript
 - 计算机网络
+- React
+- NodeJs
 
 本项目执行机制
 

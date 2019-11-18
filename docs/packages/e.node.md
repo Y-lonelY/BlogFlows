@@ -1,5 +1,78 @@
 # NodeJs
 
+
+## multer
+
+> Multer 是一个 node.js 中间件，用于处理 multipart/form-data 类型的表单数据，它主要用于上传文件
+
+通过 `npm install --save @koa/multer multer` 来安装 [multer](https://github.com/koajs/multer)
+
+[原文档，用来参考配置](https://github.com/expressjs/multer/blob/master/doc/README-zh-cn.md)
+
+```js
+import Router from "koa-router";
+import Compose from "koa-compose";
+import multer from "@koa/multer";
+import utils from 'utility';
+
+const uploadRouter = new Router();
+// 创建文件存储规则
+const storage = multer.diskStorage({
+    // 文件存放路径，从文件根目录开始寻找
+    destination: (req, file, cb) => {
+        cb(null, 'upload');
+    },
+    // 重命名文件
+    filename: (req, file, cb) => {
+        // 格式化文件后缀
+        const fileArray = file.originalname.split('.');
+        const prefix = fileArray[0];
+        const suffix = fileArray[1];
+        // 添加时间戳，避免文件名重复
+        cb(null, `${Date.now()}-${utils.md5(prefix)}.${suffix}`);
+    }
+});
+// 创建文件上传限制
+const limits = {
+    //非文件字段的数量
+    fields: 10,
+    //文件大小 单位 b，3M
+    fileSize: 10 * 1024 * 1024,
+    //文件数量
+    files: 1
+}
+
+let upload = multer({ storage: storage, limits: limits });
+
+// upload.single('file') 表示接受一个以 ‘file’ 命名的文件，且这个文件的信息保存在 ctx.request.file 字段内
+// 文件上传错误，可以直接通过 try catch 进行捕获
+uploadRouter.post('/upload', upload.single('file'), async ctx => {
+    try {
+        // 获取上传文件
+        const file = ctx.request.file;
+        const results = {
+            success: true,
+            name: file.originalname,
+            status: 'done',
+            url: `http://192.168.1.103:7777/pics/${file.filename}`
+        };
+        ctx.body = results;
+    } catch (e) {
+        ctx.app.emit('error', e, ctx);
+    }
+});
+
+const router = new Router;
+router.use('/service', uploadRouter.routes(), uploadRouter.allowedMethods());
+
+const router_routes = router.routes();
+const router_allow_methods = router.allowedMethods();
+const uploadCompose = Compose([router_routes, router_allow_methods]);
+
+export default uploadCompose;
+```
+
+
 ## Sequelize
 
 这里选择 [Sequelize](https://github.com/demopark/sequelize-docs-Zh-CN/blob/master/getting-started.md) 来作为数据库连接库

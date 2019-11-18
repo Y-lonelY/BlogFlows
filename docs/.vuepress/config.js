@@ -88,7 +88,9 @@ function getConceptSide(groupA) {
 			collapsable: false,
 			children: [
 				'a.javascript',
-				'b.network'
+				'b.network',
+				'c.react',
+				'd.node'
 			]
 		}
 	]
