@@ -260,68 +260,6 @@ class Parent extends Component {
 ```
 
 
-## 错误处理
-
-### Error boundaries
-
-Error boundaries 是 React 组件，它会在其子组件树中的任何位置捕获javascript错误，并记录这些错误，展示降级UI而不是崩溃的组件树
-
-它仅捕获其子组件中的错误，本身的错误无法捕获
-
-如果 class 组件定义了 `static getDerivedStateFromError()` 或 `componentDidCatch()` 生命周期方法，则该组件就成为了 Error boundaries
-
-```jsx
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hasError: false
-        };
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return (
-                <h1>Somethings went wrong.</h1>
-            );
-        };
-        return (
-            <BrowserRouter>
-	            <div className={`homeBox ${systemConfig.hugeScreen ? 'max' : 'mac'}`}>
-					<!-- statement -->
-	            </div>
-            </BrowserRouter>
-        )
-    }
-
-    static getDerivedStateFromError(error) {
-        return { hasError: true };
-    }
-
-    componentDidCatch(error, info) {
-        console.error(error, info);
-    }
-}
-```
-
-**static getDerivedStateFromError()**
-
-`static getDerivedStateFromError()` 是一个静态方法，通常用来更改 state，该生命周期会在后代组件抛出错误后被调用
-
-它将抛出的错误作为参数，并返回一个值以更新 state
-
-`static getDerivedStateFromError()` 会在渲染阶段调用，因此不允许出现副作用
-
-**componentDidCatch()**
-
-在后代组件抛出错误后调用，通常用来执行一些副作用，比如将日志写入数据库内等，它接受两个参数：
-
-- error 抛出的错误
-- info 带有 componentStack key 的对象，其中包含有关组件引发错误的栈信息
-
-`componentDidCatch()` 会在 commit 阶段被调用
-
-
 ## 事件绑定
 
 直接绑定到 JSX 元素上，类似 dom 元素事件绑定，传入一个函数方法而不是一个字符串
