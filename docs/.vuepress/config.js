@@ -161,7 +161,8 @@ function getCoreSide() {
 		collapsable: false,
 		children: [
 			'React/a.basic',
-			'React/b.hook'
+			'React/b.advanced',
+			'React/c.hook'
 		]
 	}, {
 		title: 'HTML5',
