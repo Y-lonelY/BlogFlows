@@ -15,7 +15,8 @@
 
 基于此，使用 react hook 来改变这一状态
 
-## Basic
+
+## Trivia
 
 Hook 在 class 内部是不起作用的，所以要么是函数组件，要么是 class 组件
 
@@ -23,7 +24,122 @@ Hook 是一个特殊的函数，它可以让你“钩入” React 的特性，�
 
 仅在函数组件最外层使用 Hook，不要在循环，条件和嵌套函数内调用 Hook
 
-`useState` 和 `useEffect` 之所以能够在单个组件内多次使用，是因为 React 保证 HooK 的调用顺序在每次渲染中是相同的，如果通过判断语句等来调用 HooK，则会引起 HooK 不能按照顺序执行，从而引起 bug
+`useState` 和 `useEffect` 之所以能够在单个组件内多次使用，是因为 React 保证 HooK 的调用顺序在每次渲染中是相同的，如果通过判断语句等来调用 HooK，则会引起 HooK 不能按照顺序执行，从而引起 bug，因此 React Hook 方法放在函数作用域的最外层
+
+
+## useState
+
+> 用来解决在函数组件内使用 state 特性的问题
+
+一般来说，函数执行完毕，其作用域内的变量等会被回收掉，但是通过 `useState` 设置的变量会被 React 保留
+
+```js
+import React, { useState, useEffect } from 'react';
+
+interface Data {
+	name: string;
+	age: number;
+}
+
+// 这里结合 typescript 来使用
+function Test() {
+	const [data, setData] = useState<Data>({
+		name: '',
+		age: 17
+	});
+
+	/**
+	 * 和 class 的 `setState()` 方法不同
+	 * 通过 hook 来更新 state 是直接替换，而 `setState()` 是合并操作
+	 * 这意味着 setData 时要传入完整的 state
+	 */
+	useEffect(() => {
+		const { age } = data;
+		setData({
+			...data,
+			age: age + 1
+		});
+	}, []);
+}
+```
+
+
+## useReducer
+
+useReducer 可以看作是 `useState` 的进阶版本， 在 state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等场景中更加适用
+
+useReducer 的 state 和 dispatch 方法仅在当前声明组件内使用，在另外的组件内不能够访问到，一个解决办法是通过 useContext 来进行共享
+
+```js
+import React, { useState, useEffect, useContext, useReducer } from 'react';
+import { TriviaState } from '@/index.d.ts';
+
+/**
+ * 声明 reducer 方法，处理 action，返回新的 state
+ * 这里结合 typescript 使用，需要在 reducer 方法内指定 state 的类型和返回值类型
+ */
+function reducer(state: TriviaState, action): TriviaState {
+    switch (action.type) {
+        case 'showPanel':
+            return {
+                ...state,
+                visible: true,
+                current: action.current ? action.current : -127
+            };
+        default:
+            break;
+    }
+}
+
+function Test(props) {
+	// 初始值
+	const initState = {
+        triviaList: [],
+        current: -127,
+        visible: false
+    };
+    // 声明 state 和 dispatch 方法，同时初始化 state
+	const [state, dispatch] = useReducer(reducer, initState);
+
+	const initTriviaList = async () => {
+        const params = {
+            group: state.group
+        };
+        const res = await getTriviaList(params);
+        if (res.success) {
+        	// 触发 state 更新
+            dispatch({
+                type: 'triviaList',
+                triviaList: res.data.list
+            });
+        }
+    };
+
+    // 直接使用 state.triviaList 等
+}
+```
+
+
+## useEffect
+
+> 类似 class 内的生命周期，useEffect 可以看作 componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合
+
+useEffect 用来告知 React 组件需要在渲染后执行某些操作，且 useEffect 会在每次 `render()` 之后执行，保证执行 useEffect 时， DOM 已经渲染完毕
+
+useEffect 的清除机制：通过在 `useEffect` 内返回一个清除函数来实现，告知 React 在组件卸载的时候执行清除操作
+
+Hook 允许我们按照代码的用途分离他们，即一个组件内可以多次调用 useEffect，React 会按照顺序依次执行
+
+React 会等待浏览器完成画面渲染之后才会延迟调用 useEffect
+
+通常根据依赖项（第二个参数），来对应 class component 不同的生命周期：
+
+- 依赖项为空数组，即[]，对应 `componentDidMount`
+- 依赖项不传，即没有第二个参数，则对应 `componentDidMount` 和 `componentDidUpdate`
+- 通过在第一个参数 return 一个函数，来表示 `componentWillUnmount` 执行操作
+- 设置依赖项为指定 state，则表示当该 state 发生变化时，会触发该 useEffect，且优先执行其 return 函数
+
+**注意，不管依赖项如何设置，都会在初始化时执行所有的 useEffect，此时要避免陷入死循环**
 
 ```js
 import React, { useState, useEffect } from 'react';
@@ -36,15 +152,21 @@ function Test(props) {
 	 * 返回值通过数组解构获取
 	 */
 	const [count, setCount] = useState(0);
-	const [query, setQuery] = useState('react');
 
-	// 打印当前的 count
+	/**
+	 * 利用 useEffect 来执行初始化操作，相当于 componentDidMount
+	 * 则其第二个参数必须为 []
+	 */
 	useEffect(() => {
 		// 可以直接使用 count 而不用 this.state.count
-		console.log(count); // 0...
-	});
+		init();
+	}, []);
 
-	// 订阅某个事件
+	/**
+	 * 如果不传入依赖项，则在 `componentDidMount` 和 `componentDidUpdate` 时触发
+	 * 通过在第一个参数 return 一个函数，来表示 `componentWillUnmount` 执行操作
+	 * 如果此时依赖项设置为 [count]，则表示 count 变化时触发该 useEffect，且先执行 cleanup()，再执行 subscribeFromFriendStatus()
+	 */
 	useEffect(() => {
 		// 假如订阅了某个事件，则需要在退出时销毁它，防止内存泄漏
 		subscribeFromFriendStatus();
@@ -55,8 +177,11 @@ function Test(props) {
 		}
 	});
 
-	// 查询数据的写法
-	// 通过设置 ignore 保证在组件卸载后，不会再重新设置组件状态，通过 return 一个清理函数来实现
+	/**
+	 * 查询数据的写法
+	 * 通过设置 ignore 保证在组件卸载后，不会再重新设置组件状态，通过 return 一个清理函数来实现
+	 * 仅当 query 发生变化时，才会重新调用该 useEffect
+	 */
 	useEffect(() => {
 		let ignore = false;
 
@@ -83,22 +208,85 @@ function Test(props) {
 }
 ```
 
-### useState
 
-> 用来解决在函数组件内使用 state 特性的问题
+## useContext
 
-一般来说，函数执行完毕，其作用域内的变量等会被回收掉，但是通过 `useState` 设置的变量会被 React 保留
+接受一个 context 对象，并返回该 context 的当前值，当前的 context 值由上层组件中距离当前组件最近的 `<MyContext.Provider>` 的 value 决定
 
-和 class 的 `setState()` 方法不同，通过 hook 来更新 state 是直接替换，而 `setState()` 是合并操作
+调用了 useContext 的组件总会在 context 值变化时重新渲染
 
-### useEffect
+useContext(MyContext) 能够读取 context 的值以及订阅 context 的变化
 
-> 类似 class 内的生命周期，useEffect 可以看作 componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合
+下面将演示，如何将 useContext 和 useReducer 两者结合，从而达到共享 state 和 dispatch 方法的目的
 
-useEffect 用来告知 React 组件需要在渲染后执行某些操作，且 useEffect 会在每次 `render()` 之后执行，保证执行 useEffect 时， DOM 已经渲染完毕
+```js
+/**
+ * 声明一个 Context 对象，用来承载和订阅 state 和 dispatch
+ * 这里结合了 typescript
+ */
+import React from 'react';
 
-useEffect 的清除机制：通过在 `useEffect` 内返回一个清除函数来实现，告知 React 在组件卸载的时候执行清除操
+interface TriviaContext {
+    state: {};
+    dispatch: React.Dispatch<any>
+}
 
-Hook 允许我们按照代码的用途分离他们，即一个组件内可以多次调用 useEffect，React 会按照顺序依次执行
+export const TriviaContext = React.createContext<TriviaContext>({
+    state: {},
+    dispatch: () => {}
+});
+
+/**
+ * 组件A，提供 useReducer 内的 state 和 dispatch 方法 
+ */
+import React, { useState, useEffect, useContext, useReducer } from 'react';
+import { TriviaState } from '@/index.d.ts';
+
+function reducer(state: TriviaState, action): TriviaState {
+    // statement
+}
+
+function A(props) {
+	// 初始值
+	const initState = {
+        triviaList: [],
+        current: -127,
+        visible: false
+    };
+    // 声明 state 和 dispatch 方法，同时初始化 state
+	const [state, dispatch] = useReducer(reducer, initState);
+
+	return (
+		将 state 和 dispatch 方法提供呗 context
+		<TriviaContext.Provider value={{ state, dispatch }}>
+		// statement
+		</TriviaContext.Provider>
+	);
+}
+```
+
+准备就绪后，在组件B内，对该 context 进行消费
+
+```js
+import React, { useContext, useEffect, useState } from 'react';
+import { TriviaContext } from './context';
+
+function B(props) {
+	// 获取 context 订阅内容，进行消费，对于 state 和 dispatch 可以直接使用
+	const { state, dispatch } = useContext(TriviaContext);
+
+	const cancel = () => {
+        dispatch({
+            type: 'closePanel'
+        });
+    };
+
+    useEffect(() => {
+        console.log(state);
+    }, [state.current]);
+
+    // statement
+}
+```
 
 

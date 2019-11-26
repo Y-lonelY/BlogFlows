@@ -179,15 +179,18 @@ module.exports = new Mysql()
 // 引入 joi，用来校验数据
 import Joi from "@hapi/joi";
 
-const scheme = Joi.object({
+const base_scheme = Joi.object({
 	// "2019-10-11"
     start: Joi.string().pattern(/^\d{4}-\d{2}-\d{2}$/).required(),
     // 最小值为0的数字
-    chest: Joi.number().min(0).required(),
+    chest: Joi.number().integer().min(0).required(),
 });
 
-// 通过 try catch 来捕获错误
 try {
+	// 通过 keys 方法来添加验证参数，如下添加 id 的参数验证
+    const scheme = base_scheme.keys({
+        id: Joi.number().integer().required(),
+    })
     const params = await scheme.validateAsync(ctx.request.body);
     // statement
 } catch (e) {
