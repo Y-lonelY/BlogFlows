@@ -11,14 +11,14 @@ module.exports = {
 	// logo
 		['link', { rel: 'icon', href: 'logo.ico'}]
 	],
-	base: '/BlogFlows/',
+	// base: '/BlogFlows/',
 	port: 7727,
 	markdown: {
 		lineNumbers: true
 	},
 	themeConfig: {
 		// github 地址
-		repo: 'https://github.com/yanGo1221',
+		repo: 'https://github.com/Y-lonelY',
 		// 标题栏导航
 		nav: require('./nav.js'),
 		// 文档根目录

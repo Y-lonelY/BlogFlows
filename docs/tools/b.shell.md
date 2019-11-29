@@ -1,11 +1,41 @@
 # Shell
 
-## Trivia
+## Linux 常用命令
 
-1. `$?` 获取上一步返回参数
-2. 变量是一个键值对，直接访问变量名返回的是变量名，通过 `${变量名}` 访问其值
-3. `ps` 列出系统内正在运行的进程
-4. `kill [pid]` 关闭指定 pid 的进程
+解决端口占用
+
+- `ps` 查看所有系统进程
+- `sudo lsof -i :7177` 查看占用7177端口s的进程
+- `sudo kill -9 [pid]` 关闭指定pid的进程
+
+目录相关
+
+- `cd ～` 进入根目录
+- `ls -al` 查看目录下文件的详细信息
+- `du -sh *` 查看每个目录的大小
+- 为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
+
+文件操作
+
+- `pwd` 打印当前文件路径
+- `find -name [name]` 全局搜索
+- `whereis [filename]` 查看路径
+- `mkdir [filename]` 在当前目录下创建一个文件夹
+- `rm -rf [filepath]` 删除指定目录下的文件夹及其目录下的所有文件
+- `rm -f [file]` 删除文件
+- `cp [filename] [path]` 复制指定文件到指定目录
+
+创建用户
+
+- `useradd user` 使用 useradd 指令所建立的帐号，实际上是保存在 /etc/passwd 文本文件中
+- `useradd -m -d /home/blog -s /sbin/nologin blog` m-自动建立用户的登入目录，d-指定用户登入时的起始目录，s-指定用户登入后所使用的shell，使用 nologin 使用户即不能登录系统，还能使用一些系统服务，比如 ftp 服务
+- `userdel blog` 删除用户 blog
+- `passwd blog` 为用户 blog 设置密码
+
+`cat /etc/shells` 查看当前系统已安装的 shell
+
+`netstat` 用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况
+- `netstat -tunlp` l:listening   n:num   t:tcp  u:udp  p:process
 
 
 ## Create start.sh
@@ -30,6 +60,10 @@
 不能使用bash里的关键字（可用help命令查看保留关键字）
 
 ### 基本操作
+
+`$?` 获取上一步返回参数
+
+变量是一个键值对，直接访问变量名返回的是变量名，通过 `${变量名}` 访问其值
 
 ```sh
 name = "YlonelY"

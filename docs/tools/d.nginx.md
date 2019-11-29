@@ -2,6 +2,81 @@
 
 > Nginx是一款轻量级的HTTP服务器，采用事件驱动的异步非阻塞处理方式框架，这让其具有极好的IO性能，时常用于服务端的反向代理和负载均衡
 
+## Install
+
+在 Mac OS 上进行安装
+
+- `brew update` 查看 brew 安装是否成功
+- `brew search nginx` 查看 nginx 信息
+- `brew install nginx` 安装 nginx
+- `nginx -v` 查看 nginx 版本
+
+安装成功之后
+
+- `cd /usr/local/var/www` 查看主页内容
+- `cd /usr/local/etc/nginx/nginx.conf` 修改配置文件
+- `nginx` 启动 nginx server
+- `nginx -s stop` 终止 nginx server
+- `nginx -s reload` 重启 nginx server
+
+
+## Config
+
+假定一个场景：在一个项目内，后台在3000端口上持续运行，前端为静态文件，同时有一个文件夹用来存放上传的图片
+
+- 后台服务启动之后，将其代理到 127.0.0.1:7777/service 路径下
+- 将react工程内的 build/index.html 代理到 127.0.0.1:7777/ 路径下
+- 将静态文件夹代理到 127.0.0.1:7777/pics 目录下
+
+```
+#user  ylonely;
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server {
+        listen       7777;
+        server_name  127.0.0.1;
+
+        location / {
+	    	# 生产环境
+            root   /Users/yango/Growup/YlonelY-GrowingUp/react-app/build/;
+            index  index.html index.htm;
+        }
+
+		location /service {
+		    proxy_pass http://localhost:3000/service;
+		}
+
+		location /pics {
+            alias   /Users/yango/Growup/YlonelY-GrowingUp/koa-app/upload;
+        }
+    }
+
+    include servers/*;
+}
+```
+
+### 理解 alias root location
+
+nginx 指定文件路径有两种方式 root 和 alias
+
+- alias 配置段仅为 location
+- root 配置段为 http、server、location、if
+
+两者的区别在于如何解释 location 的 uri 值，导致两者分别以不同的方式将请求映射到服务器文件上
+
+- root的处理结果是：root＋location
+- alias的处理结果是：使用 alias 替换 location，注意，使用 alias 时，目录名后面一定要加 /，否则会找不到文件
+
+
 ## What's nginx?
 
 nginx 可以简单理解成一个服务器
@@ -20,7 +95,7 @@ nginx 可以简单理解成一个服务器
 - 正向表示代理的是客户端
 - 反向表示代理的是服务器
 
-![正向代理](./assets/server.png)
+![正向代理](../assets/server.png)
 
 正向代理
 
@@ -29,7 +104,7 @@ nginx 可以简单理解成一个服务器
 - 代理服务器通过代理客户端的请求来向域外服务器请求响应内容
 
 
-![反向代理](./assets/reverse-server.png)
+![反向代理](../assets/reverse-server.png)
 
 反向代理
 
@@ -42,31 +117,6 @@ nginx 可以简单理解成一个服务器
 - 安全和权限，可以在 nginx 层将危险和无权限的信息过滤掉，保证服务器的安全
 - 负载均衡，nginx 可以将客户端请求合理分配到各个服务器上，同时可以通过轮询提供服务器安全检测服务，如果某个服务器异常，则不会为其分配请求，保证客户端访问的稳定性
 
-### config
-
-基本配置
-
-```sh
-server {
-    listen       1717;
-    server_name  10.249.41.99;
-
-	charset utf-8;
-	
-	gzip on;
-	gzip_http_version 1.0;
-	gzip_vary on; 
-	gzip_comp_level 6; 
-	gzip_proxied any; 
-	gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript image/jpeg image/gif image/png; 
-		gzip_buffers 16 8k;
-	
-	location / {
-		root   C:/Users/yanghao02/Desktop/github/ylonePlugins/reveal;
-        index  index.html index.htm;
-    }
-}
-```
 
 ### Q&A
 

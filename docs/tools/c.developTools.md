@@ -2,6 +2,39 @@
 
 > 记录开发过程中使用的开发工具
 
+
+## 腾讯云 centos
+
+`wget --version` 查看是否安装 wget，wget
+是一个从网络上自动下载文件的自由工具，支持通过 HTTP、HTTPS、FTP 三个最常见的 TCP/IP协议 下载，并可以使用 HTTP 代理
+
+[Linux 云服务器搭建 FTP 服务](https://cloud.tencent.com/document/product/213/10912)
+
+`node --version` 查看是否安装 node，如果没有安装，可以自定义安装，[具体参考](https://cloud.tencent.com/document/product/213/38237)
+
+- `cd root` 进入根目录
+- `wget https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz` 下载安装包
+- `tar xvf node-v12.13.1-linux.tar.xz` 在根目录下存在下载文件后，解压 node 文件
+- `ln -s /root/node-v12.13.1-linux-x64/bin/node /usr/local/bin/node` 建立 node 命令的软链接
+- `ln -s /root/node-v12.13.1-linux-x64/bin/npm /usr/local/bin/npm` 建立 npm 命令的软链接
+- `node --version` 查看安装是否成功
+
+Git环境搭建
+- 通过 `yum install git` 安装 git 环境
+- `git --version` 查看是否安装成功
+- `git config --global user.name ""` 设置用户名
+- `git config --global user.email ""` 设置email
+
+Vuepress环境安装
+- `npm install -g vuepress` 安装 vuepress，如果发现 command not found，则可能是环境变了Path路径不对
+- `cd /root/node-v12.13.1-linux-x64/bin/` 和 `cd /usr/local/bin/` 查看各自目录下是否有 vuepress，目的是在后者文件内存在 vuepress
+- `ln -s /root/node-v12.13.1-linux-x64/bin/vuepress /usr/local/bin/vuepress` 建立 vuepress 命令的软链接
+
+Nginx
+- `yum install nginx` 安装 nginx
+- `whereis nginx` 查看 nginx 安装路径，在 /etc/nginx 内修改配置文件
+
+
 ## Mac OS
 
 ### command
@@ -28,25 +61,16 @@
 
 `:terminal` 打开终端
 
-解决端口占用
+在终端执行命令
+- `open .`  打开当前目录文件
+- `cd Desktop` 进入桌面目录
 
-- `ps` 查看所有系统进程
-- `sudo lsof -i :7177` 查看占用7177端口的进程
-- `sudo kill -9 [pid]` 关闭指定pid的进程
+telnet
+- `brew telent` 安装 telnet 服务， telnet命令用于登录远程主机，对远程主机进行管理，需要手动安装是由于telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务
+- `telnet 122.51.215.237 21` 登录远程主机进程
+- `close` 关闭当前连接
+- `quit` 退出 
 
-### terminal command
-
-`open .`  打开当前目录文件
-
-`cd Desktop` 进入桌面目录
-
-`cd ～` 进入根目录
-
-`ls -al` 查看目录下文件的详细信息
-
-`du -sh *` 查看每个目录的大小
-
-为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
 
 ### 配置 zsh
 
@@ -57,6 +81,8 @@
 `echo $SHELL` 查看当前系统默认的 shell
 
 `sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"` 安装 [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)，它是一个开源的，社区驱动的用来管理 zsh 配置的框架
+
+之后可以通过 `brew --version` 查看 brew 是否安装成功，安装成功之后可以通过 `brew install [name]` 来安装相应的服务，并进行管理
 
 ### 解决系统占用100多G问题
 
