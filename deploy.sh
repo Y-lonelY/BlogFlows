@@ -1,5 +1,7 @@
 # !/usr/bin/env sh
 
+# 执行之前请设置 .vuepress/config base 
+# 原因在于 github page 使用的是子路径，需要通过 base 来设置其路径
 # 确保脚本抛出遇到的错误
 set -e
 

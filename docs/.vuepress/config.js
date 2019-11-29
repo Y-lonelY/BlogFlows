@@ -11,7 +11,7 @@ module.exports = {
 	// logo
 		['link', { rel: 'icon', href: 'logo.ico'}]
 	],
-	// base: '/BlogFlows/',
+	base: '/BlogFlows/',
 	port: 7727,
 	markdown: {
 		lineNumbers: true
