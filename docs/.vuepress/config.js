@@ -9,9 +9,9 @@ module.exports = {
 	description: "Welcome To The Knowledge Palace!",
 	head: [
 	// logo
-		['link', { rel: 'icon', href: '/logo.ico'}]
+		['link', { rel: 'icon', href: 'logo.ico'}]
 	],
-	base: '/BlogFlows/',
+	// base: '/BlogFlows/',
 	port: 7727,
 	markdown: {
 		lineNumbers: true
