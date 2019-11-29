@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /home1.jpg
+heroImage: /home.jpg
 actionText: Let's do it →
 actionLink: /core/
 features:
