@@ -41,7 +41,7 @@ font-family: "Roboto Mono",monospace;
 
 可以为任何一个容器指定 Flex 布局，设为 Flex 布局之后，子元素的 `float,clear,vertical-align` 属性将失效
 
-父容器常用属性
+### 父容器常用属性
 
 ```css
 .flex-box {
@@ -75,7 +75,7 @@ font-family: "Roboto Mono",monospace;
 }
 ```
 
-子容器常用属性
+### 子容器常用属性
 
 ```css
 .flex-item {
@@ -94,35 +94,66 @@ font-family: "Roboto Mono",monospace;
 ```
 
 
-## text
+## 文字样式相关
 
-### text-overflow
-
-`text-overflow` 属性确定如何向用户发出未显示的溢出内容信号，包含三个属性值
-
-- `clip`: 默认值，在内容区域的极限初裁剪文本
-- `ellipsis`: 用 **...** 来代替被截断的文本
-- `<string>`: 通过自定义字段来代替被截断的文本。如果空间太小到连省略号都容纳不下，那么这个字符串也会被截断
-
-这个属性只对那些在块级元素溢出的内容有效，但是必须要与块级元素内联(inline)方向一致
-
-一般用法
+`text-overflow` 属性确定如何向用户发出未显示的溢出内容信号，包含三个属性值，这个属性只对那些在块级元素溢出的内容有效，但是必须要与块级元素内联(inline)方向一致
 
 ```css
-.text {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+p {
+  /**
+   * 确定如何向用户展示溢出样式
+   * ellipsis: 用 ... 省略号来代替被截断的文本
+   * <string>: 通过自定义字段来代替被截断的文本。如果空间太小到连省略号都容纳不下，那么这个字符串也会被截断
+   * clip: 默认值，在内容区域的极限初裁剪文本
+   */
+  text-overflow: clip;
 }
 ```
 
-### text-transform
- 
 `text-transform` 属性用来控制文本的大小写
 
-- `capitalize` 每个单词的首字母大写
-- `uppercase` 所有字母大写
-- `lowercase` 所有字母小写
+```css
+p {
+  /**
+   * 用来控制文本的大小写
+   * capitalize: 每个单词的首字母大写
+   * uppercase: 所有字母大写
+   * lowercase: 所有字母小写
+   * none: 默认值，不做任何转换
+   */
+  text-transform: none;
+}
+```
+
+`white-space` 属性用于确定如何处理元素内的空白（Tab，Space，Enter）
+
+```css
+p {
+  /**
+   * 用于确定如何处理元素内的空白（Tab，Space，Enter）
+   * pre-line: 所有空格、制表符合并成一个空格，回车不变，文本换行
+   * pre-wrap: 所有空白保留且生效，文本换行
+   * pre: 所有空白保留且生效，文本不换行
+   * nowrap: 所有的空白都合成一个空格，不换行
+   * normal: 默认值，所有的空白都合成一个空格，自动换行，这意味着回车等会失效
+   */
+  white-space: normal;
+}
+```
+
+`word-warp` 长单词或者url换行属性
+
+```css
+p {
+  /**
+   * 长单词或者url换行属性
+   * normal：浏览器默认值，只在允许的断字点换行
+   * break-word：在长单词或者url内部进行换行
+   */
+  word-wrap: normal;
+}
+```
+
 
 
 
