@@ -34,6 +34,8 @@
 
 `cat /etc/shells` 查看当前系统已安装的 shell
 
+`nslookup` 查看 DNS 地址
+
 `netstat` 用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况
 - `netstat -tunlp` l:listening   n:num   t:tcp  u:udp  p:process
 
