@@ -132,6 +132,104 @@ URL 结构：
 - 重绘和回流
 
 
+## 原型链
+
+```js
+/**
+ * SuperClass 为构造函数
+ * 每个构造函数都有一个原型对象：SuperClass.prototype
+ * 每个原型对象内都包含一个指向构造函数(即本身)的指针：SuperClass.prototype.constructor
+ */
+function SuperClass() {
+    // statement
+}
+
+SuperClass === SuperClass.prototype.constructor; // true
+
+/**
+ * superInstance 为实例对象
+ * 每个实例对象都包含一个指向原型对象的内部指针：superInstance.__proto__
+ */
+let superInstance = new SuperClass();
+
+superInstance.__proto__ === SuperClass.prototype; // true
+```
+
+如果一个构造函数的原型重新赋值为一个实例对象，则构成原型链
+
+原型搜索机制：当使用一个属性时，首先在当前实例内搜索该属性，如果没有找到，则继续搜索实例的原型，沿着原型链一直向上寻找，**如果在原型链中找不到一个属性时，会返回 undefined，这点区别于作用域链**
+
+```js
+function SubClass() {
+    // statement
+}
+
+// 实现的本质是重写原型对象，代之以一个新类型的实例，即原本存在于 SuperClass 实例内的属性和方法，现在也存在于 SubClass.prototype 内
+SubClass.prototype = new SuperClass();
+
+// 所有的函数默认原型都是 Object 对象
+SuperClass.__proto__ === SubClass.__proto__
+
+let subInstance = new SubClass();
+```
+
+所有的引用类型都默认继承 Object，即所有的函数默认原型都是 Object 对象，这就是所有自定义的函数都可以使用 `toString()` 等方法的根本原因
+
+上述例子用一句话概括就是：`SubClass` 继承了 `SuperClass`，而 `SuperClass` 继承了 `Object`。当调用 `subInstance.toString()` 时，实际上就是调用 `Object.prototype.toString()` 方法
+
+通过 `instanceof` 和 `isPrototypeOf()` 方法来判断原型和实例的关系，只要是处于原型链上的实例都会返回 true
+
+```js
+subInstance instanceof SuperClass; //true
+
+Object.prototype.isPrototypeOf(subInstance); // true
+```
+
+## 作用域和闭包
+
+> 对于那些有一点JavaScript使用经验但从未真正理解闭包概念的人来说，理解闭包可以看作是某种意义上的重生
+
+知识点：执行环境、变量对象、作用域链
+
+执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为，每个函数都有自己的执行环境。当执行流进入一个函数时，函数的执行环境就会被推到一个环境栈中，当函数执行完毕之后，栈将其执行环境弹出，把控制权返回给之前的执行环境
+
+每个执行环境都对应一个变量对象，我将这个变量对象理解为作用域，它用来保存执行环境中定义的所有变量和方法
+
+理论上，声明一个函数之后，就形成了一个作用域链，因为存在全局执行环境，其变量对象被认为是 window 对象。某个函数执行完毕之后，则该执行环境被销毁，其变量对象也同时销毁，全局执行环境直到应用程序退出（比如关闭浏览器或者网页）时才会被销毁
+
+类似原型链，作用域链的标识符解析就是沿着作用域链一级一级搜索标识符的过程。**如果找不到指定标识符，会报 Reference Error，这点区别于原型链**
+
+
+作用域链用来保证对执行环境有权访问的所有变量和函数定义的有序访问。作用域链的本质是指向变量对象的指针列表，它只引用但不实际包含变量对象
+
+
+### 闭包
+
+闭包是指有权访问另一个函数作用域中的变量的函数，实际上，所有的 JavaScript 函数都是闭包
+
+```javascript
+function a() {
+  var b = 1;
+  return (function(){
+    return b += 1;
+    })();
+}
+var val = a();
+```
+
+<img src="./assets/scope.png">
+
+在创建 a() 函数前，会创建一个预先包含全局变量对象的作用域链，这个作用域链被保存在内部 [[Scope]] 属性中
+
+当调用 a() 时，会为函数创建一个执行环境，然后通过复制 [[Scope]] 属性构建其作用域链，并且创建当前执行环境的变量对象，并将其推入作用域链的前端
+
+再对匿名函数进行调用时，会重复上述动作，此时 [[Scope]] 属性内，包含当前变量对象、a() 的变量对象以及全局变量对象的引用
+
+在 a() 执行完毕之后，其作用域链会被销毁，但是其变量对象不会被销毁，仍然存在在内存中，因为匿名函数的作用域链仍然在引用这个变量对象
+
+直到匿名函数被销毁时，a() 的变量对象才会被销毁，比如通过 `a = null` 的方式解除该函数的引用，通知垃圾回收进程将其清除
+
+
 ## 前端异常捕获
 
 [前端异常监控解决方案研究](https://cdc.tencent.com/2018/09/13/frontend-exception-monitor-research/)

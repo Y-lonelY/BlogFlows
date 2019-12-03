@@ -95,7 +95,7 @@ nginx 可以简单理解成一个服务器
 - 正向表示代理的是客户端
 - 反向表示代理的是服务器
 
-![正向代理](../assets/server.png)
+![正向代理](./assets/server.png)
 
 正向代理
 
@@ -104,7 +104,7 @@ nginx 可以简单理解成一个服务器
 - 代理服务器通过代理客户端的请求来向域外服务器请求响应内容
 
 
-![反向代理](../assets/reverse-server.png)
+![反向代理](./assets/reverse-server.png)
 
 反向代理
 
