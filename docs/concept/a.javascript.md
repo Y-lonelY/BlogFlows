@@ -217,8 +217,93 @@ var des = Object.getOwnPropertyDescriptor(person, 'age');
 //{value: 26, writable: true, enumerable: true, configurable: true}
 ```
 
+### 创建对象的模式
 
-## 原型链
+> 创建单个对象可以使用Object的构造函数`Object()`或者对象字面量`{}`来进行创建，但是如果需要创建多个对象时，往往通过函数来进行创建
+
+#### 工厂模式
+
+很直观，通过函数封住了创建对象的细节，并将其返回，存在一个很严重的问题，即我不能识别这个被创建的实例对象是什么类型
+
+```js
+function createObject(name) {
+    var obj = {};
+    obj.name = name;
+    return obj;
+}
+
+var person = createObject('ylone');
+```
+
+#### 构造函数模式
+
+通过构造函数来创建特定类型的对象，通过 new 操作符来创建实例，缺点就是如果对象内需要定义很多的方法，那么会污染全局，没有封装性
+
+new 在这里的作用
+- 创建一个新对象 `var obj = new Object()`
+- 将构造函数的作用域赋值给新对象，因此this指向该新对象 `Person.call(this, name)`
+- 执行构造函数内的代码，为这个新对象添加属性
+- 返回新对象 `return obj`
+
+```js
+function Person(name) {
+    this.name = name;
+    this.sayName = sayName
+}
+
+function sayName() {
+    console.log(this.name);
+}
+
+var person = new Person('ylone');
+
+person.constructor === Person // true
+```
+
+#### 原型模式
+
+原型用来保存所有特定类型的实例所共享的属性和方法，因此 `sayName` 不用定义在全局，定义在原型对象上即可，这种模式的问题在于
+- 如果其构造函数的原型属性被改变，那么所有实例都会被影响
+- 如果构造函数的原型属性某一项值为引用数据，那么在实例上的改变也会影响该构造函数，从而影响所有的实例
+
+```js
+function Person() {}
+
+Person.prototype.name = '';
+Person.prototype.sayName = function() {
+    console.log(this.name);
+}
+
+/**
+ * 另一种写法不推荐，因为这样相当于重写了整个 prototype 属性，同时改变了其 constructor 指向，更改后指向了 Object
+ */
+Person.prototype = {
+    name: ''
+}
+
+var person = new Person();
+person.name = 'ylone';
+```
+
+#### 构造函数和原型组合使用
+
+一个认可度比较高的模式，将构造函数内的属性视为各个实例对象的独立部分，将定义在原型上的属性和方法视为各个实例对象的公共部分
+
+```js
+function Person(name) {
+    this.name = name;
+}
+Person.prototype.sayName = function() {
+    console.log(this.name);
+}
+
+var person = new Person('ylone');
+```
+
+
+## 对象继承
+
+### 原型链
 
 `prototype` 属性的本质是一个指针，指向一个对象，而这个对象包含特定类型的实例所能够共享的属性和方法
 
@@ -229,6 +314,10 @@ var des = Object.getOwnPropertyDescriptor(person, 'age');
 - `__proto__` 为实例属性
 
 实际上，可以将 `Super.prototype` 看作一个 Super 实例，即 `new Super()`
+
+原型链搜索机制：当使用一个属性时，首先在当前实例内搜索该属性，如果没有找到，则继续搜索实例的原型，沿着原型链一直向上寻找，**如果在原型链中找不到一个属性时，会返回 undefined，这点区别于作用域链**
+
+所有的函数其组件原型都是 Object，因此所有对象实例都能够使用 `.toString()` 来判断类型，全局定义函数的 `__proto__` 都等于 `Object.prototype`
 
 ```js
 /**
@@ -250,7 +339,7 @@ SuperClass.prototype.__proto__ === Object.prototype; // true
 
 /**
  * superInstance 为实例对象
- * 每个实例对象都包含一个指向原型对象的内部指针：superInstance.__proto__
+ * 每个实例对象都包含一个指向其构造函数的原型对象的内部指针：superInstance.__proto__
  */
 let superInstance = new SuperClass();
 
@@ -259,32 +348,39 @@ superInstance.__proto__ === SuperClass.prototype; // true
 superInstance.constructor === SuperClass; // true
 ```
 
-如果一个构造函数的原型重新赋值为一个实例对象，则构成原型链
+### 原型链继承
 
-原型搜索机制：当使用一个属性时，首先在当前实例内搜索该属性，如果没有找到，则继续搜索实例的原型，沿着原型链一直向上寻找，**如果在原型链中找不到一个属性时，会返回 undefined，这点区别于作用域链**
+如果一个构造函数的原型重新赋值为一个实例对象，则构成原型链，这种的坏处，或者说整个原型链的劣势在于，如果其原型某一个属性为引用类型的值，一旦其值被改变，会影响整个原型链生态，从而影响所有实例
 
 ```js
+// 父类
+function SupClass() {
+    this.age = [1,2,3]
+}
+
+// 子类
 function SubClass() {
     // statement
 }
 
-// 实现的本质是重写原型对象，代之以一个新类型的实例，即原本存在于 SuperClass 实例内的属性和方法，现在也存在于 SubClass.prototype 内
+/**
+ * 实现的本质是重写原型对象，代之以一个新类型的实例，即原本存在于 SuperClass 实例内的属性和方法
+ * SuperClass 的实例拥有其原型内共享的属性和方法，因此，通过赋值操作，现在也存在于 SubClass.prototype 内
+ * 可以看作 SubClass.prototype = SupClass.prototype
+ */
 SubClass.prototype = new SuperClass();
 
-// 所有的函数默认原型都是 Object 对象
-SuperClass.__proto__ === SubClass.__proto__
-
 let subInstance = new SubClass();
-```
+subInstance.age.push(4); // [1,2,3,4]
 
-上述例子用一句话概括就是：`SubClass` 继承了 `SuperClass`，而 `SuperClass` 继承了 `Object`。当调用 `subInstance.toString()` 时，实际上就是调用 `Object.prototype.toString()` 方法
-
-通过 `instanceof` 和 `isPrototypeOf()` 方法来判断原型和实例的关系，只要是处于原型链上的实例都会返回 true
-
-```js
-subInstance instanceof SuperClass; //true
-
+// 确定实例对象和构造函数之间的关系
 Object.prototype.isPrototypeOf(subInstance); // true
+
+// 返回实例的__proto__属性的值，即原型对象
+Object.getPrototypeOf(subInstance); // SubClass.prototype
+
+// 判断一个属性是在实例本身还是其原型链上，也可以通过 in 操作符来实现
+subInstance.hasOwnProperty(age); // false
 ```
 
 ## 执行环境

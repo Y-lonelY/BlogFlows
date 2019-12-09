@@ -196,21 +196,21 @@ Promise.all([p1, p2, p3]).then(function (results) {
 第二个思路，利用 `promise.all` 的实现原理，结合 `async...await` 来实现，通过判断到最后一个异步请求完成，再执行相应的动作
 
 ```js
+// 模拟请求
 async function getDateRange() {
-    const list = ['lang', 'project'];
-    for (let index = 0; index < list.length; index++) {
-        const item = list[index];
-        const sql = `SELECT MAX(date) AS date FROM waka_${item}`;
-        try {
-            const max_date = await sequelizeCase.query({ sql: sql, queryType: 'select'});
-            // 拿到所有数据之后进行处理
-            if (index === list.length - 1) {
-                // statements
-            }
-        } catch (e) {
-            console.log(e);
-        }
+    var p1 = Promise.resolve(1),
+    p2 = Promise.resolve(2),
+    p3 = Promise.resolve(3);
+const list = [p1, p2, p3];
+const result = [];
+for (let index = 0; index < list.length; index++) {
+  const res = await list[index];
+  result.push(res);
+  if (index = list.length - 1) {
+  // statements
+    return result;
     }
+  }
 }
 ```
 
