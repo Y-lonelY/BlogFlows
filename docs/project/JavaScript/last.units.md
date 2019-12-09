@@ -3,6 +3,48 @@
 > JavaScript 工具类
 
 
+## 快速排序
+
+```js
+function quickSort(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    // 获取第一个变量，作为比较标记值
+    var index = Math.floor(arr.length/2);
+    var label = arr.splice(arr, 1);
+    var left = [];
+    var right = [];
+    // 根据与 label 比较情况进行分组
+    for (let i = 0; i < arr.length; i += 1) {
+        const item = arr[i];
+        if (label > item) {
+            left.push(item);
+        } else {
+            right.push(item);
+        }
+    }
+    return quickSort(left).concat(label, quickSort(right));
+}
+```
+
+## 对象
+
+```js
+/**
+ * 判断是否为空对象
+ * 可以通过 for in 判断
+ * 也可以通过 object.keys().length 进行判断
+ */
+function isEmptyObject(obj) {
+    for (let i in obj) {
+        return false;
+    }
+    return true;
+}
+```
+
+
 ## 元素轮廓线
 
 在浏览器上为每个元素添加轮廓线

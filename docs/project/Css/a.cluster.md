@@ -11,6 +11,22 @@ font-family: "Roboto Mono",monospace;
 ```
 
 
+## position
+
+```css
+div {
+  /**
+   * static：默认值，表示正常的文档流
+   * relative：相对定位，元素先放置在未添加定位时的位置，再在不改变页面布局的前提下调整元素位置，仍会占位
+   * absolute：绝对定位，脱离文档流，相对于最近的非 static 定位祖先元素来进行定位
+   * fixed：脱离文档流，相对 window 窗口进行定位
+   * sticky 
+   */
+  position: static;
+}
+```
+
+
 ## media
 
 `@media` 可用于根据一个或多个基于设备类型、具体特点和环境的媒体查询来应用样式

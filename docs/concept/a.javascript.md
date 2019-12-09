@@ -1,5 +1,14 @@
 # JavaScript
 
+## MVVM
+
+MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映射，怎么理解这句话？
+- Model 层，用户从后端获取数据
+- View 层，代表用户看到的视图
+- ViewModel 则用来处理js对象和视图模版的映射关系，可以理解为数据的抽象画视图，ViewModel 充当着观察者的角色，当 view 或者 model 任一发生了改变，则会通知另一方作出相应的变化，即为数据的双向绑定
+
+MVVM最标志的特性是数据绑定，MVVM的核心理念是通过声明式的数据绑定来实现View的分离，完全解耦View
+
 ## 执行机制
 
 :::tip
@@ -132,19 +141,112 @@ URL 结构：
 - 重绘和回流
 
 
+## 跨域
+
+出于浏览器的同源策略限制，协议，主机名，端口任一不同则形成跨域
+
+解决跨域的办法：
+
+- 通过 Nginx 反向代理
+- 结合 src 属性，通过 jsonp 来处理跨域
+- iframe 通过 postMessage 和 addEventListener('message') 
+
+```js
+// postMessage
+// 发起方
+var traget = document.getElementById('#test').postMessage('hello');
+// 接收方通过事件监听
+window.addEventListener('message', function (e) {});
+
+// jsonp
+// 向服务器test.com发出请求，该请求的查询字符串有一个callback参数，用来指定回调函数的名字
+<script src="http://test.com/service?callback=dosomething"></script>
+ 
+// 处理服务器返回回调函数
+<script type="text/javascript">
+    function dosomething(res){
+        // 处理获得的数据
+        console.log(res.data)
+    }
+</script>
+
+// 服务器回传数据
+dosomething({data: data});
+```
+
+## 对象
+
+js 是一门面向对象的程序设计语言，因此对于对象的使用很常见，但是其一些高级特性应该了解一下
+
+对象有两种属性：数据属性和访问器属性，且可以通过 `Object.getOwnPropertyDescriptor(object, property)` 来读取某个对象的属性配置
+
+```js
+var person = {};
+Object.defineProperty(person, 'name', {
+    _age: {
+        // 能够 delete，重新定义等，该值一旦定义则不允许再进行更改
+        configurable: true,
+        // 能够通过for-in进行循环
+        enumerable: true,
+        // 能否修改属性值
+        writable: true,
+        // 设置属性值
+        value: 26
+    },
+    /**
+     * 设置访问器属性
+     * 下划线是一种常用的记号，表示只能通过对象方法访问的属性
+     */
+    age: {
+        get: function() {
+            return this._age;
+        }
+        set: function(newValue) {
+            this._age = newValue;
+        }
+    }
+});
+
+// 实际上等同于
+var person = {
+    _age: 26
+};
+
+// 获取对象特性描述
+var des = Object.getOwnPropertyDescriptor(person, 'age');
+//{value: 26, writable: true, enumerable: true, configurable: true}
+```
+
+
 ## 原型链
+
+`prototype` 属性的本质是一个指针，指向一个对象，而这个对象包含特定类型的实例所能够共享的属性和方法
+
+`__proto__` 是一个访问器属性，它是一个指针，指向构造函数的原型对象
+
+两者区别在于：
+- `prototype` 为构造函数的属性
+- `__proto__` 为实例属性
+
+实际上，可以将 `Super.prototype` 看作一个 Super 实例，即 `new Super()`
 
 ```js
 /**
  * SuperClass 为构造函数
  * 每个构造函数都有一个原型对象：SuperClass.prototype
- * 每个原型对象内都包含一个指向构造函数(即本身)的指针：SuperClass.prototype.constructor
  */
 function SuperClass() {
     // statement
 }
 
+// 每个原型对象内都包含一个指向构造函数(即本身)的指针：SuperClass.prototype.constructor
 SuperClass === SuperClass.prototype.constructor; // true
+
+/**
+ * 所有的引用类型都默认继承 Object，即所有的函数默认原型都是 Object 对象
+ * 这就是所有自定义的函数都可以使用 `toString()` 等方法的根本原因
+ */
+SuperClass.prototype.__proto__ === Object.prototype; // true
 
 /**
  * superInstance 为实例对象
@@ -153,6 +255,8 @@ SuperClass === SuperClass.prototype.constructor; // true
 let superInstance = new SuperClass();
 
 superInstance.__proto__ === SuperClass.prototype; // true
+
+superInstance.constructor === SuperClass; // true
 ```
 
 如果一个构造函数的原型重新赋值为一个实例对象，则构成原型链
@@ -173,8 +277,6 @@ SuperClass.__proto__ === SubClass.__proto__
 let subInstance = new SubClass();
 ```
 
-所有的引用类型都默认继承 Object，即所有的函数默认原型都是 Object 对象，这就是所有自定义的函数都可以使用 `toString()` 等方法的根本原因
-
 上述例子用一句话概括就是：`SubClass` 继承了 `SuperClass`，而 `SuperClass` 继承了 `Object`。当调用 `subInstance.toString()` 时，实际上就是调用 `Object.prototype.toString()` 方法
 
 通过 `instanceof` 和 `isPrototypeOf()` 方法来判断原型和实例的关系，只要是处于原型链上的实例都会返回 true
@@ -185,27 +287,25 @@ subInstance instanceof SuperClass; //true
 Object.prototype.isPrototypeOf(subInstance); // true
 ```
 
-## 作用域和闭包
+## 执行环境
 
-> 对于那些有一点JavaScript使用经验但从未真正理解闭包概念的人来说，理解闭包可以看作是某种意义上的重生
+执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为，当函数被调用时，会创建一个执行环境及相应的作用域链
 
-知识点：执行环境、变量对象、作用域链
+当执行流进入一个函数时，函数的执行环境就会被推到一个环境栈中，当函数执行完毕之后，栈将其执行环境弹出，把控制权返回给之前的执行环境
 
-执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为，每个函数都有自己的执行环境。当执行流进入一个函数时，函数的执行环境就会被推到一个环境栈中，当函数执行完毕之后，栈将其执行环境弹出，把控制权返回给之前的执行环境
+执行环境组成
 
-每个执行环境都对应一个变量对象，我将这个变量对象理解为作用域，它用来保存执行环境中定义的所有变量和方法
+- 变量对象：每个执行环境都对应一个变量对象，我将这个变量对象理解为作用域，它用来保存执行环境中定义的所有变量和方法
+- 作用域链：作用域链的本质是指向变量对象的指针列表，它只引用但不实际包含变量对象，作用域链用来保证对执行环境有权访问的所有变量和函数定义的有序访问
+- this：指向当前执行环境
 
 理论上，声明一个函数之后，就形成了一个作用域链，因为存在全局执行环境，其变量对象被认为是 window 对象。某个函数执行完毕之后，则该执行环境被销毁，其变量对象也同时销毁，全局执行环境直到应用程序退出（比如关闭浏览器或者网页）时才会被销毁
 
 类似原型链，作用域链的标识符解析就是沿着作用域链一级一级搜索标识符的过程。**如果找不到指定标识符，会报 Reference Error，这点区别于原型链**
 
-
-作用域链用来保证对执行环境有权访问的所有变量和函数定义的有序访问。作用域链的本质是指向变量对象的指针列表，它只引用但不实际包含变量对象
-
-
 ### 闭包
 
-闭包是指有权访问另一个函数作用域中的变量的函数，实际上，所有的 JavaScript 函数都是闭包
+闭包是指有权访问另一个函数作用域中的变量的函数，闭包的常见形式就是在一个函数内部创建一个函数。实际上，所有的 JavaScript 函数都是闭包
 
 ```javascript
 function a() {
@@ -215,6 +315,9 @@ function a() {
     })();
 }
 var val = a();
+
+// 通知垃圾回收进程将其清除
+val = null;
 ```
 
 <img src="./assets/scope.png">
@@ -227,7 +330,7 @@ var val = a();
 
 在 a() 执行完毕之后，其作用域链会被销毁，但是其变量对象不会被销毁，仍然存在在内存中，因为匿名函数的作用域链仍然在引用这个变量对象
 
-直到匿名函数被销毁时，a() 的变量对象才会被销毁，比如通过 `a = null` 的方式解除该函数的引用，通知垃圾回收进程将其清除
+直到匿名函数被销毁时，a() 的变量对象才会被销毁，比如通过 `val = null` 的方式解除该函数的引用，通知垃圾回收进程将其清除
 
 
 ## 前端异常捕获

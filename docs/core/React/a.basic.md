@@ -54,7 +54,7 @@ function Jsx() {
 
 不可以在 react `render()` 方法内使用 `this.setState()`，因为无论何时调用 `setState()` 方法后都会调用 `render()`，如果在 `render()` 内调用 `setState()` 方法，会陷入一个死循环
 
-react 将组件视为 **状态机（state machines）**，state 的改变会触发组件的重新渲染
+react 将组件视为状态机（state machines），state 的改变会触发组件的重新渲染
 
 不能通过直接赋值 `this.state.data` 来改变 state 值，而是统一通过 `setState()` 来改变
 

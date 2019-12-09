@@ -2,6 +2,27 @@
 
 > Record React Materials In Project
 
+
+## Node-Sass 安装问题
+
+clone 一个 react 项目后，在执行 `npm install` 之后，发现 node-sass 安装出现问题，原因是无法自动下载相应的文件
+
+解决办法：
+
+- 注意要先将之前安装的错误的 node-sass 进行删除
+- 在错误日志内查看需要的版本，在[官网](https://github.com/sass/node-sass/releases)下载相应的版本
+- 将下载文件放在nodejs的根目录下
+- 进入项目根目录，设置 sass 路径，`set SASS_BINARY_PATH=[file path]`
+- 继续执行 `sudo npm i node-sass -D -verbose` 即可
+
+
+## 配置淘宝镜像源
+
+```shell
+npm install -g mirror-config-china --registry=http://registry.npm.taobao.org
+npm install node-sass
+```
+
 ## Create React App
 
 [Create React App](https://www.html.cn/create-react-app/docs/getting-started/)为官方推荐脚手架，快速搭建 react 开发环境，创建单页面，简称CRA
@@ -129,6 +150,30 @@ export default withRouter(connect(...)(MyComponent))
 
 `<Switch>` 组件通常用来包裹 `<Route>` list，在 `<Switch>` 中按照组合的先后顺序进行遍历，返回第一个匹配的 `<Route>`，如果一个都没匹配上，可以设置一个无path属性的 `<Route>` 来作为 404 页面
 
+### Q&A
+
+问题描述：使用 `BroswerRouter` 是，进入到某个模块，例如 `/module` 后，刷新页面，返回 404
+
+原因：当刷新页面时，浏览器会向服务器请求example.com/list，服务器实际会去找根目录下list.html这个文件，发现找不到，因为实际上我们的服务器并没有这样的 物理路径/文件 或没有配置处理这个路由，所有内容都是通过React-Router去渲染React组件，所以会产生 404 错误
+
+解决：
+
+通过修改 nginx 配置，访问任何URI都指向index.html，浏览器上的path，会自动被React-router处理，进行无刷新跳转
+
+```nginx
+
+server {
+    server_name react.thinktxt.com;
+    listen 80;
+ 
+    root /Users/txBoy/WEB-Project/React-Demo/dist;
+    index index.html;
+    location / {
+        try_files $uri /index.html;
+    }
+}
+```
+
 
 ### Use In App
 
@@ -211,13 +256,3 @@ import { hot } from 'react-hot-loader/root';
 const App = () => <div>Hello World!</div>;
 export default hot(App);
 ```
-
-## Node-Sass 安装问题
-
-clone 一个 react 项目后，在执行 `npm install` 之后，发现 node-sass 安装出现问题，原因是无法自动下载相应的文件
-
-解决办法：
-
-- 手动下载需要引入的文件，一般在 install 时会自动下载，将下载文件放在nodejs的根目录下
-- 进入项目根目录，设置 sass 路径，`set SASS_BINARY_PATH=[file path]`
-- 继续执行 `npm i node-sass -D -verbose` 即可

@@ -14,11 +14,15 @@
 
 ## 常用正则
 
-1. 第一个"（" 换行，第二个"）"为空，`String(this.value).replace(/（/,'<br>').replace(/）/, '')`
+第一个"（" 换行，第二个"）"为空，`String(this.value).replace(/（/,'<br>').replace(/）/, '')`
 
-2. 数字千分：`number.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')`
+数字千分：`number.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')`
 
-3. 清除span标签: `str.replace(/<span.*?>|<\/span>/ig,"");`
+清除span标签: `str.replace(/<span.*?>|<\/span>/ig,"");`
+
+清除空格：`str.replace(/\s+/g, '')`
+
+清除换行：`str.replace(/[\r\n]/g, '')`
 
 
 ## 函数节流与防抖

@@ -36,6 +36,52 @@ href(Hypertext Reference) 超文本**引用**，其值也指向网络资源的�
 - 如果浏览器识别引用文档为 css 文件，则会并行下载资源而不会停止对当前文档的处理
 
 
+## bind()
+
+`bind()` 方法会创建一个新的函数，其 `this` 被指定为 `bind()` 的第一个参数，其余参数作为新函数的参数
+
+```js
+// bind() polyfill
+// Does not work with `new funcA.bind(thisArg, args)`
+if (!Function.prototype.bind) (function(){
+  var slice = Array.prototype.slice;
+  Function.prototype.bind = function() {
+    var thatFunc = this, thatArg = arguments[0];
+    var args = slice.call(arguments, 1);
+    if (typeof thatFunc !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError('Function.prototype.bind - ' +
+             'what is trying to be bound is not callable');
+    }
+    return function(){
+      var funcArgs = args.concat(slice.call(arguments))
+      return thatFunc.apply(thatArg, funcArgs);
+    };
+  };
+})();
+```
+
+`call()` 和 `apply()` 也都是用来改变 this 指向对象，区别在于传参不同
+- `call(newThis, params1, params2...)` 第一个参数为函数上下文对象，后面传入参数
+- `apply(newThis, [params1, params2...])` 第一个参数为函数上下文对象，第二个参数为包裹传入参数的列表
+
+```js
+let obj = {
+  name: 'ylone',
+}
+
+function test(age, job) {
+  return [this.name, age, job];
+}
+
+// ['ylone', 26, 'engineer']
+test.bind(obj, 26, 'engineer')();
+test.apply(obj, [26, 'engineer']);
+test.call(obj, 26, 'engineer');
+```
+
+
 ## 运算相关
 
 ### 操作符
