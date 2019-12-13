@@ -26,6 +26,7 @@ module.exports = {
 		lastUpdated: 'Last Updated',
 		sidebar: {
 			'/core/': getCoreSide(),
+			'/practice/': practice(),
 			'/project/': getProjectSide(),
 			'/packages/': getPackagesSide(),
 			'/normalize/': getNormalizeSide('Normalize'),
@@ -33,6 +34,19 @@ module.exports = {
 			'/tools/': getToolsSide('Tools'),
 		}
 	}
+}
+
+function practice() {
+	return [
+		'/practice/',
+		{
+			title: 'practice',
+			collapsable: false,
+			children: [
+				'GROWTH性能优化实践'
+			]
+		}
+	]
 }
 
 function getToolsSide(groupA) {

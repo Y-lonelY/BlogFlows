@@ -2,6 +2,9 @@ module.exports = [{
 	text: '核心',
 	link: '/core/'
 }, {
+	text: '探索',
+	link: '/practice/'
+}, {
 	text: '工程',
 	items: [
 		{

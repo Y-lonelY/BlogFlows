@@ -1,6 +1,25 @@
 # NodeJs
 
 
+## koa-compress 
+
+添加 gzip 支持，通过 `npm install koa-compress --save` 在本地项目内引入 compress
+
+在 app 实例内通过 `use` 添加中间件
+
+```js
+import compress from 'koa-compress';
+// compress gzip 压缩
+const compressInstance = compress({
+    // 设置阈值，小于 10k 不进行压缩
+    threshold: 1024 * 10,
+    flush: require('zlib').Z_SYNC_FLUSH
+});
+
+koa.use(compressConfig);
+```
+
+
 ## multer
 
 > Multer 是一个 node.js 中间件，用于处理 multipart/form-data 类型的表单数据，它主要用于上传文件

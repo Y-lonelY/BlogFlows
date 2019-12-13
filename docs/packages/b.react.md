@@ -106,6 +106,47 @@ react router 内包含三种类型组件：
 
 理解：路由器匹配组件一般映射一个模块，当 url 改变时则会去匹配该模块并展示，但是所有的路由器匹配组件都必须被包裹在路由器组件内
 
+### 通过import实现组件的异步加载
+
+`import()` 方法会返回一个 Promise 对象，可以利用其进行异步加载操作
+
+```js
+// 封装异步加载组件，通过接受一个 import() 方法，返回对应的组件
+import React from 'react';
+
+export function asyncComponent(targetComponent) {
+    class AsyncComponent extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                component: null
+            }
+        }
+
+        componentDidMount() {
+            targetComponent().then(md => {
+                this.setState({
+                    // 同时兼容 ES6 和 CommonJS 的模块
+                    component: md.default ? md.default : md
+                });
+            })
+        }
+
+        render() {
+            const Target = this.state.component;
+            // 通过自闭和标签进行返回，是为了接受可能出现的 props 参数传递
+            return Target ? <Target {...this.props} /> : null;
+        }
+    }
+
+    return AsyncComponent;
+}
+
+// 在其他文件内的使用方法，之所以这个方法不进行封装，是为了相对路径的考虑，保证组件寻找不会紊乱
+const component = asyncComponent(() => import ('@/view/Practice'));
+```
+
+
 ### withRouter
 
 给空间绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现

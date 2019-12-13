@@ -1,34 +1,53 @@
 # JavaScript
 
-## MVVM
-
-MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映射，怎么理解这句话？
-- Model 层，用户从后端获取数据
-- View 层，代表用户看到的视图
-- ViewModel 则用来处理js对象和视图模版的映射关系，可以理解为数据的抽象画视图，ViewModel 充当着观察者的角色，当 view 或者 model 任一发生了改变，则会通知另一方作出相应的变化，即为数据的双向绑定
-
-MVVM最标志的特性是数据绑定，MVVM的核心理念是通过声明式的数据绑定来实现View的分离，完全解耦View
 
 ## 执行机制
 
-:::tip
-JavaScript是一门单线程语言，事件循环（Event Loop）是 JavaScript 的执行机制
-:::
+> JavaScript是一门单线程语言，事件循环（Event Loop）是 JavaScript 的执行机制
 
-在实际开发过程中，会经常用到
+首先明白两个概念：
+- 浏览器是多进程的
+- JavaScript引擎是单线程执行的，可以理解为只允许有一个主线程，因为现在可以利用 web worker 来执行多线程任务，然后通过通信的方式将结果返回给主线程
 
-由于JavaScript引擎是单线程机制，它无法执行多段代码，当一段代码执行的时候，所有后续任务必须等待，从而形成一个任务队列。一旦当前任务完成，再从队列中取出下一个任务执行，这也被称为 ‘阻塞式执行’
+由于JavaScript引擎是单线程机制，它无法同时执行多段代码，当一段代码执行的时候，所有后续任务必须等待，从而形成一个任务队列。一旦当前任务完成，再从队列中取出下一个任务执行，这也被称为 ‘阻塞式执行’
+
+为什么JavaScript引擎被设计成阻塞式？
+
+想象一个场景：如果js可以是多线程的，在同一个时间内，一段代码删除指定节点，一段代码修改这个节点，那么究竟应该怎样对这个节点做出何种改变，此时js引擎也无法作出判断
+
+js 内函数异步执行的理解：
+- 在当前位置调用了某个方法
+- 但是在经过一段时间后才进行执行
+- 即调整函数的执行顺序，并且保证该函数一定执行，就实现了异步的基本概念
+- 核心在于事件执行机制和消息队列
 
 <img src="./assets/eventLoop.png">
 
-- `setTimeout()` 设置的延迟参数是从 EventTable 中注册回调函数到 EventQueue 的时延，所有**执行其回调函数的时延 >= 其设置的时延**
-- 即使主线程执行栈为空，0ms 实际上也是达不到的，根据HTML标准，最低是 4ms
-- `setInterval()` 会每隔指定的时延将回调函数注册进入 EventQueue 中，一旦 `setInterval` 的回调函数的执行时间超过其设置的延迟，那么完全看不出来有时间间隔
-- 除了广义的同步任务和异步任务，任务还有更加精细的定义
-	- macro-task(宏任务)：正常执行script、setTimeout()、setInterval()
-	- mirco-task(微任务)：Promise、process.nextTick(类似node.js版的setTimeout，其回调函数在事件循环的下一次循环中调用)
+`setTimeout()` 设置的延迟参数是从 EventTable 中注册回调函数到 EventQueue 的时延，所有**执行其回调函数的时延 >= 其设置的时延**
 
-整体script作为第一个宏任务执行结束，会在 EventQueue 中检查还有哪些微任务，并对其依次执行，至此完成第一次 EventLoop，然后再在 EventQueue 内检查宏任务，进行 EventLoop
+延迟实现
+
+```js
+function sleep(t) {
+    var label = Date.now();
+
+    while(Date.now() - label < t) {
+        continue;
+    }
+}
+```
+
+即使主线程执行栈为空，0ms 实际上也是达不到的，根据HTML标准，最低是 4ms
+
+`setInterval()` 会每隔指定的时延将回调函数注册进入 EventQueue 中，一旦 `setInterval` 的回调函数的执行时间超过其设置的延迟，那么完全看不出来有时间间隔
+
+除了广义的同步任务和异步任务，任务还有更加精细的定义
+- macro-task(宏任务)：正常执行script、setTimeout()、setInterval()
+- mirco-task(微任务)：Promise、process.nextTick(类似node.js版的setTimeout，其回调函数在事件循环的下一次循环中调用)
+
+整体script作为第一个宏任务执行结束，会在 EventQueue 中检查还有哪些微任务，并对其依次执行（后进先出），至此完成第一次 EventLoop，然后再在 EventQueue 内检查宏任务，进行 EventLoop
+
+总结来说，在javascript的事件循环内，优先级：同步任务，微任务，宏任务
 
 ```javascript
 console.log('1'); // 同步任务
@@ -36,15 +55,6 @@ console.log('1'); // 同步任务
 // 整体作为一个异步任务
 setTimeout(function() {
     console.log('5');
-    process.nextTick(function() {
-        console.log('7');
-    })
-    new Promise(function(resolve) {
-        console.log('6');
-        resolve();
-    }).then(function() {
-        console.log('8')
-    })
 });
 
 // 异步任务-微任务，在下一次循环内执行
@@ -62,7 +72,7 @@ new Promise(function(resolve) {
 
 // 输出结果
 // 即 Promise > nextTick > Promise.then
-1,2,3,4,5,6,7,8
+1,2,3,4,5
 ```
 
 ## 渲染关键路径
@@ -150,6 +160,12 @@ URL 结构：
 - 通过 Nginx 反向代理
 - 结合 src 属性，通过 jsonp 来处理跨域
 - iframe 通过 postMessage 和 addEventListener('message') 
+- 通过 websocket 进行通信
+
+jsonp 缺点：
+- 只能使用 get 请求
+- 安全问题
+- 不能返回各种http状态码
 
 ```js
 // postMessage
@@ -172,6 +188,19 @@ window.addEventListener('message', function (e) {});
 
 // 服务器回传数据
 dosomething({data: data});
+
+
+// websocket
+// 建立一个 websocket 实例对象
+var socket = new WebSocket("ws://www.test.com/service/data.do");
+// 只能够发送少量 string 类型的数据
+socket.send('hello');
+// 客户端接受服务端信息，通过监听 message 
+socket.on('message', function(event) {
+    var data = event.data;
+})
+// 关闭 socket 协议
+socket.close();
 ```
 
 ## 对象
@@ -181,6 +210,7 @@ js 是一门面向对象的程序设计语言，因此对于对象的使用很�
 对象有两种属性：数据属性和访问器属性，且可以通过 `Object.getOwnPropertyDescriptor(object, property)` 来读取某个对象的属性配置
 
 ```js
+// 利用 Object.defineProperty 来保护数据
 var person = {};
 Object.defineProperty(person, 'name', {
     _age: {
@@ -216,6 +246,50 @@ var person = {
 var des = Object.getOwnPropertyDescriptor(person, 'age');
 //{value: 26, writable: true, enumerable: true, configurable: true}
 ```
+
+### 数据保护
+
+所谓数据保护，就是类似其他语言的 static 方法，保证某一个值不能够被修改，上面利用 Object.defineProperty 实现了一种方式，接下来介绍另外两种方式：
+- 通过闭包进行保护
+- 通过ES6 proxy 特性进行保护
+
+```js
+// 利用闭包
+function Person() {
+    var obj = {
+        name: 'hello'
+    };
+    this.get = function(key) {
+        return obj[key];
+    }
+    this.set = function(key, value) {
+        throw(new Error('cannot change'));
+    }
+}
+var person = new Person().set(name, 'world'); // Uncaught Error: cannot change
+
+
+// 利用 proxy
+var obj = {
+    name: 'hello',
+    age: 10
+};
+// 相当于对 obj 做了一层代理，返回为 person
+var person = new Proxy(obj, {
+    get(target, key) {
+        return target[key];
+    },
+    set(target, key, value) {
+        if (key === 'name') {
+            throw(new Error('cannot change'));
+        }
+    }
+});
+
+// 但是如果此时直接更改 obj，不会报错，且会改变 person 的属性值
+person.name = 'world'; // Uncaught Error: cannot change
+```
+
 
 ### 创建对象的模式
 
@@ -319,6 +393,8 @@ var person = new Person('ylone');
 
 所有的函数其组件原型都是 Object，因此所有对象实例都能够使用 `.toString()` 来判断类型，全局定义函数的 `__proto__` 都等于 `Object.prototype`
 
+原型链的顶端：因为 `Object.prototype.__proto__ === null` 因此，可以说 null 才是原型链真正的顶端，那么 undefined 可以认为是从 null 中进行抛出
+
 ```js
 /**
  * SuperClass 为构造函数
@@ -383,6 +459,24 @@ Object.getPrototypeOf(subInstance); // SubClass.prototype
 subInstance.hasOwnProperty(age); // false
 ```
 
+### 组合继承
+
+```js
+// 父类
+function SupClass() {
+    this.age = [1,2,3]
+}
+
+// 子类
+function SubClass(name) {
+    SupClass.call(this);
+    this.name = name;
+}
+
+SubClass.prototype = new SupClass();
+SubClass.prototype.constructor = SupClass;
+```
+
 ## 执行环境
 
 执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为，当函数被调用时，会创建一个执行环境及相应的作用域链
@@ -398,6 +492,33 @@ subInstance.hasOwnProperty(age); // false
 理论上，声明一个函数之后，就形成了一个作用域链，因为存在全局执行环境，其变量对象被认为是 window 对象。某个函数执行完毕之后，则该执行环境被销毁，其变量对象也同时销毁，全局执行环境直到应用程序退出（比如关闭浏览器或者网页）时才会被销毁
 
 类似原型链，作用域链的标识符解析就是沿着作用域链一级一级搜索标识符的过程。**如果找不到指定标识符，会报 Reference Error，这点区别于原型链**
+
+在 ES6 中，通过 `{}` 就能创建一个块级作用域，而之前则要通过 lamda 表达式结合闭包来进行创建
+
+
+### 作用域链
+
+作用域链怎么形成呢？
+
+```js
+function Person() {
+    var a = '1';
+    function Teddy() {
+        console.log(a);
+    }
+    Teddy();
+}
+
+Person() // '1'
+```
+
+如上所示，定义了一个闭包，首先明确一定，存在全局作用域，其对象和方法存放在winodw对象内，ok，接下来解析作用域链怎么产生：
+- 每个函数在定义时，都会产生一个 `[[scope]]` 属性，它就是作用域链，里面存放着对活动对象的引用，并且没有访问器属性，外界访问不到
+- Person方法定义时，会产生一个[[scope]]属性，其值为一个指向window对象的引用
+- Person调用时，会产生一个执行环境，同时向[[scope]]内添加一个指向当前（自身）活动对象的引用，并且此时定义 Teddy() 方法
+- Teddy方法定义时，会产生一个[[scope]]属性（可以看作是复制Person的该属性），里面存放着指向Person和全局的活动对象
+- Teddy方法调用时，会产生一个执行环境，同时向[[scope]]内添加一个指向当前（自身）活动对象的引用，所以当使用a时，会沿着作用域链向上寻找
+
 
 ### 闭包
 
