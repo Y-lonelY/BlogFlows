@@ -192,5 +192,27 @@ HTTP缓存分为强缓存（cache-control）和协商缓存（e-tag, last_modifi
 - memory cache 的读取优先级高于 disk cache
 
 
+### 2019-12-13
+
+在 react 官网上有[性能优化](https://zh-hans.reactjs.org/docs/optimizing-performance.html)，阅读之后，发现在现有项目基础上有操作的空间
+
+优化点：
+- react 默认是不为每个组件添加 `shouldComponentUpdate` 的生命周期方法的，即每个组件都会按照 diff 算法的规则进行执行
+- 但是你可以在组件内实现该方法，用来表示该组件在何种情况下才需要重新渲染，从而减少了dom渲染的次数，达到优化的目的
+- 除了在每个组件内手动实现 `shouldComponentUpdate` 的方法外，可以使用一种更加粗暴的方式，即直接继承 `React.PureComponent`，这种办法在大部分情况下适用，它是通过 `Object.is()` 的算法来进行比较，这种比较是一种浅比较，结合浅拷贝来理解
+- 也就是说，当你的数据结构比较复杂时，要进行此类优化，最好是自己实现 `shouldComponentUpdate`，否则直接继承 `React.PureComponent` 即可
+- 继承 `React.PureComponent` 时，可以通过浅拷贝的方式，来为 setState() 方法重新赋值，常用的拷贝方法：`Object.assing({})`, `array.concat()`, `[...array, 'newValue']`
+- 对于使用了 redux 的应用，在 reducer 内实现拷贝的过程
+
+```js
+// 对于此类引用类型，尽管其值改变，react 会认为其没变
+let a = {a: 1};
+let b = a;
+b.a = 2;
+Object.is(a, b); // true
+```
+
+
+
 
 

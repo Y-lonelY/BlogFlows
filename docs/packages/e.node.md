@@ -1,6 +1,37 @@
 # NodeJs
 
 
+## request promise
+
+通过 [request promise](https://github.com/request/request-promise) 来转发第三方接口
+
+`npm install request --save` 和 `npm install --save request-promise`
+
+```js
+import request from 'request-promise';
+
+async function getWakaData({ start, end }) {
+    let params = {
+        'api_key': 'aa7000e7-273a-4cbe-862c-c3ff4faf2daf',
+        'cache': true,
+        start,
+        end
+    };
+    let option = {
+        uri: 'https://wakatime.com/api/v1/users/current/summaries',
+        // qs 表示query参数
+        qs: params,
+        headers: {
+            'User-Agent': 'Request-Promise'
+        },
+        json: true
+    };
+    // 获取返回数据，request(option) 返回一个 promise 对象
+    const data = (await request(option)).data;
+}
+```
+
+
 ## koa-compress 
 
 添加 gzip 支持，通过 `npm install koa-compress --save` 在本地项目内引入 compress

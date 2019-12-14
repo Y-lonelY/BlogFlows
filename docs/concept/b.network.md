@@ -73,19 +73,33 @@ Web 页面由**对象**组成，一个对象就是一个文件，该文件可以
 
 记录项目使用过程中常用的状态码：
 
-200 - 请求成功
+200 请求成功
 
-304 - not modified 资源没有发生改变，有响应报文但是不返回具体资源
+304 not modified 资源没有发生改变，有响应报文但是不返回具体资源
+
+- 可以关联到 http 缓存的协商缓存，`E-tag/If-None-Match`, `Last-Modified/If-Modified-Since`
+
 
 400 - bad request 通用的客户端错误状态码，其他 4xx 不适用时返回
 
 403 - forbidden 理解了请求，但是拒绝执行，一般是验证不通过
 
-404 - not found 找不到指定资源
+404 not found 找不到指定资源
+
+- 接口路径正确，但是找不到指定的资源，比如图片呢
+- 服务器就没有提供指定的接口
+- koa2 下如果因为代码问题，比如没有编写 `ctx.body = result` 也会返回 404
 
 405 - Method Not Allowed 指定资源不支持该方法，比如指定post，发送一个 get 请求
 
-500 - Internet Server Eroor 服务器错误
+500 Internet Server Eroor 服务器错误
+
+- 如果服务器还没启动，则会返回该错误
+
+502 bad geteway
+
+- CPU, 内存占用过高
+- koa2 如果没有执行 `npm install` 导致运行时有包缺失的时候，也会报502错误
 
 
 ### RTT
