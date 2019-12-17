@@ -23,6 +23,19 @@ MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映�
 MVVM最标志的特性是数据绑定，MVVM的核心理念是通过声明式的数据绑定来实现View的分离，完全解耦View
 
 
+### SPA
+
+单页面应用可以看作是MVVM的一个产物，同时单页面应用也带来了一些挑战：
+- 如何保持数据和UI同步更新
+- 如何提高DOM操作的效率
+- 使用HTML开发UI页面及其复杂
+
+React 框架在一定程度上解决了上述问题：
+- 数据双向绑定，react 的 state 特性 来进行UI状态管理
+- diff算法，虚拟DOM树来更新DOM
+- JSX 来进行模版渲染，通过js来进对应组件的HTML渲染
+
+
 ## 数据自顶向下
 
 React内，组件作为独立个体，是不关心其他组件是怎样定义或者有无 state 的，因此state除了当前组件外，其他组件不可访问，**state 是局部封装**

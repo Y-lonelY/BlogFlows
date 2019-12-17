@@ -2,6 +2,63 @@
 
 > TypeScript 是作为 JavaScript 的一个超集存在，这意味着 JavaScript 中能够使用的方法在 TypeScript 内同样适用
 
+## declare
+
+`declare` 声明关键字用来暴露定义好的类型方法
+
+相比于 interface 和 type，declare 更像是和外界联系的一个“彩虹桥”
+
+```js
+// 使用declare class描述一个类或像类一样的对象，类可以有属性和方法，就和构造函数一样
+declare class Greeter {
+    constructor(greeting: string);
+
+    greeting: string;
+    showGreeting(): void;
+}
+```
+
+## 结合React Ref 进行使用
+
+注意，声明方法放在 class 组件最外层
+
+```js
+import React from 'react';
+
+class DrawerForm extends React.PureComponent<DrawerViewProps, DrawerViewState> {
+    // ts 声明 myRef 类型
+    myRef: React.RefObject<Input> | null;
+    constructor(props) {
+        this.myRef = React.createRef();
+    }
+
+    render() {
+        return (<Input ref={this.myRef} placeholder={`${assets.add} ${assets.title}`} size='small' />);
+    }
+}
+```
+
+## 对dom节点进行类型断言
+
+对于直接获取的dom节点，如果不进行类型断言，则可能出现 `Property 'xxx' does not exist on type 'Element'` 等错误
+
+```js
+// 对于单个节点，如果是input元素
+let node = document.querySelector('#title') as HTMLInputElement;
+
+// 对于多个节点
+let list = document.querySelectorAll(".block") as NodeListOf<HTMLElement>;
+```
+
+
+### .d.ts vs .ts
+
+`.ts` 文件最终会被编译成 `.js` 文件，此时类型信息就会丢失，因此ts编译器就会自动根据 `.ts` 中信息来生成对外的 `.d.ts` 文件，用来搭配生成的 `.js` 文件使用。
+其中，`.js` 文件是给运行引擎使用，而 `.d.ts` 是给IDE写代码时参考用的
+
+`.d.ts` 就是 TypedDefinition 类型定义文件，用来定义类型信息以及接口规范
+
+
 ## DataTypes
 
 **基本类型**
