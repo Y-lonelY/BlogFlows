@@ -156,6 +156,14 @@ class Test extends React.Component {
 export default Test
 ```
 
+
+### 受控组件和非受控组件
+
+如果一个组件被父级传入的 props 控制，则可以认为该组件是受控的
+
+如果数据仅仅保存在组件内部的 state，则该组件是非受控组件，因为外部无法直接控制 state
+
+
 ### class 组件转换为 function
 
 对于纯函数组件，即输入决定输出，输出映射输入的函数，能够进行响应的转换，对比 class 声明组件方式：

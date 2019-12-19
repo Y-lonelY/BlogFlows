@@ -13,6 +13,22 @@
 反向数据控制，通过传递 props 传递函数方法结合 setSate() 来实现
 
 
+## React vs Vue
+
+首先说说相同点：
+
+- MVVM
+- 组件化思想
+- 虚拟dom
+
+不同点：
+
+- 状态管理不同，Vue 对每个数据进行动态绑定，可以通过直接赋值来触发更新，而React是单向数据流，需要显式调用 `setState()` 来触发组件更新
+- 响应机制不同，React 是通过 diff 算法来进行遍历比较，Vue 则是通过数据绑定来实现响应，当处理大型应用或者复杂场景时，Vue会因此带来性能问题
+- React 组件是通过class或者 react hook，而 vue 则是通过声明式来创建组件的
+- 模版引擎不同，react 是JSX语法来渲染dom，Vue是通过 template 来实现，前者可以直接使用原生JavaScript的语法，后者需要通过指令来实现`v-if`，会显得有点奇怪
+
+
 ## MVVM
 
 MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映射，怎么理解这句话？
