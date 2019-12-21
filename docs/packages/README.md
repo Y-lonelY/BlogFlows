@@ -9,7 +9,9 @@
 - JavaScript
 - React
 - Swift
-
+- Python
+- Node
+- Vue
 
 本项目执行机制
 

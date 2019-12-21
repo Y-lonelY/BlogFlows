@@ -16,7 +16,7 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 - 浮动元素：float 除了 none 之外的值
 - 绝对定位：position: absolute || fixed
 - display 为 inline-block、table-cells、flex
-- overflow 除了 visible 之外的元素，通常使用 `overflow: hidden` 来实现 BFC
+- overflow 除了 visible 之外的元素，通常使用 `overflow: hidden`或者`display: table-cell` 来实现 BFC
 
 
 ## 布局方式
@@ -25,7 +25,163 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 
 默认为标准流布局方式
 
-### display
+对于布局方式的实践，可以参考[布局方式的实践](../../practice/布局方式的实践.html)
+
+
+### flex布局
+
+可以通过 `display: flex` 为任何一个容器指定 Flex 布局，设为 Flex 布局之后，子元素的 `float,clear,vertical-align` 属性将失效
+
+#### 容器属性
+
+即父元素属性
+
+```css
+.flex-box {
+  display: flex;
+  /**
+   * flex-direction 用来约定 items 的排列方式
+   * row 水平方向，起点在左端
+   * row-reverse 水平方向，起点在右端
+   * column 垂直方向，起点在上沿
+   * column-reverse 垂直方向，起点在下沿
+   */
+  flex-direction: row;
+  
+  /**
+   * flex-wrap 定义当一条轴线上排列不下时，如何换行
+   * nowrap 默认，不换行
+   * wrap 换行，第一行在上方
+   * wrap-reverse 换行，第一行在下方，即后面的换行元素在之前元素的上方
+   */
+  flex-wrap: nowrap;
+  
+  /**
+   * justify-content 定义了项目在主轴上的对齐方式
+   * flex-start 主轴起始位置至结束位置
+   * flex-end 主轴结束位置至起始位置
+   * center 居中
+   * space-between 两端对齐，项目之间等距分隔
+   * space-around 项目两侧间隔相等
+   */
+  justify-content: flex-start;
+
+  /**
+   * align-items 定义在交叉轴上的对齐方式
+   * stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度
+   * center：交叉轴的中点对齐，即垂直居中
+   * flex-start：交叉轴的起点对齐
+   * flex-end：交叉轴的终点对齐
+   */
+  align-items: stretch;
+}
+```
+
+#### 项目属性
+
+即子元素的属性
+
+```css
+.flex-item {
+  /**
+   * order 属性定义项目的排列顺序
+   * 数值越小，排列越靠前，默认为 0
+   */
+  order: 1;
+
+  /**
+   * flex-grow 属性定义项目的放大比例
+   * 默认为0，0 表示即使存在剩余空间，也不放大
+   */
+  flex-grow: 1;
+}
+```
+
+
+### grid布局
+
+flex布局是基于轴线来进行的，可以看作是一维布局，而 grid 布局则更进一步，将容器划分称为‘列’和‘行’，可以看作是二维布局，首先明白两个概念：
+
+- 单元格，就是行和列的交叉区域，比如3行3列会产生9个单元格
+- 网格线，用来划分单元格，比如3行3列会有行4条，列4条，共8条网格线
+
+具体可以参看(CSS Grid 网格布局教程)[http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html]
+
+和 flex 一样，分为容器属性和项目属性
+
+#### 容器属性
+
+```css
+.grid {
+	display: grid;
+	/**
+	 * grid-template-columns 用来表示列宽，grid-template-rows 用来表示行高
+	 * auto 表示占满剩余空间
+	 * repeat(3, 200px) 实际上等同于 200px 200px 200px
+	 * fr 用来表示片段，通过 fr 来表示剩余空间的占比，比如 1fr 2fr，表示三等分剩余空间，前者占一份，后者占两份
+	 */
+	grid-template-columns: 200px auto 200px | 20% 20% 60% | repeat(3, 200px) | 200px 1fr 2fr;
+	
+	/**
+	 * 用来为每块区域命名，方便在项目属性内使用
+	 */
+	grid-template-areas: 'a1 a2 a3'
+						 'b1 b2 b3';
+
+	/**
+	 * 用来表示单元格之间的间距，第一个参数表示行间距为20px，第二个参数表示列间距为10px
+	 */
+	grid-gap: 20px 10px;
+	
+	/**
+	 * 用来表示项目的排列方式，row 代表先行后列，column 代表先列后行
+	 */
+	grid-auto-flow: row | column;
+	
+	/**
+	 * 描述单元格在容器内的水平排布
+	 * 可以参看flex，比如一个三行三列的grid，设置该属性就会设置每一列在容器内的展示位置
+	 * 相比 flex，添加了 space-evenly，用来表示每一项之间的距离和边界的距离相等，区别于 space-around，它表示每一项之间的距离是其距边界距离的两倍
+	 */
+	justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+	
+	/**
+	 * 用来描述单元格在容器内的垂直排布，参考 justify-content 理解即可
+	 */
+	align-content: start | end | center | stretch | space-around | space-between | space-evenly;
+}
+```
+
+#### 项目属性
+
+```css
+.grid-item {
+	/**
+	 * 用来设置单元格位置，其后面的数字代码网格线的位置，从1开始计数
+	 * 如下，将元素放在第二行第二列
+	 */
+	grid-column: 2 / 3;
+	grid-row: 2 / 3;
+	
+	/**
+	 * 同样是用来描述单元格位置，结合容器属性的 grid-template-area 进行使用
+	 */
+	grid-area: b1;
+	
+	/**
+	 * 设置单元格内容相对单元格位置，这里用来设置水平位置
+	 */
+	justify-self: start | end | center | stretch;
+
+	/**
+	 * 设置单元格内容相对单元格位置，这里用来设置垂直位置
+	 */
+	align-self: start | end | center | stretch;
+}
+```
+
+
+### 其他display布局方式
 
 #### 通过 display: inline-block 进行布局
 
@@ -73,12 +229,13 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 </body>
 ```
 
+
 ### display: table
 
 利用 `display:table` 和 `display: table-cell` 来进行分列布局和垂直居中
 
 - 如果子节点宽度总和超过父节点，则会像 float 一样表现
-- 对于子节点可以结合 `vertical-align: middle` 来实现垂直居中
+- 对于子节点可以结合 `vertical-align: middle` 来实现块内容的垂直居中
 
 ```html
 <style>
@@ -114,6 +271,7 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 	</div>
 </body>
 ```
+
 
 ### 通过 position 进行定位布局
 
@@ -264,74 +422,6 @@ div {
 	</div>
 	<div class="second"></div>
 </body>
-```
-
-
-### flex布局
-
-布局的传统解决方案，基于盒子模型，依赖 `display && position && float`，但是其不适用于特殊布局。因此，W3C 提出了 Flex 布局，其可以简便，完整，响应式地实现各种页面布局且得到各个浏览器的支持
-
-可以为任何一个容器指定 Flex 布局，设为 Flex 布局之后，子元素的 `float,clear,vertical-align` 属性将失效
-
-#### 父容器常用属性
-
-```css
-.flex-box {
-  display: flex;
-  /**
-   * flex-direction 用来约定 items 的排列方式
-   * row 水平方向，起点在左端
-   * row-reverse 水平方向，起点在右端
-   * column 垂直方向，起点在上沿
-   * column-reverse 垂直方向，起点在下沿
-   */
-  flex-direction: row;
-  
-  /**
-   * flex-wrap 定义当一条轴线上排列不下时，如何换行
-   * nowrap 默认，不换行
-   * wrap 换行，第一行在上方
-   * wrap-reverse 换行，第一行在下方，即后面的换行元素在之前元素的上方
-   */
-  flex-wrap: nowrap;
-  
-  /**
-   * justify-content 定义了项目在主轴上的对齐方式
-   * flex-start 主轴起始位置至结束位置
-   * flex-end 主轴结束位置至起始位置
-   * center 居中
-   * space-between 两端对齐，项目之间等距分隔
-   * space-around 项目两侧间隔相等
-   */
-  justify-content: flex-start;
-
-  /**
-   * align-items 定义在交叉轴上的对齐方式
-   * stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度
-   * center：交叉轴的中点对齐，即垂直居中
-   * flex-start：交叉轴的起点对齐
-   * flex-end：交叉轴的终点对齐
-   */
-  align-items: stretch;
-}
-```
-
-#### 子容器常用属性
-
-```css
-.flex-item {
-  /**
-   * order 属性定义项目的排列顺序
-   * 数值越小，排列越靠前，默认为 0
-   */
-  order: 1;
-
-  /**
-   * flex-grow 属性定义项目的放大比例
-   * 默认为0，0 表示即使存在剩余空间，也不放大
-   */
-  flex-grow: 1;
-}
 ```
 
 

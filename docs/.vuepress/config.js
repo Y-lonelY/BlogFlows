@@ -43,7 +43,8 @@ function practice() {
 			title: 'practice',
 			collapsable: false,
 			children: [
-				'GROWTH性能优化实践'
+				'GROWTH性能优化实践',
+				'布局方式的实践'
 			]
 		}
 	]
@@ -88,7 +89,9 @@ function getPackagesSide() {
 				'a.cluster',
 				'b.react',
 				'c.swift',
-				'd.python'
+				'd.python',
+				'e.node',
+				'f.vue'
 			]
 		}
 	]
@@ -104,7 +107,8 @@ function getConceptSide(groupA) {
 				'a.javascript',
 				'b.network',
 				'c.react',
-				'd.node'
+				'd.node',
+				'e.css'
 			]
 		}
 	]
