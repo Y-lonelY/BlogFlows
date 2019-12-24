@@ -104,42 +104,6 @@ Promise.all(arr.map(item => {
 ```
 
 
-## 箭头函数
-
-箭头函数用于解决函数内 this 指向不明确的情况
-
-```js
-// es6 之前版本
-function Person() {
-  this.a = 'a';
-  this.b = {
-    a: 'aaa',
-    t: function() {
-      return this.a;
-    }
-  };
-}
-
-// 当调用 t() 方法时，this 指向其调用者，即 this === new Person().b，所以 this.a === 'aaa'
-new Person().b.t(); // 'aaa'
-
-// es6 版本，对上面函数稍作修改
-function Person() {
-  this.a = 'a';
-  this.b = {
-    a: 'aaa',
-    t: () => {
-      return this.a;
-    }
-  };
-}
-
-// 通过箭头函数声明的方法，其this指向是定义时this的指向，即在 new Person() 时 this 指向该 Person 的实例对象
-// 因此 t() 在定义时 this 就指向其构造函数的实例
-new Person().b.t(); // 'a'
-```
-
-
 ## class
 
 在ES6中，通过 `class` 定义一个类的时候，其通过 `constructor` 构造方法内定义的属性和方法是实例对象自己的，而 `constructor` 外定义的方法和属性则是所有实例对象可以共享的

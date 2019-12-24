@@ -608,6 +608,43 @@ val = null;
 直到匿名函数被销毁时，a() 的变量对象才会被销毁，比如通过 `val = null` 的方式解除该函数的引用，通知垃圾回收进程将其清除
 
 
+### 函数柯里化
+
+函数柯里化通过一个例子来意会一下，它的基本思路和函数绑定是一样的，通过一个闭包来返回一个新的函数，实际上就是利用闭包来保存传参
+
+例如将 `add(1,2,3)` 封装成 `add(1)(2)(3)`
+
+```js
+function add(x,y,z) {
+    return x+y+z;
+}
+
+function curry(fn, args) {
+    var that = this;
+    var args = args ? args : [];
+    // len 表示原函数的形参个数
+    var len = fn.length;
+
+    return function() {
+        // 封装形参，因为arguments不是真正的数组，所以需要进行转换
+        let newArr = Array.prototype.slice.apply(arguments);
+        // 将之前的形参进行合并
+        newArr = args.concat(newArr);
+        // 判断是否为最后一个调用
+        if (args.length < len) {
+            // 如果不是，则将 add 继续传递
+            return curry.call(that, fn, newArr);
+        }
+        // 如果是最后一项，则直接执行
+        return fn.apply(that, newArr);
+    }
+}
+
+var curryAdd = curry(add);
+add(1)(2)(3); // 6
+```
+
+
 ## 前端异常捕获
 
 [前端异常监控解决方案研究](https://cdc.tencent.com/2018/09/13/frontend-exception-monitor-research/)
