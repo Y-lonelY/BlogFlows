@@ -13,10 +13,12 @@
 优化的思路：资源大小，http请求数量，渲染最短路径，代码和框架层面（大数据量列表渲染，尾递归来遍历树节点）　
 
 针对这三个方向的优化：实际上现在的框架已经帮助我们做了不少工作，以 react 项目为例，通过create-my-app创建的项目已经：
+
 - css,js合并
-- 实现虚拟dom本身就减少了重绘和回流操作
+- 实现虚拟dom本身就减少了重绘和回流操作，虚拟dom的实现，其优化原理就是将针对元素的多个操作，合并为一个操作，以最小的代价去更新DOM
 
 bigpipe dom元素占位（通常为一个带id的空div标签），通过异步请求去获取占位元素的内容（html,css）其劣势表现在：
+
 - 需要后端支持
 - seo
 - 异步请求较多
@@ -148,6 +150,7 @@ create-react-app 会将所有用到的模块都打包进一个js文件内，但�
 当优化首屏渲染之后，再次打开网页，发现页面加载在秒级内就进行了响应，为何？
 
 我开控制台发现了一些有趣的东西，之前加载过的资源，现在加载特别快，且其size也发生了相应的变化
+
 - 有不同颜色的200，并且其资源的size为from memory 或者from disk
 - 一部分资源为304状态码，即请求发送过去，服务器发现资源并没有发生变化，于是返回一个实体主体为空的响应报文
 
@@ -160,6 +163,7 @@ ok，借此机会来理一理浏览器缓存机制，首先基本概念，浏览
 ![http-cache](./assets/growth/http-cache.png)
 
 HTTP缓存分为强缓存（cache-control）和协商缓存（e-tag, last_modified）的简单流程：
+
 - 浏览器根据加载资源的http request 首部行信息，即cache-control（注意 expires 为http1.0的产物，这里不做讨论）字段来判断是否命中强缓存，如果命中则直接从缓存中加载资源，这个过程主要由浏览器进行参与
 - 如果未命中强缓存，则会将资源请求发送至服务器，由服务器通过比对 `If-None-Match && ETag`, `If-Modified-Since && Last-Modified` 来判断本地缓存是否失效，如果可以使用则服务器会返回一个实体主体为空的响应报文，浏览器直接从缓存内加载资源
 - 如果协商缓存也没有命中，则正常进行请求，服务器会返回资源信息和缓存标识，浏览器加载新资源并更新缓存
@@ -167,6 +171,7 @@ HTTP缓存分为强缓存（cache-control）和协商缓存（e-tag, last_modifi
 第一个问题，**如何判断是否命中强缓存？**
 
 通过 HHTP1.1 的Cache-Control规则来进行判定，它含有多个指令，且其优先级高于expires，对其进行一定了解
+
 - `max-age=300` 表示300s 进行重新请求资源，会命中强缓存
 - `no-store` 不缓存任何资源
 - `no-cache` 客户端仍然缓存资源，是否使用缓存则需要根据协商缓存的验证规则来决定
@@ -186,22 +191,30 @@ HTTP缓存分为强缓存（cache-control）和协商缓存（e-tag, last_modifi
 第三个问题，**强缓存如何进行存储和读取**？
 
 因为看到强缓存分为 disk cache 和 memory cache，且 disk cache 读取成本高于 memory cache，那么其区别在哪呢？
+
 - 可以类比 sessionStorage 和 localStorage 来进行理解，disk cache会将缓存放在磁盘中，memory cache会放在内存中
 - memory cache 更快，但是生命周期短，关闭页面就会释放，主要用来存放 js 文件，因为 js 文件经常要读取，css 文件可能只用读取一次
 - disk cache 更慢，但是生命周期长，推测清除浏览器缓存时进行清理，通常在内存占用较高时存放文件，或者存放大文件和不常用的文件缓存
 - memory cache 的读取优先级高于 disk cache
 
 
-### 2019-12-13
+### React优化尝试
+
+React的虚拟DOM实际上已经帮我们解决大部分的性能优化，但是这只是思维模型上带来的红利，那么其框架本身如何做优化呢？
+
+- 一个方向是，减少 render() 方法的触发次数
+- 合理拆分组件，尽量不要因为改动，影响整个应用或者其他不相干的组件
+
+#### 2019-12-13
 
 在 react 官网上有[性能优化](https://zh-hans.reactjs.org/docs/optimizing-performance.html)，阅读之后，发现在现有项目基础上有操作的空间
 
 优化点：
-- react 默认是不为每个组件添加 `shouldComponentUpdate` 的生命周期方法的，即每个组件都会按照 diff 算法的规则进行执行
-- 但是你可以在组件内实现该方法，用来表示该组件在何种情况下才需要重新渲染，从而减少了dom渲染的次数，达到优化的目的
-- 除了在每个组件内手动实现 `shouldComponentUpdate` 的方法外，可以使用一种更加粗暴的方式，即直接继承 `React.PureComponent`，这种办法在大部分情况下适用，它是通过 `Object.is()` 的算法来进行比较，这种比较是一种浅比较，结合浅拷贝来理解
-- 也就是说，当你的数据结构比较复杂时，要进行此类优化，最好是自己实现 `shouldComponentUpdate`，否则直接继承 `React.PureComponent` 即可
-- 继承 `React.PureComponent` 时，可以通过浅拷贝的方式，来为 setState() 方法重新赋值，常用的拷贝方法：`Object.assing({})`, `array.concat()`, `[...array, 'newValue']`
+
+- react 默认是不为每个组件添加 `shouldComponentUpdate` 的生命周期方法的，即每个组件都会按照 diff 算法的规则进行执行，但是你可以在组件内实现该方法，用来表示该组件在何种情况下才需要重新渲染，从而减少了dom渲染的次数，达到优化的目的
+- 除了在每个组件内手动实现 `shouldComponentUpdate` 的方法外，React更推荐通过直接继承`React.PureComponent`的方式来进行浅比较，这种办法在大部分情况下适用，它是通过 `Object.is()` 的算法来进行比较，这种比较是一种浅比较，结合浅拷贝来理解，即现比较基本类型，再针对引用类型进行比较，优化比较其长度，之后通过循环进行比较
+- 也就是说，当你的数据结构比较复杂时（即多层引用嵌套），要进行此类优化，最好是自己实现 `shouldComponentUpdate`，否则直接继承 `React.PureComponent` 即可
+- 继承 `React.PureComponent` 时，可以通过浅拷贝的方式，来为 setState() 方法重新赋值，常用的拷贝方法：`Object.assing({})`, `array.concat()`, `[...array, 'newValue']`，这样做是防止指针没变，但是其实际内容发生改变，但是没有触发render()的情况
 - 对于使用了 redux 的应用，在 reducer 内实现拷贝的过程
 
 ```js
@@ -210,6 +223,42 @@ let a = {a: 1};
 let b = a;
 b.a = 2;
 Object.is(a, b); // true
+```
+
+
+#### 2019-12-25
+
+之前的继承 `React.PureComponen` 是针对class组件的，那么对于函数组件应该怎么办呢？
+
+React 提供了 `memo()` 高阶组件来解决这个问题，如果你的组件是一个“纯组件”，即函数在给定相同的props情况下能够渲染出相同的结果，此时可以通过memo来进行优化，它会跳过组件渲染并复用最近的一次渲染结果
+
+默认情况下做浅层比较，但是可以通过传入一个函数进行深度比较
+
+```js
+function HeaderMemo(props) {
+    return (
+        <LocaleContext.Consumer>
+            {/* value 在这里代表 this.context */}
+            {({assets}) =>
+                <Row className='module-header' type='flex' justify='space-between'>
+                    <Col className='text-box'>
+                        <IconFont
+                            className='icon'
+                            type={props.icon.type}
+                            style={props.icon.style} />
+                        <span className='title'>{props.title}</span>
+                    </Col>
+                </Row>
+            }
+        </LocaleContext.Consumer>
+    );
+}
+
+export const Header = React.memo(HeaderMemo, (prevProps, nextProps) => {
+    console.log(prevProps, nextProps);
+    // 与 shouldComponentUpdate 相反，true 表示不需要更新
+    return true;
+});
 ```
 
 

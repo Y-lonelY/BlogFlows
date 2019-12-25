@@ -44,7 +44,8 @@ function practice() {
 			collapsable: false,
 			children: [
 				'GROWTH性能优化实践',
-				'布局方式的实践'
+				'布局方式的实践',
+				'理解一下this'
 			]
 		}
 	]

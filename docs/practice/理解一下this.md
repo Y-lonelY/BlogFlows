@@ -174,4 +174,34 @@ test.call(obj, 26, 'engineer');
 ```
 
 
+### Array.prototype.slice.call(arguments)
+
+在开发过程中，会发现经常会用到 `Array.prototype.slice.call(arguments)`，这一步实际上是对arguments进行拷贝，并且将其转换成为一个数组，看看下面的例子
+
+其原理就是能将具有length属性的对象转成数组，常用的方法：
+
+- `Array.prototype.slice.call(args)`
+- `[].slice.call(args)`
+- `Array.from(args)`
+- 通过for循环进行push操作
+
+```js
+function test(a,b,c) {
+  var args = arguments;
+  console.log(arguments.length); // 3
+  console.log(Array.isArray(args)); // false
+  console.log(typeof args); // object
+  console.log(Object.prototype.toString.call(args)); // '[object Arguments]'
+
+  // 通过 Array.from() 或者 Array.prototype.slice.call() 来将其转换为数组的数据类型
+  var arr = Array.from(args);
+  var arr = Array.prototype.slice.call(args);
+
+  console.log(Array.isArray(arr)); // true
+  console.log(typeof arr); // object
+  console.log(Object.prototype.toString.call(arr)); // '[object Array]'
+}
+test(1,2,3);
+```
+
 

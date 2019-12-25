@@ -50,13 +50,13 @@ function Jsx() {
 }
 ```
 
-### State
+## State
 
 不可以在 react `render()` 方法内使用 `this.setState()`，因为无论何时调用 `setState()` 方法后都会调用 `render()`，如果在 `render()` 内调用 `setState()` 方法，会陷入一个死循环
 
-react 将组件视为状态机（state machines），state 的改变会触发组件的重新渲染
+react 将组件视为状态机，state 的改变会触发组件的重新渲染
 
-不能通过直接赋值 `this.state.data` 来改变 state 值，而是统一通过 `setState()` 来改变
+不能通过直接赋值 `this.state.data` 来改变 state 值，而是统一通过 `setState()` 来改变，因为React的动态绑定不是通过数据劫持来实现的，而是配合diff算法
 
 React 会将多个 `setState()` 调用合并成一个，因此**State 的更新可能是异步的**，如果需要依赖 props 来更新 state，可以通过传入函数回调的办法来解决
 
@@ -68,12 +68,12 @@ this.setState((state, props) => ({
 }));
 ```
 
-整个原生 state 实例的一个实现思路：
+### state的一些冷知识
 
-1. 自定义组件被渲染时， react 会首先去调用组件的构造函数，因此 **构造函数内是唯一可以初始化 state 的地方**
-2. 之后，react 调用组件的 `render()` 方法，来获取应该展示元素，react 更新 dom 以匹配组件的渲染输出
-3. 当组件的输出插入到 dom 中时，调用生命周期钩子 `componentDidMount()` 以及 `setState()` 方法来更新 state
-4. 一旦渲染组件从 dom 中移除，react 会调用生命周期钩子 `componentWillUnmount()` 
+执行`setState()`一定会触发render()方法吗，这里针对class组件和react hook组件来实验两种特殊情况：
+
+- 对于 class组件，`setState(null)` 和 `setState(sameValue)`（即传入相同的值）并不会触发render()方法，因为它在调用setState()时，是进行合并操作
+- 对于 react hook组件，上面两种情况均会触发render()方法，因为它是替换操作，即只要调用了state重新赋值的方法，就一定会调用render()方法
 
 
 ## 组件
