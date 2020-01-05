@@ -1,5 +1,12 @@
 # Vue
 
+## Vue-cli2
+
+`sudo npm install -g @vue/cli` 安装最新的 vue-cli，安装完成之后通过 `vue --version` 来看当前安装的版本
+
+`vue create [app name]` 来创建一个新项目
+
+
 ## VuePress
 
 > 基于 Vue 的静态博客搭建框架

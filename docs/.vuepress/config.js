@@ -31,7 +31,7 @@ module.exports = {
 			'/packages/': getPackagesSide(),
 			'/normalize/': getNormalizeSide('Normalize'),
 			'/concept/': getConceptSide('Concept'),
-			'/tools/': getToolsSide('Tools'),
+			'/tools/': getToolsSide(),
 		}
 	}
 }
@@ -45,23 +45,25 @@ function practice() {
 			children: [
 				'GROWTH性能优化实践',
 				'布局方式的实践',
-				'理解一下this'
+				'理解一下this',
+				'谈谈Vue和React'
 			]
 		}
 	]
 }
 
-function getToolsSide(groupA) {
+function getToolsSide() {
 	return [
 		'/tools/',
 		{
-			title: groupA,
+			title: 'Tools',
 			collapsable: false,
 			children: [
 				'a.babel',
 				'b.shell',
 				'c.developTools',
-				'd.nginx'
+				'd.nginx',
+				'e.development'
 			]
 		}
 	]
@@ -182,6 +184,13 @@ function getCoreSide() {
 			'React/a.basic',
 			'React/b.advanced',
 			'React/c.hook'
+		]
+	}, {
+		title: 'Vue',
+		// 表示不会关闭
+		collapsable: false,
+		children: [
+			'Vue/a.basic'
 		]
 	}, {
 		title: 'HTML5',
