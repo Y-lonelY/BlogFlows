@@ -150,6 +150,8 @@ windows 10 下搜索栏搜索失效
 
 `ctrl - shift - F` 当前文件夹搜索
 
+`option - shift - F` 格式化当前文件
+
 `ctrl - shift - P` 打开命令列表
 
 `ctrl - F2` 替换当前文件所有字符
@@ -165,10 +167,6 @@ windows 10 下搜索栏搜索失效
 OPEN EDITORS - 代表之前打开过的文件
 
 SOURCE CONTROLLER - git GUI 
-
-### extension
-
-[官网](https://marketplace.visualstudio.com/vscode)
 
 
 ## Chrome
