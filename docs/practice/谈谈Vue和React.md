@@ -24,6 +24,16 @@
 基于此，在2020-1-1开始的vue重新学习和整理过程中，我会留意这一点，逐步完善对两种框架的比较
 
 
+## 状态管理模式
+
+实际上就是Vuex和Redux的区别，整体感受是，Vuex将Vue的数据双向绑定重新改造成单向数据流（Vuex更像是全局作用域内的数据双向绑定，这么说的原因是，当设置list.length = 0时，并不能触发view更新）
+
+- store在组件内的映射方式不同，Redux内使用`connect() & mapStateToProps & mapDispatchToprops`来将state和actions进行映射，Vuex使用的是辅助函数`mapState & mapActions` 等来将其映射到Vue的配置中
+- Vuex相比Redux，更进一步，将一些公共数据处理的逻辑封装到`getters`内，使用`actions`来支持异步操作
+- Redux内actions用来返回带type和data的对象，在reducer内根据type进行state更新，Vuex在mutation内进行state更新，actions可以看作高阶mutation，用来支持异步操作
+- reducer内对原state进行拷贝，并且返回一个新的对象，而Vuex则在mutations内直接更改state
+
+
 ## 插槽内容分发
 
 记住，无论是vue还是react，其组件内包裹内容必须通过一种机制来进行承接，作为内容输出出口，否则，组件内的内容会被丢弃掉

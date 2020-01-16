@@ -1,43 +1,5 @@
 # Vue
 
-
-## vscode内配置template
-
-在vscode内配置.vue文件的模版
-
-- 安装 vetur 插件
-- Code -> Performance -> User Snippets -> Vue.json，对json文件进行配置
-
-```json
-// 可以参考，prefix 用于 emmet，相当于口令
-{
-	"Print to console": {
-	  "prefix": "vue.component",  
-	  "body": [
-		"<template>",
-		"<div></div>",
-		"</template>",
-		"",
-		"<script lang='ts'>",
-		"import Vue from 'vue'",
-		"export default Vue.extend({",
-		"name: '',",
-		"data() {",
-		"return {}",
-		"},",
-		"//生命周期 - 创建完成（访问当前this实例）",
-		"created() {},",
-		"</script>",
-		"",
-		"<style lang='scss' scoped>",
-		"",
-		"</style>"
-	  ],
-	  "description": "template for vue component"
-	}
-  }
-```
-
 ## vue-router
 
 通过 `npm install -s vue-router` 安装package
@@ -73,15 +35,15 @@ Vue.use(Router);
 
 // 不仅定义了匹配规则，同时也定义了匹配优先级
 const routes = [
-	// 通过:name进行动态匹配，在组件内通过 `this.$route.params.name` 获取动态参数
-	// 此时 /page1 不会命中该路由，直接展示404
-	// 通过 name 属性来为路由设置别名
+  // 通过:name进行动态匹配，在组件内通过 `this.$route.params.name` 获取动态参数
+  // 此时 /page1 不会命中该路由，直接展示404
+  // 通过 name 属性来为路由设置别名
     { path: '/page1/:name', name: 'page1', component: Page1 },
     // children用于匹配子路由，需要在父路有中，添加 <router-view>
     {
         path: '/page2', component: Page2,
         children: [{
-        	// 匹配到 /page2/child 时会命中
+          // 匹配到 /page2/child 时会命中
             path: 'child',
             component: PageChild
         }]
@@ -174,11 +136,11 @@ const router = new VueRouter({
   routes: [...],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
-    	return savedPosition;
+      return savedPosition;
     } else {
-    	// 利用hash模仿锚点位置
-    	// return to.hash
-    	return {x: 0, y: 0};
+      // 利用hash模仿锚点位置
+      // return to.hash
+      return {x: 0, y: 0};
     }
   }
 })
@@ -208,7 +170,7 @@ router.beforeEach((to, from, next) => {
     next(new Error('error'));
     // 传入一个对象，将其重定向到指定路由，配置参考路由配置
     next({
-    	path: '/page'
+      path: '/page'
     });
 });
 
@@ -216,6 +178,7 @@ router.afterEach((to, from) => {
     console.log(to, from);
 });
 ```
+
 
 
 ## Vue-cli2
@@ -226,8 +189,6 @@ router.afterEach((to, from) => {
 
 
 ## VuePress
-
-> 基于 Vue 的静态博客搭建框架
 
 ### Install
 
@@ -252,6 +213,28 @@ router.afterEach((to, from) => {
 还有一种解决方案，利用 `~` 关键字来指出这是一个 webpack 模块请求，可以配置别名来利用别名引用静态资源，别名在 config.js 内进行配置
 
 公共文件放在 `.vuepress/public` 内进行引用，比如 icon，pwa 图标等，打包出来之后会放在.vuepress/dist/的根目录
+
+可以配置别名来利用别名引用静态资源，别名在 config.js 内进行配置
+
+```js
+module.exports = {
+  // 该参数用于合并 webpack 配置
+  configureWebpack: {
+    // 通过 alias 配置文件目录别名
+    resolve: {
+      alias: {
+        '@alias': 'path/to/some/dir'
+      }
+    }
+  }
+}
+```
+
+在应用过程中，注意 `base` 参数的使用：
+
+- 如果你的网站会被部署到一个非根路径，你将需要在 .vuepress/config.js 中设置 base，比如部署到 `https://y-lonely.github.io/BlogFlows/` 则 `base` 的值为 `/BlogFlows/`，总是以 / 作为开头和结尾
+- 一个 base 路径一旦被设置，它将会自动地作为前缀插入到 .vuepress/config.js 中所有以 / 开始的资源路径中
+- 着就会导致在本地打开 dist 内的 index.html 文件，会找不到引用资源，从而导致样式错误，此时需要注释掉 base 参数设置，则可以在本地正确展示 dist/index.html
 
 ### Config
 
@@ -290,50 +273,50 @@ package.json 文件配置
 
 ```js
 module.exports = {
-	// 页面 title 类似 logo 角色
-	title: "LoreFlows",
-	description: "Welcome To The Knowledge Palace!",
-	head: [
-	// logo
-		['link', { rel: 'icon', href: '/logo.ico'}]
-	],
-	// github 仓库名
-	base: '/BlogFlows/',
-	// 本地运行端口
-	port: 7727,
-	markdown: {
-		lineNumbers: true
-	},
-	themeConfig: {
-		// github 地址
-		repo: 'https://github.com/yanGo1221',
-		// 标题栏导航
-		nav: require('./nav.js'),
-		// 文档根目录
-		docsDir: 'docs',
-		lastUpdated: 'Last Updated',
-		sidebar: {
-			'/tools/': getToolsSide(),
-			// statements
-		}
-	}
+  // 页面 title 类似 logo 角色
+  title: "LoreFlows",
+  description: "Welcome To The Knowledge Palace!",
+  head: [
+  // logo
+    ['link', { rel: 'icon', href: '/logo.ico'}]
+  ],
+  // github 仓库名
+  base: '/BlogFlows/',
+  // 本地运行端口
+  port: 7727,
+  markdown: {
+    lineNumbers: true
+  },
+  themeConfig: {
+    // github 地址
+    repo: 'https://github.com/yanGo1221',
+    // 标题栏导航
+    nav: require('./nav.js'),
+    // 文档根目录
+    docsDir: 'docs',
+    lastUpdated: 'Last Updated',
+    sidebar: {
+      '/tools/': getToolsSide(),
+      // statements
+    }
+  }
 }
 
 function getToolsSide() {
-	return [
-		'/tools/',
-		{
-			title: 'Tools',
-			collapsable: false,
-			children: [
-			// 即 /tools/a.babel.md
-				'a.babel',
-				'b.shell',
-				'c.developTools',
-				'd.nginx'
-			]
-		}
-	]
+  return [
+    '/tools/',
+    {
+      title: 'Tools',
+      collapsable: false,
+      children: [
+      // 即 /tools/a.babel.md
+        'a.babel',
+        'b.shell',
+        'c.developTools',
+        'd.nginx'
+      ]
+    }
+  ]
 }
 ```
 
@@ -341,21 +324,21 @@ function getToolsSide() {
 
 ```js
 module.exports = [{
-	text: '核心',
-	link: '/core/'
+  text: '核心',
+  link: '/core/'
 }, {
-	// 子菜单
-	text: '工程',
-	items: [
-		{
-			text: '项目',
-			link: '/project/'
-		},
-		{
-			text: '规范',
-			link: '/normalize/'
-		}
-	]
+  // 子菜单
+  text: '工程',
+  items: [
+    {
+      text: '项目',
+      link: '/project/'
+    },
+    {
+      text: '规范',
+      link: '/normalize/'
+    }
+  ]
 }];
 ```
 

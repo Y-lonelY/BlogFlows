@@ -2,6 +2,41 @@
 
 > 记录开发过程中综合性和耦合度比较高的组件库
 
+
+## ESLint
+
+eslint已经在MVVM项目被普遍使用，因此了解其在项目内配置和使用显得尤为重要
+
+在项目根目录下添加 `.eslintignore` 文件来跳过指定文件的检查，数据格式和 `.gitignore` 一致
+
+### config
+
+在Vue项目内，其package.json文件内会有eslintConfig字段，可以更改其值来更新配置，也可以采用另一种方法，即在文件根目录下添加 `.eslintrc.js` 文件来修改配置
+
+```js
+// .eslintrc.js
+module.exports = {
+    "root": true,
+    "env": {
+        "node": true
+    },
+    "extends": [
+        "plugin:vue/essential",
+        "eslint:recommended"
+    ],
+    "rules": {
+        // 使用控制台打印
+        "no-console": "off",
+        // 不使用分号
+        "semi": [1, "never"]
+    },
+    "parserOptions": {
+        "parser": "babel-eslint"
+    }
+}
+```
+
+
 ## Moment.js
 
 ::: tip

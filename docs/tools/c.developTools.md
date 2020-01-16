@@ -122,52 +122,6 @@ windows 10 下搜索栏搜索失效
 3. 在 Mac 内，**finder->前往->连接服务器->smb://windows's ip address**
 4. 使用 Windows 账号和密码登录，就可以操作共享文件夹了
 
-## VS Code
-
-> 通常用来开发 react, TypeScript 应用
-
-### HotKey
-
-`ctrl - B` 显示/隐藏 侧边栏
-
-`ctrl - O` 打开文件
-
-`ctrl - K - O` 打开文件夹
-
-`ctrl - N` 新建文件
-
-`ctrl - \` 分屏
-
-`ctrl - NUM` 切屏
-
-`ctrl - TAB` 在当前屏内切换文件
-
-`ctrl - ~` 调用 TERMINAL
-
-`ctrl - P` 快速打开文件
-
-`ctrl - F` 当前文件搜索
-
-`ctrl - shift - F` 当前文件夹搜索
-
-`option - shift - F` 格式化当前文件
-
-`ctrl - shift - P` 打开命令列表
-
-`ctrl - F2` 替换当前文件所有字符
-
-### Cluster
-
-**vscode 修改默认shell**
-
-`ctrl - shift - P` 打开命令列表，输入 Ternimal: select default shell，选择相应的 shell
-
-### Panel
-
-OPEN EDITORS - 代表之前打开过的文件
-
-SOURCE CONTROLLER - git GUI 
-
 
 ## Chrome
 
