@@ -96,8 +96,7 @@ function getPackagesSide() {
                 'a.cluster',
                 'c.swift',
                 'd.python',
-                'e.node',
-                'f.vue'
+                'e.node'
             ]
         }
     ]
@@ -188,7 +187,7 @@ function getCoreSide() {
             collapsable: false,
             children: [
                 'Vue/a.basic',
-                'Vue/a.advanced',
+                'Vue/b.advanced',
             ]
         }, {
             title: 'HTML5',

@@ -24,6 +24,14 @@
 基于此，在2020-1-1开始的vue重新学习和整理过程中，我会留意这一点，逐步完善对两种框架的比较
 
 
+## 性能优化
+
+组件性能优化：
+
+- React内通过`shouldComponentUpdate & pureComponent`来控制组件是否重新渲染
+- Vue内已经存在组件优化策略，相当于每个组件都添加了shouldComponentUpdate生命周期钩子，值得一提的是，Vue提供`v-once`指令，用于控制Node是否需要重新渲染
+
+
 ## 状态管理模式
 
 实际上就是Vuex和Redux的区别，整体感受是，Vuex将Vue的数据双向绑定重新改造成单向数据流（Vuex更像是全局作用域内的数据双向绑定，这么说的原因是，当设置list.length = 0时，并不能触发view更新）

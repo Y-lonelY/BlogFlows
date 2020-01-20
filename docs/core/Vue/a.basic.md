@@ -8,6 +8,33 @@
 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的
 
 
+## 控制元素
+
+类似React的Ref钩子，Vue也提供一些办法来控制DOM元素（或者组件）
+
+- 通过ref方法，来勾入指定dom元素
+- 通过`directive`自定义指令
+
+ref简单用法，注意生命钩子函数方法应该和`$el`获取的时机一致
+
+```vue
+<template>
+    <input type="text" ref='inputRef'>
+</template>
+
+<script>
+import Vue from "vue"
+
+export default Vue.extend({
+  name: "FormTest",
+  mounted() {
+      this.$refs.inputRef.focus()
+  }
+})
+</script>
+```
+
+
 ## render函数内h代表什么
 
 在通过vue-cli创建的Vue应用内，观察其入口`main.js`，发现一段代码如下：
