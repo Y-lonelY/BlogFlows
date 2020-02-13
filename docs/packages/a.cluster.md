@@ -28,7 +28,9 @@ module.exports = {
         // 使用控制台打印
         "no-console": "off",
         // 不使用分号
-        "semi": [1, "never"]
+        "semi": [1, "never"],
+        // 函数方法前添加空格
+        "space-before-function-paren": 1,
     },
     "parserOptions": {
         "parser": "babel-eslint"

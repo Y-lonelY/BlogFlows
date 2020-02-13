@@ -8,6 +8,30 @@
 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的
 
 
+## tricks
+
+对于通过props传递的数据，在computed或者data内进行数据封装，根据规范，props要写在data前面
+
+### props用于向子组件传递数据
+
+注意：HTML中的attribute名称是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符，因此，在使用template时：
+
+- template需要使用kebab-case命名规则（即短横线分割）
+- script内引入时使用camelCase命名规则
+
+### 自定义事件
+
+在组件内添加自定义事件，然后通过 `$emit` 来主动触发
+
+```js
+// 自定义event
+<my-component v-on:my-event="doSomething"></my-component>
+
+// 触发event
+this.$emit('my-event')
+```
+
+
 ## 控制元素
 
 类似React的Ref钩子，Vue也提供一些办法来控制DOM元素（或者组件）

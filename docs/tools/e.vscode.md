@@ -55,7 +55,7 @@ Vetur, ESLint, Prettier
 
 首先安装插件，Vetur, ESLint, Prettier
 
-之后打开系统设置，进行文档编辑，添加如下配置
+之后打开系统设置，点击右上角，选择进行文档编辑，添加如下配置
 
 ```json
 {
@@ -67,6 +67,10 @@ Vetur, ESLint, Prettier
         "semi": false
         }
     },
+        
+    // 设置函数前添加空格
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
 }
 ```
 
