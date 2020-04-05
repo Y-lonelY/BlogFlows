@@ -211,7 +211,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapMutations({
-      // 实际上映射成 this.$store.commit('add')	
+      // 实际上映射成 this.$store.commit('add')
       add: 'add'
     })
   },
@@ -287,9 +287,77 @@ export default Vue.extend({
 </script>
 ```
 
+
 ## module
 
 模块化是为了解决数据或者业务复杂的场景，Vuex通过module允许我们将store进行切分，每个module拥有自己的state,getters,actions,mutations
 
+一个简单的例子：注意 `namespaced` 的使用，如果设置为 true，则相当于添加 `moduleName: { ...module content }`，为模块设置了一个命名空间，将其内容放在该命名空间下
 
+先看看 `module` 在store.js内的应用
 
+```js
+// store.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import topology from './topologyModule'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    "topology": topology
+  },
+  // statements
+})
+
+export default store
+```
+
+接着写入一个module.js
+
+```js
+// module.js
+export default {
+  namespaced: true,
+  state: {
+    // 原始数据
+    data: {
+      nodes: [],
+      edges: []
+    },
+  },
+  mutations: {
+    // payload 为传参
+    setTopologyData (state, { data }) {
+      state.data = Object.assign({}, data)
+    },
+  }
+}
+```
+
+最后，解决在组件内引用问题
+
+```vue
+<script>
+import { mapState, mapMutations } from "vuex"
+
+export default {
+  name: "TopologyDetails",
+  computed: {
+    // 第一种写法, state/moduleName/state
+    ...mapState({
+      currentNode: state => state.topology.data,
+    }),
+    // 第二种写法，先配置好路径，再引用 state
+    ...mapState('topology', {
+      currentNode: state => state.data,
+    }),
+  methods: {
+    ...mapMutations('topology', {
+      setTopologyData: 'setTopologyData'
+    })
+  }
+}
+</script>
+```

@@ -57,20 +57,20 @@ Vetur, ESLint, Prettier
 
 之后打开系统设置，点击右上角，选择进行文档编辑，添加如下配置
 
+查看[Vetur](https://vuejs.github.io/vetur/formatting.html#formatters) 可以观察格式化的相关配置
+
 ```json
 {
 	// 行末不添加分号
 	"prettier.semi": false,
-    // vetur 的自定义设置
-    "vetur.format.defaultFormatterOptions": {
-        "prettier": {
-        "semi": false
-        }
-    },
-        
-    // 设置函数前添加空格
-    "vetur.format.defaultFormatter.js": "vscode-typescript",
-    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+	// 设置默认格式化方式为 prettier-eslint，会默认在函数前添加空格
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  // vetur 的自定义设置
+  "vetur.format.defaultFormatterOptions": {
+      "prettier": {
+      "semi": false
+      }
+  },
 }
 ```
 

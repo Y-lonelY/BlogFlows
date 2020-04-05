@@ -25,6 +25,28 @@
 清除换行：`str.replace(/[\r\n]/g, '')`
 
 
+## 实现复制功能
+
+span, div等标签的点击复制，通过 `document.execCommand('copy')` 实现
+
+```js
+onClick={(e) => {
+    if (document.execCommand('copy')) {
+      // 创建一个input标签用于承接内容
+      const input = document.createElement('input')
+      input.setAttribute('value', ips.join(' ').trim())
+      document.body.appendChild(input)
+      // 选中input，使其获得页面焦点
+      input.select()
+      // 执行复制命令，返回复制是否成功
+      const res = document.execCommand('copy')
+      input.remove()
+      res && message.success('复制到剪贴板', 2)
+    }
+}}
+```
+
+
 ## 函数节流与防抖
 
 underscore函数节流
@@ -50,6 +72,30 @@ var throttled = _.throttle(updatePosition, 100, {trailing: false});
 由 `setTimeout()` 调用的代码运行在与所在函数完全分离的执行环境上，这会导致代码中包含的 `this` 在非严格模式下指向 `window` 对象，在严格模式为 undefined
 
 在浏览器中，`setTimeout()` 最小时延为 4ms
+
+
+### 交互中双击时屏蔽单击事件
+
+场景：一个元素同时绑定双击和单击事件，如果如果触发双击事件则会先触发一次单击事件
+
+通过定时器来实现双击事件屏蔽单机事件，如果在规定时间间隔内，再次点击该节点，则认定此次触发双击事件，则取消单击事件的执行
+
+```js
+let timer = null
+
+element.addEventListener('click', () => {
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    // statements
+  }, 400)
+})
+
+element.addEventListener('doubleClick', () => {
+  clearTimeout(timer)
+  // statement
+})
+```
+
 
 ### 解决递归导致的堆栈溢出
 

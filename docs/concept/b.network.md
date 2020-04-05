@@ -4,7 +4,7 @@
 
 
 ## 进程通信
-  
+
 在操作系统中，进行通信的实际上是进程（process）而不是程序。一个进程可以被认为是运行在端系统的一个程序
 
 当进程运行在相同的端系统(即同一电脑)上时，它们使用进程间的通信机制相互通信。进程间通信的规则由端系统上的操作系统确定
@@ -75,6 +75,8 @@ Web 页面由**对象**组成，一个对象就是一个文件，该文件可以
 
 200 请求成功
 
+302：重定向状态码表明请求的资源被暂时的移动到了由Location 头部指定的URL上，在通过后端转发接口是可以触发
+
 304 not modified 资源没有发生改变，有响应报文但是不返回具体资源
 
 - 可以关联到 http 缓存的协商缓存，`E-tag/If-None-Match`, `Last-Modified/If-Modified-Since`
@@ -91,6 +93,8 @@ Web 页面由**对象**组成，一个对象就是一个文件，该文件可以
 - koa2 下如果因为代码问题，比如没有编写 `ctx.body = result` 也会返回 404
 
 405 - Method Not Allowed 指定资源不支持该方法，比如指定post，发送一个 get 请求
+
+431 - Request Header Fields Too Large get方法请求头内params太多引起
 
 500 Internet Server Eroor 服务器错误
 
@@ -127,7 +131,7 @@ Connection: keep-alive
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3390.0 Safari/537.36
 
 // Accept-Language 表示用户想要得到该对象的语言版本
-Accept-Language: zh-CN,zh;q=0.9 
+Accept-Language: zh-CN,zh;q=0.9
 ```
 
 HTTP 请求报文的通用格式：请求行，首部行，空行，实体主体
@@ -227,7 +231,7 @@ HTTP 在其默认方式下使用持续连接，通过 `Connection: keep-alive` �
 
 ## Cookie  
 
-cookie 可以在无状态的 HTTP 之上建立一个用户会话层，允许站点对用户进行跟踪 
+cookie 可以在无状态的 HTTP 之上建立一个用户会话层，允许站点对用户进行跟踪
 
 cookie 技术包含四个组件：
 
@@ -236,7 +240,7 @@ cookie 技术包含四个组件：
 - 在用户端系统中保留一个 cookie 文件，并由用户的浏览器进行管理
 - 位于 Web 站点的一个后端数据库
 
-![Cookie](./assets/cookie.png) 
+![Cookie](./assets/cookie.png)
 
 Web 缓存器也叫代理服务器，它是能够代表初始 Web 服务器来满足 HTTP 请求的网络实体
 
@@ -256,4 +260,3 @@ HTTP 协议有一种机制，允许代理服务器证实它的对象是最新的
 代理服务器在存储响应对象的同时，也对其响应报文的 `Last-Modified` 值进行存储，当同一对象再次被请求时，代理服务器会在请求报文中添加 `If-Modified-Since` 字段，且其值等于之前存储的 `Last-Modified` 的值，通过该条件GET方法告诉服务器，仅当自指定日期之后该对象被修改过，才发送此对象
 
 如果响应对象未被修改，则 Web 服务器还是会向代理服务器发送响应报文，但是该响应报文中不包含所请求的对象，并且最后响应报文中，状态行为 304 Not Modified
-

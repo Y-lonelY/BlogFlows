@@ -122,7 +122,7 @@ ES6提供了 `import() & export()` 方法
 - 一个文件就是一个模块，不支持按需加载
 - ES6 模块是静态的，即导入后无法进行更改
 - ES6 是指针绑定，在编译时输出，不同于CommonJS值绑定，模块内做出了修改，会反映到所有使用该模块的代码中
-- ES6模块采用的是单例模式，每次对同一个模块的导入其实都指向同一个实例 
+- ES6模块采用的是单例模式，每次对同一个模块的导入其实都指向同一个实例
 
 
 ## 渲染关键路径
@@ -191,7 +191,7 @@ URL 结构：
 明确一个概念，一个 URL 就是一个特定资源，该资源可能需要引用多个其他资源作为支撑
 
 服务端交互获取渲染对象
-    
+
 - DNS 解析
 - HTTP 请求（ TCP 三次握手，四次分手，请求/响应报文结构，Cookie，代理服务器）
 
@@ -209,7 +209,7 @@ URL 结构：
 
 - 通过 Nginx 反向代理
 - 结合 src 属性，通过 jsonp 来处理跨域
-- iframe 通过 postMessage 和 addEventListener('message') 
+- iframe 通过 postMessage 和 addEventListener('message')
 - 通过 websocket 进行通信
 
 jsonp 缺点：
@@ -227,7 +227,7 @@ window.addEventListener('message', function (e) {});
 // jsonp
 // 向服务器test.com发出请求，该请求的查询字符串有一个callback参数，用来指定回调函数的名字
 <script src="http://test.com/service?callback=dosomething"></script>
- 
+
 // 处理服务器返回回调函数
 <script type="text/javascript">
     function dosomething(res){
@@ -245,13 +245,46 @@ dosomething({data: data});
 var socket = new WebSocket("ws://www.test.com/service/data.do");
 // 只能够发送少量 string 类型的数据
 socket.send('hello');
-// 客户端接受服务端信息，通过监听 message 
+// 客户端接受服务端信息，通过监听 message
 socket.on('message', function(event) {
     var data = event.data;
 })
 // 关闭 socket 协议
 socket.close();
 ```
+
+### iframe 跨域问题
+
+这里记录一下项目内碰到的跨域问题以及解决办法 #2020-04-03
+
+iframe 相关跨域问题
+- [CSP: frame-ancestors](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors)
+
+iframe srcdoc属性尝试和拉取指定url的document，在这个过程中：
+- 通过http请求获取指定url的文档模型
+- 通过http请求获取仍然存在跨域问题，通过替换成其他url，发现可以获取到html元素，但是其中的引用资源，如果本身是相对路径，则会在本域加载不到
+- 在请求过程中服务器做了一次转发，因此会出现302状态码，直接被onerror捕获错误
+
+```js
+// 获取指定url的document
+getUrl () {
+  var request = this.makeHttpObject()
+  request.open("GET", targetUrl, true)
+  request.send(null)
+  request.addEventListener("loadend", function (e) {
+    console.log(e.target.responseText)
+    self.$refs.iframe.srcdoc = e.target.responseText
+  })
+  request.addEventListener("error", function (e) {
+    const headers = request.getResponseHeader("location")
+    console.log({ e, headers })
+  })
+},
+```
+
+
+
+
 
 ## 对象
 

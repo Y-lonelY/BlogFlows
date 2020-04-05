@@ -3,14 +3,43 @@
 > 渐进式JavaScript框架
 
 
-## rules
+## concept
+
+渐进式：意味着可以将Vue作为应用的一部分进行嵌入，来提供更丰富的交互体验，或者使用vue的生态来支持更多的业务逻辑实现
+
+编程范式：声明式编程，不同于原生js和jquery的命令式编程，通过一个基本例子理解一下
+
+```html
+// 声明式编程，将数据管理托付给vue实例
+<div id="app">{{ message }}</div>
+...
+<script>
+const app = new Vue({
+  el: "app",
+  data: {
+    message: 'hello world'
+  }
+})
+</script>
+```
 
 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的
 
 
 ## tricks
 
-对于通过props传递的数据，在computed或者data内进行数据封装，根据规范，props要写在data前面
+1. 对于通过props传递的数据，在computed或者data内进行数据封装，根据规范，props要写在data前面
+
+2. 在Vue组件内使用JSX，通过javascript来返回模版内容，值得注意的是，在Vue生态系统中，通常将`h`作为`createElement`
+
+```js
+function Test() {
+  return h => (
+    <div>test</div>
+  )
+}
+```
+
 
 ### props用于向子组件传递数据
 
@@ -29,6 +58,53 @@
 
 // 触发event
 this.$emit('my-event')
+```
+
+
+## 组件
+
+先整理一套Vue组件的模版
+
+```vue
+<template>
+<div :title="" @click="onClick" class="content">hello, {{ name }}</div>
+</template>
+
+<script>
+export default ({
+  name: 'TestComponent',
+  components: [],
+  mixins: [],
+  props: {
+    title: {
+      type: String,
+      default: ""
+    }
+  },
+  data () {
+    return {
+      name: 'world'
+    }
+  },
+  computed: {
+    title: {
+      get: function() {},
+      set: function() {}
+    }
+  },
+  watch: {
+    name: function(valu, oldVal) {
+
+    }
+  },
+  created () {},
+  mounted () {},
+  updated () {},
+  methods: {
+    onClick () {}
+  }
+})
+</script>
 ```
 
 
@@ -293,7 +369,7 @@ export default Vue.extend({
     created: function() {
         console.log('created', this.$el);
     },
-     
+
     // 挂载开始之前被调用：相关的渲染函数首次被调用，此时还没有创建vm.$el
     beforeMount: function() {
         console.log('beforeMount', this.$el) ;
@@ -306,13 +382,13 @@ export default Vue.extend({
 			console.log('all children components re-rendered');
         });
     },
-	
+
 	// 当data被修改时，立即进入该生命周期
 	// 这里适合在更新之前访问现有的 DOM，比如手动移除已添加的事件监听器
     beforeUpdate: function() {
         console.log('beforeUpdate');
     },
-	
+
 	// 当前组件重新渲染完毕之后调用该生命周期
     updated: function() {
         console.log('update');

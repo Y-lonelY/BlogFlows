@@ -89,6 +89,34 @@ Math.max(...arr) // 3
 
 ## window 对象
 
+
+### addEventListener
+
+JavaScript 通过 `addEventListener()` 来为元素添加事件，现对其最后一个参数 `useCapture` 来进行解析
+
+`useCapture` 用来指示事件是在捕获阶段（true）还是冒泡阶段（false）执行
+
+```js
+window.addEventListener("click", function(){console.log(1)}, false);
+window.addEventListener("click", function(){console.log(2)}, true);
+window.addEventListener("click", function(){console.log(3)}, false);
+window.addEventListener("click", function(){console.log(4)}, true);
+
+// => 2, 4, 1, 3
+```
+
+对于有些事件，比如 `focus`, `blur` 等，无法进行冒泡，则此时可以设置 `useCapture=true` 来让其它同样事件也可以捕获到，从而触发方法
+
+#### 不常用事件
+
+场景：使用antd的Menu组件，需要监听浏览器前进/后退操作
+
+由于获取菜单数据是一个异步过程，因此之前在`update()`方法内进行控制，但是这样的坏处在于无法监听到浏览器前进/后退的变化，因此更改了控制时机
+- 通过 `watch: {menu () {...}}` 来执行获取到menu之后的控制
+- 通过 `window.addEventListener("hashchange", () => {})` 来触发浏览器操作引起的路由变化
+
+
+
 ### Scroll
 
 scroll 处理浏览器 sider 滚动
