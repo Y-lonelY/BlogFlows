@@ -91,7 +91,7 @@ function getPackagesSide() {
             children: [
                 'React/react',
                 'React/redux',
-                'Scenes/index',
+                'Scenes/a.monitor',
                 'Vue/vue',
                 'Vue/vuex',
                 'a.cluster',
@@ -142,7 +142,7 @@ function getProjectSide() {
             title: 'Git',
             collapsable: false,
             children: [
-                'Git/index',
+                'Git/a.cluster',
             ]
         }, {
             title: 'TypeScript',
