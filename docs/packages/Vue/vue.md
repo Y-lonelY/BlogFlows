@@ -58,6 +58,88 @@ Vue.component(Input.name, Input)
 - `this.$route` 访问当前路有对象，在组件生命周期函数内均可以访问
 - `this.$router` 访问路由器，可以通过路由器来进行路有控制，相当于一个Router实例
 
+
+### Q&A
+
+1. `Navigating to current location is not allowed`
+
+- 原因：导航重复请求，由 vue-router 抛出错误
+- 解决：屏蔽这个错误提示，vue-router 升级版本之后，`Router.push()` 改为异步方法，通过重写 `catch` 方法来阻止抛出错误的操作
+
+```js
+// 捕获这个错误，但是不再抛出
+this.$router.push({
+    name: "host",
+    query: this.queryData
+}).catch(err => {})
+```
+
+### 导航守卫
+
+**全局守卫**
+
+从一个路由跳转至一个新的路由，期间会经历一个过程，即已经离开当前路由和即将进入新的路由，这两个过程由vue-router提供的导航守卫来进行控制
+
+- 全局前置守卫，通过 `router.beforeEach((to, from, next) => {})` 进行，对于前置守卫，它可以在适当的时机更改路由，其表现通过 `next()` 函数的传参进行控制，且该方法必须被调用来resolve这个守卫函数，需要重点关注`next()`的表现
+- 全局后置守卫，通过 `router.afterEach((to, from) => {})` 进行
+- 可以为每个路由单独配置守卫
+
+```js
+// statements
+const router = new Router({
+    routes
+});
+
+router.beforeEach((to, from, next) => {
+    console.log(to, from);
+    // 不进行传参，则表示执行下一个钩子，如果全部钩子函数执行完毕，则导航状态更新为confirmed
+    next();
+    // 传入一个布尔值，且值为false，会中断当前导航，如果该过程中url发生改变，则重定向为from地址
+    next(false);
+    // 传入一个Error实例，会使导航终止，且错误会上报给 router.onError()
+    next(new Error('error'));
+    // 传入一个对象，将其重定向到指定路由，配置参考路由配置
+    next({
+      path: '/page'
+    });
+});
+
+router.afterEach((to, from) => {
+    console.log(to, from);
+});
+```
+
+**组件内守卫**
+
+即在组件内可以通过钩子函数监听到路由变化
+- 需要显示调用 `next()`
+- 在 `beforeRouteEnter` 内，Vue 实例还没有初始化，此时不能直接访问 this，但是可以通过传递回调来兼容
+- `beforeRouteLeave` 通常使用场景：禁止用户在还未保存修改行为时突然离开，通过 `next(false)` 来阻止取消路由跳转
+
+```js
+export default {
+  beforeRouteEnter (to, from, next) {
+    // 在渲染该组件的对应路由被 confirm 前调用
+    // 不能获取组件实例 `this`，因为当守卫执行前，组件实例还没被创建
+    next(vm => {
+      // 兼容方法，传递回调函数，在实例创建后调用
+    }) 
+  },
+  beforeRouteUpdate (to, from, next) {
+    // 在当前路由改变，但是该组件被复用时调用
+    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用
+    // 可以访问组件实例 `this`
+  },
+  beforeRouteLeave (to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    next(false)
+  }
+}
+```
+
+
 ### 基本使用
 
 动态路由匹配和嵌套路由的区别：其命中路由相似，但是其意义不同，嵌套路由会在当前路由内渲染子路由，有父子关系
@@ -194,40 +276,6 @@ const router = new VueRouter({
   }
 })
 ```
-
-### 导航守卫
-
-从一个路由跳转至一个新的路由，期间会经历一个过程，即已经离开当前路由和即将进入新的路由，这两个过程由vue-router提供的导航守卫来进行控制
-
-- 全局前置守卫，通过 `router.beforeEach((to, from, next) => {})` 进行，对于前置守卫，它可以在适当的时机更改路由，其表现通过 `next()` 函数的传参进行控制，且该方法必须被调用来resolve这个守卫函数，需要重点关注`next()`的表现
-- 全局后置守卫，通过 `router.afterEach((to, from) => {})` 进行
-- 可以为每个路由单独配置守卫
-
-```js
-// statements
-const router = new Router({
-    routes
-});
-
-router.beforeEach((to, from, next) => {
-    console.log(to, from);
-    // 不进行传参，则表示执行下一个钩子，如果全部钩子函数执行完毕，则导航状态更新为confirmed
-    next();
-    // 传入一个布尔值，且值为false，会中断当前导航，如果该过程中url发生改变，则重定向为from地址
-    next(false);
-    // 传入一个Error实例，会使导航终止，且错误会上报给 router.onError()
-    next(new Error('error'));
-    // 传入一个对象，将其重定向到指定路由，配置参考路由配置
-    next({
-      path: '/page'
-    });
-});
-
-router.afterEach((to, from) => {
-    console.log(to, from);
-});
-```
-
 
 
 ## Vue-cli2

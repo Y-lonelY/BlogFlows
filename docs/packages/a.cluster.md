@@ -135,7 +135,20 @@ export { get, post }
 lodash 的 `_.isEqual()` 方法用来比较数组，对象等数据结构与原生JavaScript的区别：
 
 - 原生JavaScript比较两者引用地址，如果指向同一块内存则相等，不关心值是否一致
-- `isEqual()` 用来比较值是否相等
+- `isEqual()` 会继续比较值是否相等
+
+### pick && omit
+
+在给定对象中挑选/剔除指定属性，同时返回一个新的对象，这个过程不会更改原对象，注意 `omit` 会忽略属性之外的继承的可枚举属性
+
+```js
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
+
+let obj = {a,b,c}
+let p_obj = pick(obj, [a, b]) // {a,b}
+let e_obj = emit(obj, [a, b]) // {c}
+```
 
 
 

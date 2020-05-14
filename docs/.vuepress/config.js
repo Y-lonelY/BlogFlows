@@ -56,14 +56,14 @@ function getToolsSide() {
     return [
         '/tools/',
         {
-            title: 'Tools',
+            title: 'Muscle',
             collapsable: false,
             children: [
-                'a.babel',
-                'b.shell',
-                'c.developTools',
-                'd.nginx',
-                'e.vscode'
+                'muscle/a.babel',
+                'muscle/b.shell',
+                'muscle/c.developTools',
+                'muscle/d.nginx',
+                'muscle/e.vscode'
             ]
         }
     ]

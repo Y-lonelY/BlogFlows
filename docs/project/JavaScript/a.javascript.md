@@ -25,14 +25,20 @@
 清除换行：`str.replace(/[\r\n]/g, '')`
 
 
-## 实现复制功能
+## 前端复制
 
-span, div等标签的点击复制，通过 `document.execCommand('copy')` 实现
+复制的本质就是数据的存取，前端实现复制功能的思路：
+- [x] M1: 利用 `document.execCommand('copy')` 执行复制到剪切板的操作
+- [x] M2: 利用 `window.sesstionStorage` 进行前端缓存
+
+**M1**
+
+span, div等标签的点击复制，通过动态插入、获取 input 元素内容，结合 `document.execCommand('copy')` 实现内容复制
 
 ```js
 onClick={(e) => {
     if (document.execCommand('copy')) {
-      // 创建一个input标签用于承接内容
+      // 创建一个input标签用于承接内容 
       const input = document.createElement('input')
       input.setAttribute('value', ips.join(' ').trim())
       document.body.appendChild(input)
@@ -44,6 +50,25 @@ onClick={(e) => {
       res && message.success('复制到剪贴板', 2)
     }
 }}
+```
+
+**M2**
+
+通过事件触发，将数据转换为字符串后进行存取
+
+```js
+function copy () {
+  try {
+    window.sessionStorage.setItem('plcCopyTemp', JSON.stringify(current))
+    message.success('复制成功', 1, () => {
+      // statements
+    })
+  } catch (e) {
+    message.error(`复制失败${String(e.message)}`, 1, () => {
+      // catch error handle
+    })
+  }Ï
+}
 ```
 
 

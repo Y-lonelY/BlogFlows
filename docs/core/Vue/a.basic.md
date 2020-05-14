@@ -26,11 +26,57 @@ const app = new Vue({
 父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的
 
 
+## props
+
+单独将 props 拎出来，是因为在开发过程中经常碰到这样的错误：
+
+`[Vue]avoid mutating a prop directly` 当直接将 prop 属性应用到子组件渲染上时发生
+- 原因：当父组件属性值发生改变时，自组件会重新渲染，如果此时子组件也存在控制该值的动作，则很可能会发生冲突，当父组件发生改变时，会将子组件的改变覆盖，或者父子组件数据不同步，**这样违背了数据单一性原则**
+- 解决：将 prop 内的属性值代理到 data 或者 computed 内，也可以 watch value，之后通过 `this.$emit()` 来触发父组件改变 props 值，从而始终满足数据从上至下控制
+- 注意在 JavaScript 中对象和数组是通过引用传入的，所以对于一个数组或对象类型的 prop 来说，在子组件中改变变更这个对象或数组本身将会影响到父组件的状态
+
+接下来对 props 属性进行一个全面的梳理：
+
+在 html 内，props property 必须为 kabab-case 命名，在 js 内可以为 camelCase 或者 kabab-case
+
+注意区别传入一个对象和传入一个对象所有的 `property`
+
+```js
+// 传入一个对象
+<Test :obj="{a:1}" />
+
+// 传入一个对象的所有属性
+let obj = {a: 1, b: 2}
+<Test v-bind="obj" />
+// 等价于 -->
+<Test :a="obj.a" :b="obj.b" />
+````
+
+Props 的类型检查
+
+支持类型：String, Number, Boolean, Array, Object, Function, Symbol, Date
+这里需要注意的是，可以直接为 `default` 设置默认值为 undefined 而不需要在 `type` 内进行配置
+
+如果子组件内没有配置相应的 `props` 来接受某个属性传递，则该属性会直接 mount 到根元素，这个特性可以通过 `inheritAttrs: true | false` 来进行控制
+
+仅仅针对传递 `style` 和 `class`，会自动进行合并操作而不是替换
+
+### 自定义事件
+
+在组件内添加自定义事件，然后通过 `$emit` 来主动触发
+
+```js
+// 父组件内自定义event
+<my-component v-on:my-event="doSomething"></my-component>
+
+// 自组件内触发event
+this.$emit('my-event')
+```
+
+
 ## tricks
 
-1. 对于通过props传递的数据，在computed或者data内进行数据封装，根据规范，props要写在data前面
-
-2. 在Vue组件内使用JSX，通过javascript来返回模版内容，值得注意的是，在Vue生态系统中，通常将`h`作为`createElement`
+在Vue组件内使用JSX，通过javascript来返回模版内容，值得注意的是，在Vue生态系统中，通常将`h`作为`createElement`
 
 ```js
 function Test() {
@@ -38,26 +84,6 @@ function Test() {
     <div>test</div>
   )
 }
-```
-
-
-### props用于向子组件传递数据
-
-注意：HTML中的attribute名称是大小写不敏感的，所以浏览器会把所有大写字符解释为小写字符，因此，在使用template时：
-
-- template需要使用kebab-case命名规则（即短横线分割）
-- script内引入时使用camelCase命名规则
-
-### 自定义事件
-
-在组件内添加自定义事件，然后通过 `$emit` 来主动触发
-
-```js
-// 自定义event
-<my-component v-on:my-event="doSomething"></my-component>
-
-// 触发event
-this.$emit('my-event')
 ```
 
 
