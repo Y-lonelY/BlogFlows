@@ -1,5 +1,6 @@
 <!-- MarkdownTOC -->
 
+- [import && export](#import--export)
 - [Promise](#promise)
 - [class](#class)
   - [super 关键字](#super-%E5%85%B3%E9%94%AE%E5%AD%97)
@@ -16,6 +17,21 @@
     - [Promise.prototype.finally\(\)](#promiseprototypefinally)
 
 <!-- /MarkdownTOC -->
+
+## import && export
+
+ES6 Module 用来解决模块化的问题，将一个大文件拆分成互相依赖的小文件，再将其进行拼接
+
+ES6 之前的 `require` 方法和 ES6 的 `module` 简单比较
+
+**before ES6 -- require**
+- `require` 是**运行时加载**，获取的是值的拷贝，这意味着一旦 require 成功，模块更改也不会影响已经 require 的模块
+- require 方式获取值，在 class 内外都可以拿到值
+
+**ES6 -- module**
+- `module` 是**编译时加载**（或者说静态加载），ES6 可以在编译时就完成模块的加载，效率更高，获取的是文件
+- import 方式获取值，在 class 外调值为 undefined，在 class 内调用能够正常拿到值，因为在实例化类的时候，才会去调用这个 import module
+- `export` 的本质是在接口名和内部变量之间建立一一对应关系
 
 ## Promise
 
