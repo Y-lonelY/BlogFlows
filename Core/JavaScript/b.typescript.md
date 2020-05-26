@@ -1,5 +1,7 @@
 <!-- MarkdownTOC levels="2,3" -->
 
+- [useful features](#useful-features)
+- [how React hooks work with TypeScript](#how-react-hooks-work-with-typescript)
 - [declare](#declare)
 - [结合React Ref 进行使用](#%E7%BB%93%E5%90%88react-ref-%E8%BF%9B%E8%A1%8C%E4%BD%BF%E7%94%A8)
 - [对dom节点进行类型断言](#%E5%AF%B9dom%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80)
@@ -16,6 +18,41 @@
 - [function](#function)
 
 <!-- /MarkdownTOC -->
+
+## useful features
+
+**thress features to reducing the noise**
+
+三个方法去避免重复定义相似的类型，减少接口描述的噪音
+
+- `Pick<T, 'x', 'y'>` 返回 T 内 x,y 的定义
+- `Omit<T, 'x', 'y'>` 返回 T 内除了 x,y 的定义
+- `Partial<T>` T 内任意 key 均可
+
+![features](./assets/features.png)
+
+## how React hooks work with TypeScript
+
+**TypeScript with Class Component(Old React)**
+
+在 class 组件内使用 TypeScript 通常很麻烦，因为需要同时定义 `props` 和 `state`，通常需要重复定义，具体可以[参看](#%E7%BB%93%E5%90%88react-ref-%E8%BF%9B%E8%A1%8C%E4%BD%BF%E7%94%A8)
+
+**Benefits of TypeScript with Hooks**
+
+从下面的例子可以看出，大多数 state 都是依赖 props 进行初始化，通过 Hooks 不需要显示地去定义 `state`，而是通过 Testprops 去进行检测
+
+相对于 class 的用法， hooks 可以单独定义每一个 state，更加易用
+
+```ts
+interface Testprops {
+  value: string
+}
+
+function Test({ value }: Testprops) {
+  const [test, setTest] = useState(value)
+  const [other, setOther] = useState(false)
+}
+```
 
 ## declare
 
@@ -39,6 +76,14 @@ declare class Greeter {
 
 ```js
 import React from 'react';
+
+interface DrawerViewProps {
+  // statements
+}
+
+interface DrawerViewState {
+  // statements
+}
 
 class DrawerForm extends React.PureComponent<DrawerViewProps, DrawerViewState> {
     // ts 声明 myRef 类型

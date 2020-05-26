@@ -20,6 +20,12 @@
 
 `⌃ - F2` 替换当前文件所有字符
 
+terminal
+
+<pre><code>⌃ ⌘ `<code></pre> 新建终端
+
+<pre><code>⌃ `<code></pre> 打开/关闭终端
+
 vscode 修改默认shell
 
 `⌃ - ⇧ - P` 打开命令列表，输入 Ternimal: select default shell，选择相应的 shell

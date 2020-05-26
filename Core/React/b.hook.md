@@ -24,6 +24,7 @@
 1. 在组件之间复用状态逻辑很难，即不同组件之间需要用到同一个 state 及其处理方法
 2. 复杂组件变得难以理解，即不同的生命周期函数（同一个方法）内需要执行多个任务，比如监听事件，获取数据等，此时又无法再将组件进行更小粒度的拆分
 3. class 本身难以理解，主要是关于 this 的概念，它是复用父类的this，并在此基础上进行改写
+4. 对于 TypeScript 更加友好
 
 基于此，使用 react hook 来改变这一状态
 
@@ -134,7 +135,7 @@ function Test(props) {
 
 > 类似 class 内的生命周期，useEffect 可以看作 componentDidMount，componentDidUpdate 和 componentWillUnmount 这三个函数的组合
 
-useEffect 用来告知 React 组件需要在渲染后执行某些操作，且 useEffect 会在每次 `render()` 之后执行，保证执行 useEffect 时， DOM 已经渲染完毕
+useEffect 用来告知 React 组件需要在渲染后执行某些操作，且 useEffect 会在每次 `render()` 之后执行（注意初始化化时会执行所有 useEffect），保证执行 useEffect 时， DOM 已经渲染完毕
 
 useEffect 的清除机制：通过在 `useEffect` 内返回一个清除函数来实现，告知 React 在组件卸载的时候执行清除操作
 
@@ -149,7 +150,9 @@ React 会等待浏览器完成画面渲染之后才会延迟调用 useEffect
 - 通过在第一个参数 return 一个函数，来表示 `componentWillUnmount` 执行操作
 - 设置依赖项为指定 state，则表示当该 state 发生变化时，会触发该 useEffect，且优先执行其 return 函数
 
-**注意，不管依赖项如何设置，都会在初始化时执行所有的 useEffect，此时要避免陷入死循环**
+**⚠︎注意**
+- 不管依赖项如何设置，都会在初始化时执行所有的 useEffect，此时要避免陷入死循环
+- useEffect 在 render 之后一定会调用，并且是同步调用，如果希望某个值变化后立即执行操作，可以利用**设置依赖项为指定 state** 来进行
 
 ```js
 import React, { useState, useEffect } from 'react';
