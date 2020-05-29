@@ -234,11 +234,15 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
 
 在 Vue 项目内，其 `package.json` 文件内会有 eslintConfig 字段，可以更改其值来更新配置
 
-也可以采用另一种方法，即在文件根目录下添加 `.eslintrc.js` 文件来修改配置
+也可以采用另一种方法，即在文件根目录下添加 `.eslintrc` 文件来修改配置
+
+**注意**，如果使用 `.eslintrc.js`，则需要使用 `module.exports = {}` 来进行配置
+
+**ESLint In React, inclueds .ts, .tsx, .js, .jsx**
 
 ```js
 /**
- * 0 - 禁用此规则   warn or 1 - 输出错误信息，不影响 exit code  error or 2 - 输出错误信息， exit code 置为 1 
+ * 0 - 禁用此规则   warn or 1 - 输出错误信息，不影响 exit code  error or 2 - 输出错误信息， exit code 置为 1
  * eslint-disable to disable the check
  */
 
@@ -260,6 +264,13 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
   "env": {
     "browser": true
   },
+  // import module recommand rules
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   // use pre-defined rules by plugins
   "plugins": [
     // means eslint-plugin-react
@@ -267,9 +278,16 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
     "@typescript-eslint"
   ],
   "rules": {
-    // 函数前添加一个空格
-    "space-before-function-paren": 1,
-    "quotes": [ 1, "single", "avoid-escape" ],
+    // typescript-eslint
+    // 不要显示使用 any
+    "@typescript-eslint/no-explicit-any": 0,
+    // 分隔符样式，none, Semicolon(分号), Comma(逗号)
+    "@typescript-eslint/member-delimiter-style": 0,
+    // 函数显示返回值
+    "@typescript-eslint/explicit-function-return-type": 0,
+    // tsx 文件不适用
+    // "space-before-function-paren": 1,
+    "quotes": [1, "single", "avoid-escape"],
     "semi": [2, "never"],
     "no-var": 2,
     "indent": [2, 2]
@@ -277,6 +295,7 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
   // 对某一类文件的配置进行覆盖
   "overrides": []
 }
+
 ```
 
 
