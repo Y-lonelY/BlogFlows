@@ -3,6 +3,7 @@
 - [install](#install)
 	- [腾讯云 centos7](#%E8%85%BE%E8%AE%AF%E4%BA%91-centos7)
 	- [MacOS](#macos)
+	- [修改 mysql 密码](#%E4%BF%AE%E6%94%B9-mysql-%E5%AF%86%E7%A0%81)
 - [Q&A](#qa)
 	- [Authentication plugin 'caching_sha2_password' cannot be loaded](#authentication-plugin-cachingsha2password-cannot-be-loaded)
 	- [DATATIME && TIMESTAMP](#datatime--timestamp)
@@ -70,13 +71,14 @@ mysql 5.7 会在初始化时添加一个随机密码，但是通过 ` grep 'temp
 
 将mysql写入系统的环境变量，如果不执行此操作，在 terminal 内会 `-bash: mysql: command not found`
 
-	- `vim ~/.bash_profile` 直接编辑环境变量文件
-	- 添加多一行 `PATH="/usr/local/mysql/bin:${PATH}"`，保存并退出
-	- `source ~/.bash_profile` 使改动生效
+- `vim ~/.bash_profile` 直接编辑环境变量文件
+- 添加多一行 `PATH="/usr/local/mysql/bin:${PATH}"`，保存并退出
+- `source ~/.bash_profile` 使改动生效
 	
 在 terminal 内直接 `mysql -u root -p` 进入 mysql 服务
 
-修改 mysql 密码
+
+### 修改 mysql 密码
 
 - 进入 mysql 服务之后执行 `ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'YourNewPasswd';`
 - 之后 `flush privileges;`
