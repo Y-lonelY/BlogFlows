@@ -59,11 +59,21 @@ function getToolsSide() {
             title: 'Muscle',
             collapsable: false,
             children: [
-                'muscle/a.babel',
-                'muscle/b.shell',
-                'muscle/c.developTools',
-                'muscle/d.nginx',
-                'muscle/e.vscode'
+                'muscle/babel',
+                'muscle/shell',
+                'muscle/nginx',
+            ]
+        },
+        {
+            title: 'Skeleton',
+            collapsable: true,
+            children: [
+                'skeleton/chrome',
+                'skeleton/cloud',
+                'skeleton/macos',
+                'skeleton/vscode',
+                'skeleton/windows',
+                'skeleton/xcode',
             ]
         }
     ]
