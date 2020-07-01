@@ -5,7 +5,6 @@
 - [Q&A](#qa)
   - [Failed to compile Module not found...](#failed-to-compile-module-not-found)
 - [添加license](#%E6%B7%BB%E5%8A%A0license)
-- [规范 git 提交内容](#%E8%A7%84%E8%8C%83-git-%E6%8F%90%E4%BA%A4%E5%86%85%E5%AE%B9)
 - [Mac discard all](#mac-discard-all)
 - [同一台设置配置不同的 git 账号](#%E5%90%8C%E4%B8%80%E5%8F%B0%E8%AE%BE%E7%BD%AE%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E7%9A%84-git-%E8%B4%A6%E5%8F%B7)
   - [Attention](#attention)
@@ -17,7 +16,6 @@
   - [Attention](#attention-1)
 
 <!-- /MarkdownTOC -->
-
 
 ## Command
 
@@ -67,35 +65,6 @@ GitHub 添加 license
 - 登录至 github 项目，在项目内`create new file`
 - 输入 liscense
 - 选择通过模板进行创建，选择 MIT 模板之后，进行 commit 操作
-
-
-## 规范 git 提交内容
-
-通过 commitizen 来提交commit
-
-- 执行 `npm install commitizen --save `
-- 在 **package.json** 内进行如下配置
-
-```json
-{
-  "scripts": {
-    "commit": "git-cz",
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
-}
-
-```
-
-项目内添加CHANGELOG
-
-- 执行`npm install conventional-changelog-cli --save`
-- 通过 `npx conventional-changelog --help` 查看相关命令
-- 一般在**package.json**内配置 `"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"`，来指定使用angular规范，且重新生成CHANGELOG.md文件
-- 通过 `npm run changelog`来执行
 
 
 ## Mac discard all

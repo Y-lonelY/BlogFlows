@@ -1,14 +1,15 @@
 <!-- MarkdownTOC -->
 
-- [vscode-vue-template](#vscode-vue-template)
+- [Vue CodeMirror](#vue-codemirror)
+  - [Usage](#usage)
 - [ant-design-vue](#ant-design-vue)
   - [实现按需加载](#%E5%AE%9E%E7%8E%B0%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD)
-- [vue-router](#vue-router)
+- [Vue Router](#vue-router)
+  - [Basic](#basic)
   - [Q&A](#qa)
   - [导航守卫](#%E5%AF%BC%E8%88%AA%E5%AE%88%E5%8D%AB)
   - [基本使用](#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
   - [高级特性](#%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7)
-- [Vue-cli2](#vue-cli2)
 - [VuePress](#vuepress)
   - [Install](#install)
   - [Basics](#basics)
@@ -17,53 +18,77 @@
 
 <!-- /MarkdownTOC -->
 
-## vscode-vue-template
+## Vue CodeMirror
 
-在 vs code 内快速创建模版
+> 基于 CodeMirror，适用于 Vue 的 Web 代码编辑器
 
-```js
+[CodeMirror](https://codemirror.net/)
+[Vue-CodeMirror](https://github.com/surmon-china/vue-codemirror)
+
+### Usage
+
+`npm install vue-codemirror --save` 引入依赖，通过 `import` 相关的插件资源来实现增量功能
+
+封装成组件进行使用
+
+```vue
 <template>
-<div :title="" @click="onClick" class="content">hello, {{ name }}</div>
+  <div>
+    <codemirror v-model="code" :options="cmOptions" />
+  </div>
 </template>
 
 <script>
-export default ({
-  name: 'TestComponent',
-  components: [],
-  mixins: [],
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/addon/selection/active-line.js'
+// vue grammar extension
+import 'codemirror/mode/vue/vue.js'
+// control theme
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/base16-dark.css'
+
+const langs = {
+  vue: 'text/x-vue',
+  js: 'text/javascript'
+}
+
+export default {
+  components: {
+    codemirror
+  },
   props: {
-    title: {
+    value: {
       type: String,
-      default: ""
+      default: 'hello world!'
+    },
+    lang: {
+      type: String,
+      default: 'vue'
     }
   },
   data () {
     return {
-      name: 'world'
+      code: this.value,
+      langs,
+      cmOptions: {
+        tabSize: 2,
+        mode: langs[this.lang],
+        styleActiveLine: true,
+        theme: 'base16-dark',
+        lineNumbers: true,
+        line: true,
+        readOnly: true
+      }
     }
-  },
-  computed: {
-    title: {
-      get: function() {},
-      set: function() {}
-    }
-  },
-  watch: {
-    name: function(valu, oldVal) {
-      
-    }
-  },
-  created () {},
-  mounted () {},
-  updated () {},
-  methods: {
-    onClick () {}
   }
-})
+}
 </script>
 ```
 
+
 ## ant-design-vue
+
+> antv 是基于 Ant Design 设计体系的 Vue UI 组件库，主要用于研发企业级中后台产品
 
 ### 实现按需加载
 
@@ -112,14 +137,18 @@ Vue.component(Input.name, Input)
 ```
 
 
-## vue-router
+## Vue Router
+
+> Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌
+
+### Basic
 
 通过 `npm install -s vue-router` 安装package
 
 在组件内可以使用
 
 - `this.$route` 访问当前路有对象，在组件生命周期函数内均可以访问
-- `this.$router` 访问路由器，可以通过路由器来进行路有控制，相当于一个Router实例
+- `this.$router` 访问路由器，可以通过路由器来进行路有控制，控制跳转新路由等，相当于一个Router实例
 
 ### Q&A
 
@@ -340,14 +369,9 @@ const router = new VueRouter({
 ```
 
 
-## Vue-cli2
-
-`sudo npm install -g @vue/cli` 安装最新的 vue-cli，安装完成之后通过 `vue --version` 来看当前安装的版本
-
-`vue create [app name]` 来创建一个新项目
-
-
 ## VuePress
+
+> Vue 驱动的静态网站生成器
 
 ### Install
 

@@ -1,6 +1,10 @@
 <!-- MarkdownTOC -->
 
 - [Linux 常用命令](#linux-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
+  - [解决端口占用](#%E8%A7%A3%E5%86%B3%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8)
+  - [目录相关](#%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3)
+  - [File / Directory 操作](#file--directory-%E6%93%8D%E4%BD%9C)
+  - [创建用户](#%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7)
 - [Create start.sh](#create-startsh)
 - [Declare Varibale](#declare-varibale)
   - [命名规则](#%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99)
@@ -16,32 +20,41 @@
 
 ## Linux 常用命令
 
-解决端口占用
+通过一些经常遇到的场景来进行学习，通过 `|` 实现管道设计模式，即上一个操作的输出作为下一个操作的输入
 
-- `ps` 查看所有系统进程
-- `ps aux | grep mysql` 查看 mysql
-- `sudo lsof -i :7177` 查看占用7177端口s的进程
-- `sudo kill -9 [pid]` 关闭指定pid的进程
+### 解决端口占用
 
-目录相关
+1. `ps` 查看所有系统进程
+2. `ps aux | grep mysql` 列出进程，在结果内搜索 mysql
+3. `sudo lsof -i :7177` 查看占用7177端口s的进程
+4. `sudo kill -9 [pid]` 关闭指定pid的进程
 
-- `cd ～` 进入根目录
-- `ls -al` 查看目录下文件的详细信息
-- `du -sh *` 查看每个目录的大小
-- 为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
+### 目录相关
 
-文件操作
+1. `cd ～` 进入当前用户目录，`cd /` 进行系统根目录
+2. `ls -al` 查看目录下文件的详细信息
+3. `du -sh *` 查看每个目录的大小
+4. 为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
 
-- `pwd` 打印当前文件路径
-- `find -name [name]` 全局搜索
-- `whereis [filename]` 查看路径
-- `mkdir [filename]` 在当前目录下创建一个文件夹
-- `rm -rf [filepath]` 删除指定目录下的文件夹及其目录下的所有文件
-- `rm -f [file]` 删除文件
-- `cp [filename] [path]` 复制指定文件到指定目录
-- `mv filename newfilename` 重命名文件或者文件目录
+### File / Directory 操作
 
-创建用户
+1. `pwd` 打印当前文件路径
+2. `find -name [name]` 全局搜索
+3. `whereis [filename]` 查看路径
+4. `mkdir [filename]` 在当前目录下创建一个文件夹
+5. `rm -rf [filepath]` 删除指定目录下的文件夹及其目录下的所有文件
+6. `rm -f [file]` 删除文件
+7. `cp [filename] [path]` 复制指定文件到指定目录
+8. `mv filename newfilename` 重命名文件或者文件目录
+
+**压缩 / 解压文件**
+
+1. `zip -r xxx.zip xxx` 压缩指定文件夹为 .zip 文件
+2. `unzip xxx.zip` 直接解压指定文件，输出到当前目录
+3. `zip xxx.zip 1.txt 2.txt` 将 1.txt 和 2.txt 压缩为 xxx.zip
+4. `unzip xxx.zip -d /home` 将 xxx.zip 解压到 /home 目录下
+
+### 创建用户
 
 - `useradd user` 使用 useradd 指令所建立的帐号，实际上是保存在 /etc/passwd 文本文件中
 - `useradd -m -d /home/blog -s /sbin/nologin blog` m-自动建立用户的登入目录，d-指定用户登入时的起始目录，s-指定用户登入后所使用的shell，使用 nologin 使用户即不能登录系统，还能使用一些系统服务，比如 ftp 服务

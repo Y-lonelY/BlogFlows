@@ -163,12 +163,12 @@ var store = new Vuex.Store({
 
 思考一些redux内reducer的用法，`Reducer(currentState, action) -> newState`，其中action为一个对象，可以保存type和data，通过 `store.dispatch(action)` 来触发reducer
 
-Vuex的mutation在某种程度上和reducer类似，先看看其声明方式：
+Vuex的 mutation 在某种程度上和 reducer 类似，先看看其声明方式：
 
-- 键名对应type，在commit方法内调用
+- 键名对应 type，在 commit 方法内调用
 - payload 对应额外传参
-- 通过function，返回一个新的state
-- commit方法对应dispatch
+- 通过 function，返回一个新的 state
+- commit 方法对应 dispatch
 
 ```js
 var store = new Vuex.Store({
@@ -192,22 +192,14 @@ store.commit({
 注意，mutation必须是同步函数，因为如果是异步函数，则不知在何时对其状态进行响应（即回调函数何时被调用），这部分和reducer的规则一样：
 
 - 不要直接修改state，修改其拷贝
-- 不要调用`Date(), Math.random()`等非纯函数
+- 不要调用 `Date(), Math.random()` 等非纯函数
 - 不要做副作用的操作，比如api请求等
 
-继续思考一个问题，在组件内如何使用mutation?
+继续思考一个问题，在组件内如何使用 mutation?
 
-可以通过`mapMutations`辅助函数来映射methods到mutations的关系，
+可以通过 `mapMutations` 辅助函数来映射methods到mutations的关系，
 
 ```vue
-<template>
-  <div>
-      <div>{{ list }}</div>
-      // 触发事件，改变 state
-      <button @click="add({type: 'add', list: [4,5]})">add</button>
-  </div>
-</template>
-
 <script>
 import Vue from "vue";
 import { mapState, mapMutations } from 'vuex';
@@ -231,10 +223,10 @@ export default Vue.extend({
 
 ## actions-mapActions
 
-Vuex内也提出了action的概念，但是不同于redux，它的出现主要是为了解决在mutation不能执行的异步问题
+Vuex 内也提出了 action 的概念，但是不同于 redux，它的出现主要是为了解决在 mutation 不能执行的异步问题
 
-- Action提交的是mutation，而不是直接变更state
-- Action可以包含任意的异步操作
+- Action 提交的是 mutation，而不是直接变更 state，这意味着**不能再 action 内直接使用 state**，可以通过 `context` 进行取值
+- Action 可以包含任意的异步操作
 
 在 store 内新建一个actions
 
@@ -247,12 +239,14 @@ var store = new Vuex.Store({
   actions: {
     delayAdd({ commit }, obj) {
       setTimeout(function() {
+        // mutuactions 通过 commit 来进行调用
         commit("clear")
       }, obj.time)
     },
     // 多层异步事件嵌套情况
     async actionB ({ dispatch, commit }) {
-	    await dispatch('actionA') // 等待 actionA 完成
+      // 等待 actionA 完成，action 通过 dispatch 来进行调用
+	    await dispatch('actionA')
 	    commit('gotOtherData', await getOtherData())
 	 }
   },
@@ -270,13 +264,6 @@ var store = new Vuex.Store({
 在组件内使用，通常通过`mapActions`来进行映射，也可以通过`this.$store.dispatch('delayAdd')`来执行
 
 ```vue
-<template>
-  <div>
-    <div>{{ list }}</div>
-    <button @click="delayAdd({type: 'delayAdd', time: 3000})">clear</button>
-  </div>
-</template>
-
 <script>
 import Vue from "vue"
 import { mapState, mapActions } from "vuex"
