@@ -4,9 +4,9 @@
     - [Install](#install)
     - [Travia](#travia)
     - [Basics](#basics)
+- [获取请求参数](#%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0)
 - [koa route](#koa-route)
 - [执行python脚本](#%E6%89%A7%E8%A1%8Cpython%E8%84%9A%E6%9C%AC)
-- [获取请求参数](#%E8%8E%B7%E5%8F%96%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0)
 - [错误捕获](#%E9%94%99%E8%AF%AF%E6%8D%95%E8%8E%B7)
 
 <!-- /MarkdownTOC -->
@@ -43,6 +43,48 @@ Koa 默认返回类型是 `text/plain`
 
 - 返回之前通过 `ctx.request.accepts` 判断客户端接受类型
 - 然后通过 `ctx.response.type` 来指定返回类型，可选的 type 有：xml, json, html, text
+
+
+## 获取请求参数
+
+koa 内通常通过三种方式获取请求参数
+
+- 从 post 请求的 `ctx.request.body` 内获取, 需要通过 `koa-bodyparser` 来解析 post 请求
+- 从 get 请求的 `ctx.request.query` 内获取，这类通过 `?user=ylonely` 来进行传输，将参数置于 header 内
+- 从 delete/get 等请求的 `ctx.params` 内获取，这类通过 `/user/ylonely` 来进行传输
+
+```js
+import BodyParser from "koa-bodyparser"
+
+const app = new Koa();
+
+app.use(BodyParser());
+
+// ...view.js
+import Router from "koa-router";
+
+// 声明一个 router 实例
+const programRouter = new Router({
+    prefix: "grow"
+});
+
+// body --- { "user": "ylonely" }
+programRouter.post('/query', ctx => {
+    const { user } = ctx.request.body;
+});
+
+// header params --- "user": "ylonely"
+programRouter.get('/users', ctx => {
+    const { user } = ctx.request.query;
+    // statements
+})
+
+// url: http:xxx.com/max/ylonely
+programRouter.get('/max/:user', ctx => {
+    const { user } = ctx.params
+    // statements
+})
+```
 
 
 ## koa route
@@ -116,40 +158,6 @@ async function setWakaTime(params) {
     }
     return label;
 }
-```
-
-## 获取请求参数
-
-通过 `koa-bodyparser` 来解析 post 请求，将请求参数置于 `ctx.request.body` 内
-
-通过 `ctx.request.query` 可以直接获取 get 请求参数
-
-```js
-import BodyParser from "koa-bodyparser"
-
-const app = new Koa();
-
-app.use(BodyParser());
-
-// ...view.js
-import Router from "koa-router";
-
-// 声明一个 router 实例
-const programRouter = new Router();
-
-programRouter.post('/program/overview', ctx => {
-    try {
-        const params = ctx.request.body;
-        ctx.response.type = 'json';
-    } catch (e) {
-    	// statement
-    }
-});
-
-programRouter.get('/program/get', ctx => {
-	const params = ctx.request.query;
-	// statements
-})
 ```
 
 ## 错误捕获
