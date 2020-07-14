@@ -1,5 +1,73 @@
 # Vue
 
+## Vue CodeMirror
+
+> 基于 CodeMirror，适用于 Vue 的 Web 代码编辑器
+
+[CodeMirror](https://codemirror.net/)
+[Vue-CodeMirror](https://github.com/surmon-china/vue-codemirror)
+
+### Usage
+
+`npm install vue-codemirror --save` 引入依赖，通过 `import` 相关的插件资源来实现增量功能
+
+封装成组件进行使用
+
+```vue
+<template>
+  <div>
+    <codemirror v-model="code" :options="cmOptions" />
+  </div>
+</template>
+
+<script>
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/addon/selection/active-line.js'
+// vue grammar extension
+import 'codemirror/mode/vue/vue.js'
+// control theme
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/base16-dark.css'
+
+const langs = {
+  vue: 'text/x-vue',
+  js: 'text/javascript'
+}
+
+export default {
+  components: {
+    codemirror
+  },
+  props: {
+    value: {
+      type: String,
+      default: 'hello world!'
+    },
+    lang: {
+      type: String,
+      default: 'vue'
+    }
+  },
+  data () {
+    return {
+      code: this.value,
+      langs,
+      cmOptions: {
+        tabSize: 2,
+        mode: langs[this.lang],
+        styleActiveLine: true,
+        theme: 'base16-dark',
+        lineNumbers: true,
+        line: true,
+        readOnly: true
+      }
+    }
+  }
+}
+</script>
+```
+
+
 ## ant-design-vue
 
 ### 实现按需加载
@@ -49,14 +117,18 @@ Vue.component(Input.name, Input)
 ```
 
 
-## vue-router
+## Vue Router
+
+> Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌
+
+### Basic
 
 通过 `npm install -s vue-router` 安装package
 
 在组件内可以使用
 
 - `this.$route` 访问当前路有对象，在组件生命周期函数内均可以访问
-- `this.$router` 访问路由器，可以通过路由器来进行路有控制，相当于一个Router实例
+- `this.$router` 访问路由器，可以通过路由器来进行路有控制，控制跳转新路由等，相当于一个Router实例
 
 
 ### Q&A
@@ -286,6 +358,8 @@ const router = new VueRouter({
 
 
 ## VuePress
+
+> Vue 驱动的静态网站生成器
 
 ### Install
 

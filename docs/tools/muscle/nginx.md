@@ -77,6 +77,23 @@ nginx 指定文件路径有两种方式 root 和 alias
 - alias的处理结果是：使用 alias 替换 location，注意，使用 alias 时，目录名后面一定要加 /，否则会找不到文件
 
 
+## Q && A
+
+`Incompatible SockJS! Main site uses: "1.4.0", the iframe: "1.3.0".`
+
+解决：添加如下配置
+
+```
+location / {
+    proxy_pass our_server;
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+```
+
+
 ## What's nginx?
 
 nginx 可以简单理解成一个服务器

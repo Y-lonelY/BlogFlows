@@ -35,34 +35,34 @@ Koa 默认返回类型是 `text/plain`
 
 ## 获取请求参数
 
-通过 `koa-bodyparser` 来解析 post 请求，将请求参数置于 `ctx.request.body` 内
+koa 内通常通过三种方式获取请求参数
 
-通过 `ctx.request.query` 可以直接获取 get 请求参数
+- 从 post 请求的 `ctx.request.body` 内获取, 需要通过 `koa-bodyparser` 来解析 post 请求
+- 从 get 请求的 `ctx.request.query` 内获取，这类通过 `?user=ylonely` 来进行传输，将参数置于 header 内
+- 从 delete/get 等请求的 `ctx.params` 内获取，这类通过 `/user/ylonely` 来进行传输
 
 ```js
 import BodyParser from "koa-bodyparser"
-
 const app = new Koa();
-
 app.use(BodyParser());
-
 // ...view.js
 import Router from "koa-router";
-
 // 声明一个 router 实例
-const programRouter = new Router();
-
-programRouter.post('/program/overview', ctx => {
-    try {
-        const params = ctx.request.body;
-        ctx.response.type = 'json';
-    } catch (e) {
-        // statement
-    }
+const programRouter = new Router({
+    prefix: "grow"
 });
-
-programRouter.get('/program/get', ctx => {
-    const params = ctx.request.query;
+// body --- { "user": "ylonely" }
+programRouter.post('/query', ctx => {
+    const { user } = ctx.request.body;
+});
+// header params --- "user": "ylonely"
+programRouter.get('/users', ctx => {
+    const { user } = ctx.request.query;
+    // statements
+})
+// url: http:xxx.com/max/ylonely
+programRouter.get('/max/:user', ctx => {
+    const { user } = ctx.params
     // statements
 })
 ```

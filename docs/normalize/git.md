@@ -1,19 +1,11 @@
-# Git in Project
+# Git Rules
 
-## 添加license
-
-GitHub添加license
-- 登录至github项目，在项目内`create new file`
-- 输入 liscense
-- 选择通过模板进行创建，选择MIT模板之后，进行commit操作
-
-
-## 规范git提交内容
+## Git commit
 
 通过 commitizen 来提交commit
 
 - 执行 `npm install commitizen --save `
-- 在**package.json**内进行如下配置
+- 在 **package.json** 内进行如下配置
 
 ```json
 {
@@ -26,7 +18,6 @@ GitHub添加license
     }
   },
 }
-
 ```
 
 项目内添加CHANGELOG
@@ -35,3 +26,12 @@ GitHub添加license
 - 通过 `npx conventional-changelog --help` 查看相关命令
 - 一般在**package.json**内配置 `"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"`，来指定使用angular规范，且重新生成CHANGELOG.md文件
 - 通过 `npm run changelog`来执行
+
+## Git branch describtion
+
+分支描述
+- **master** 线上稳定版本
+- **release** 待发布版本
+- **feature** 功能分支
+- **dev** 开发分支，每个开发者都有自己独立的分支
+- **hotfix** 紧急修复分支

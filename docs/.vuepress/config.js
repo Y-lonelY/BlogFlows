@@ -86,7 +86,8 @@ function getNormalizeSide(groupA) {
             title: groupA,
             collapsable: false,
             children: [
-                'css'
+                'css',
+                'git'
             ]
         }
     ]
@@ -107,7 +108,8 @@ function getPackagesSide() {
                 'a.cluster',
                 'c.swift',
                 'd.python',
-                'e.node'
+                'e.node',
+                'eslint'
             ]
         }
     ]
@@ -148,11 +150,17 @@ function getProjectSide() {
             children: [
                 'Css/a.cluster',
             ]
-        },{
+        }, {
+            title: 'MySQL',
+            collapsable: false,
+            children: [
+                'Mysql/mysql',
+            ]
+        }, {
             title: 'Git',
             collapsable: false,
             children: [
-                'Git/a.cluster',
+                'Git/git',
             ]
         }, {
             title: 'TypeScript',
