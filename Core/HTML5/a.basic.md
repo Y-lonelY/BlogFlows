@@ -1,6 +1,7 @@
 <!-- MarkdownTOC -->
 
 - [Trivia](#trivia)
+- [Handle DOM Element](#handle-dom-element)
 - [浏览器缓存](#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98)
 - [数据存储](#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8)
 	- [localStorage](#localstorage)
@@ -16,6 +17,21 @@
 ## Trivia
 
 行内元素 `<sup> && <sub>` 分别用于添加上标和下标，且内容将会以当前文本流中字符高度的一半来显示
+
+
+## Handle DOM Element
+
+```js
+// 查询元素
+const ele = document.querySelector('.target')
+
+// 添加 class
+ele.classList.add('add-class')
+
+// 设置属性
+ele.setAttribute('name', 'hello')
+```
+
 
 
 ## 浏览器缓存
