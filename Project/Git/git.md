@@ -1,19 +1,21 @@
 <!-- MarkdownTOC levels="2,3" -->
 
 - [Command](#command)
-  - [stash](#stash)
+	- [stash](#stash)
+- [rebase](#rebase)
+	- [合并多个 commit](#%E5%90%88%E5%B9%B6%E5%A4%9A%E4%B8%AA-commit)
 - [Q&A](#qa)
-  - [Failed to compile Module not found...](#failed-to-compile-module-not-found)
+	- [Failed to compile Module not found...](#failed-to-compile-module-not-found)
 - [添加license](#%E6%B7%BB%E5%8A%A0license)
 - [Mac discard all](#mac-discard-all)
 - [同一台设置配置不同的 git 账号](#%E5%90%8C%E4%B8%80%E5%8F%B0%E8%AE%BE%E7%BD%AE%E9%85%8D%E7%BD%AE%E4%B8%8D%E5%90%8C%E7%9A%84-git-%E8%B4%A6%E5%8F%B7)
-  - [Attention](#attention)
+	- [Attention](#attention)
 - [submodule && subtree](#submodule--subtree)
-  - [场景](#%E5%9C%BA%E6%99%AF)
-  - [submodule 基本使用](#submodule-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-  - [subtree 基本使用](#subtree-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
-  - [submodule vs subtree](#submodule-vs-subtree)
-  - [Attention](#attention-1)
+	- [场景](#%E5%9C%BA%E6%99%AF)
+	- [submodule 基本使用](#submodule-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+	- [subtree 基本使用](#subtree-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8)
+	- [submodule vs subtree](#submodule-vs-subtree)
+	- [Attention](#attention-1)
 
 <!-- /MarkdownTOC -->
 
@@ -48,6 +50,21 @@ stash 相关命令，stash 主要体现在切换分支或者 pull 产生 merge�
 - `git stash clear` 删除所有的 stash
 - `git stash apply stash@{0}` 应用第一个 stash 缓存
 - `git stash pop stash@{0}` 应用并删除第一个 stash 缓存
+
+
+## rebase
+
+### 合并多个 commit
+
+1. 通过 `git log` 查看提交历史，找到需要合并的 commit 段
+	- `git rebase -i HEAD~3` 表示合并最新的三个 commit
+	- `git rebase -i xxxxxx` 通过版本号控制合并，注意标识版本号（即 xxxxxx）的 commit 不参与合并
+
+2. 接着，再次确认需要合并的分支，将 `pick` 变更为 `squash`，注意第一行提交信息必须为 `pick`，保存后退出
+	- `git rebase --continue` 在当前修改上继续操作
+	- `git rebase --abort` 撤销当前的 rebase 操作
+	
+3. 再次编辑提交信息后提交
 
 
 ## Q&A
