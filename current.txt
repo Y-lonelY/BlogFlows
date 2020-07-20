@@ -1,0 +1,13 @@
+n = function() {
+                const t = window.console;
+                if (!t || !t.log)
+                    return;
+                let i = "%c"
+                  , a = "color:#008B45;text-shadow:5px 5px 2px #fff, 5px 5px 2px #373E40, 5px 5px 5px #A2B4BA, 5px 5px 10px #82ABBA;font-weight:bolder;font-size:55px"
+                  , s = "color:#495A80;text-shadow: 0 1px 0 #ccc,0 2px 0 #c9c9c9,0 1px 0 #bbb;font-size:20px";
+                e.isIE() && (i = "",
+                a = "",
+                s = ""),
+                t.info(i + "iQIYI", a),
+                t.info(i + "一不小心被你发现了:-)\r\n什么都不说了,这里需要喜欢探寻秘密的你!\r\n爱奇艺直聘网址:http://zhaopin.iqiyi.com/", s)
+            }
