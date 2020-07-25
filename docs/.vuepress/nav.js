@@ -12,17 +12,20 @@ module.exports = [{
 			link: '/project/'
 		},
 		{
-			text: '规范',
+			text: 'rules',
 			link: '/normalize/'
 		},
 		{
-			text: '类库',
+			text: 'packages',
 			link: '/packages/'
 		}
 	]
 }, {
 	text: '概念',
 	link: '/concept/'
+}, {
+	text: '阅读',
+	link: '/books/'
 }, {
 	text: '工具',
 	link: '/tools/'

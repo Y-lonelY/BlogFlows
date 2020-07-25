@@ -32,8 +32,21 @@ module.exports = {
             '/normalize/': getNormalizeSide('Normalize'),
             '/concept/': getConceptSide(),
             '/tools/': getToolsSide(),
+            '/books/': setBooks()
         }
     }
+}
+
+function setBooks() {
+    return [
+    '/books/', 
+    {
+        title: 'Frontend',
+        collapsable: false,
+        children: [
+            '前端架构--从入门到微前端'
+        ]
+    }]
 }
 
 function practice() {
@@ -126,7 +139,7 @@ function getConceptSide() {
             children: [
                 'frontend/javascript',
                 'frontend/react',
-                'frontend/module'
+                'frontend/module',
                 'frontend/node',
                 'frontend/mv*'
             ]
