@@ -68,55 +68,6 @@ export default {
 ```
 
 
-## ant-design-vue
-
-### 实现按需加载
-
-先说说全局全量引入的做法，在main.js内：
-
-```js
-import Vue from "vue"
-import Antd from 'ant-design-vue'
-// 引入样式
-import 'ant-design-vue/dist/antd.css'
-
-Vue.use(Antd)
-
-new Vue({
-  render: h => h(app)
-}).mount('#app')
-```
-
-全量引入的缺点很明显，会大大降低编译的效率，同时会影响前端性能，因此需要实现按需加载，Vue内的组件需要进行注册才能使用，区别于React，因此按需加载的方式也不同
-
-添加babel插件，`npm install babel-plugin-import`，这是一个用于按需加载组件代码和样式的babel插件
-
-之后，对babel.config.js文件进行配置
-
-```js
-// 这里区别于官网style配置，不然需要install less-loader
-plugins: [
-  [
-    "import",
-    { libraryName: "ant-design-vue", libraryDirectory: "es", style: "css" }
-  ]
-]
-```
-
-最后新增一个antd.js文件，在main.js内引入该文件即可
-
-```js
-// antd.js
-import Vue from "vue"
-import { Form, Button, Input } from 'ant-design-vue'
-
-Vue.component(Form.name, Form)
-Vue.component(Form.Item.name, Form.Item)
-Vue.component(Button.name, Button)
-Vue.component(Input.name, Input)
-```
-
-
 ## Vue Router
 
 > Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌

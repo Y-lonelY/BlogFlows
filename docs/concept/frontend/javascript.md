@@ -43,7 +43,7 @@ js内常见的异步场景：
 - 回调，比如 ajax 请求完成的回调，读取文件等
 - 定时器任务，比如 `setTimeout`
 
-<img src="./assets/eventLoop.png">
+<img src="../assets/eventLoop.png" rel="eventLoop" style="zoom: 50%;">
 
 `setTimeout()` 设置的延迟参数是从 EventTable 中注册回调函数到 EventQueue 的时延，所有**执行其回调函数的时延 >= 其设置的时延**
 
@@ -96,33 +96,6 @@ new Promise(function(resolve) {
 // 即 Promise > nextTick > Promise.then
 1,2,3,4,5
 ```
-
-## 前端模块化
-
-> module is the future!
-
-模块化就是将一个复杂的系统分解成多个独立的模块的代码组织方式，在实现模块化之前，都是通过 `<script>` 去进行加载
-
-### AMD
-
-异步模块定义，就是之前用过的 `require.js` 实现的那一套，在通过 `require()` 倒入模块前，先通过 `define()` 定义好模块，define 内定义的文件可以异步加载，从而提高加载效率
-
-### CMD
-
-和 AMD 类似，区别在于使用时机，CMD加载完某个依赖模块后并不执行，只是下载而已，在所有依赖模块加载完成后进入主逻辑，遇到require语句的时候才执行对应的模块
-
-### CommonJS
-
-应用于 node.js，此种模块化方案特点就是：同步阻塞式加载，无法实现按需异步加载，通过 `require() & module.expoorts` 实现，其方式是值绑定，运行时加载
-
-### ES6
-
-ES6提供了 `import() & export()` 方法
-
-- 一个文件就是一个模块，不支持按需加载
-- ES6 模块是静态的，即导入后无法进行更改
-- ES6 是指针绑定，在编译时输出，不同于CommonJS值绑定，模块内做出了修改，会反映到所有使用该模块的代码中
-- ES6模块采用的是单例模式，每次对同一个模块的导入其实都指向同一个实例
 
 
 ## 渲染关键路径
@@ -628,7 +601,7 @@ var val = a();
 val = null;
 ```
 
-<img src="./assets/scope.png">
+<img src="../assets/scope.png">
 
 在创建 a() 函数前，会创建一个预先包含全局变量对象的作用域链，这个作用域链被保存在内部 [[Scope]] 属性中
 
@@ -780,4 +753,4 @@ add(1)(2)(3); // 6
 
 所谓的“异常录制”，实际上就是通过技术手段，收集用户的操作过程，对用户的每一个操作都进行记录，在发生异常时，把一定时间区间内的记录重新运行，形成影像进行播放，让调试者无需向用户询问，就能看到用户当时的操作过程
 
-![阿里异常录制](./assets/error-record.png)
+![阿里异常录制](../assets/error-record.png)

@@ -6,10 +6,15 @@
 
 目前已支持概念化的模块有：
 
+**FE-Concept** means Frontend Concept
 - JavaScript
-- 计算机网络
 - React
-- NodeJs
+- Module
+- Node
+- MV\*
+
+**LF-Concept** means Left(Else) Concept
+- Network
 - CSS
 
 本项目执行机制

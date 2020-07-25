@@ -29,16 +29,6 @@
 - 模版引擎不同，react 是JSX语法来渲染dom，Vue是通过 template 来实现，前者可以直接使用原生JavaScript的语法，后者需要通过指令来实现`v-if`，会显得有点奇怪
 
 
-## MVVM
-
-MVVM的核心是数据驱动即ViewModel，ViewModel是View和Model的关系映射，怎么理解这句话？
-- Model 层，用户从后端获取数据
-- View 层，代表用户看到的视图
-- ViewModel 则用来处理js对象和视图模版的映射关系，可以理解为数据的抽象画视图，ViewModel 充当着观察者的角色，当 view 或者 model 任一发生了改变，则会通知另一方作出相应的变化，即为数据的双向绑定
-
-MVVM最标志的特性是数据绑定，MVVM的核心理念是通过声明式的数据绑定来实现View的分离，完全解耦View
-
-
 ### SPA
 
 单页面应用可以看作是MVVM的一个产物，同时单页面应用也带来了一些挑战：
@@ -50,6 +40,15 @@ React 框架在一定程度上解决了上述问题：
 - 数据双向绑定，react 的 state 特性 来进行UI状态管理
 - diff算法，虚拟DOM树来更新DOM
 - JSX 来进行模版渲染，通过js来进对应组件的HTML渲染
+
+### 结合 JSX 
+
+结合 JSX 来思考：React 是如何将 JSX 和 diff算法结合起来，输出一个基于 JavaScript 的模版引擎
+
+- 将模版转换成 DSL（领域特定语言）
+- 调用 JavaScript 来渲染出对应的 DOM 节点
+- 通过 diff 算法，最小成本地更新 DOM
+
 
 
 ## 数据自顶向下

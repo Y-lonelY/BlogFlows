@@ -30,7 +30,7 @@ module.exports = {
             '/project/': getProjectSide(),
             '/packages/': getPackagesSide(),
             '/normalize/': getNormalizeSide('Normalize'),
-            '/concept/': getConceptSide('Concept'),
+            '/concept/': getConceptSide(),
             '/tools/': getToolsSide(),
         }
     }
@@ -62,6 +62,7 @@ function getToolsSide() {
                 'muscle/babel',
                 'muscle/shell',
                 'muscle/nginx',
+                'muscle/macos'
             ]
         },
         {
@@ -105,6 +106,7 @@ function getPackagesSide() {
                 'Scenes/a.monitor',
                 'Vue/vue',
                 'Vue/vuex',
+                'Vue/ui-frame',
                 'a.cluster',
                 'c.swift',
                 'd.python',
@@ -115,18 +117,26 @@ function getPackagesSide() {
     ]
 }
 
-function getConceptSide(groupA) {
+function getConceptSide() {
     return [
         '/concept/',
         {
-            title: groupA,
+            title: 'FE-Concept',
             collapsable: false,
             children: [
-                'a.javascript',
-                'b.network',
-                'c.react',
-                'd.node',
-                'e.css'
+                'frontend/javascript',
+                'frontend/react',
+                'frontend/module'
+                'frontend/node',
+                'frontend/mv*'
+            ]
+        },
+        {
+            title: 'LF-Concept',
+            collapsable: false,
+            children: [
+                'network',
+                'css'
             ]
         }
     ]
@@ -193,9 +203,10 @@ function getCoreSide() {
             // 表示不会关闭
             collapsable: false,
             children: [
-                'JavaScript/d.javascript',
-                'JavaScript/a.esx',
-                'JavaScript/b.typescript'
+                'javascript/javascript',
+                'javascript/esx',
+                'javascript/typescript',
+                'javascript/array'
             ]
         }, {
             title: 'React',
@@ -204,7 +215,7 @@ function getCoreSide() {
             children: [
                 'React/a.basic',
                 'React/b.advanced',
-                'React/c.hook'
+                'React/hook'
             ]
         }, {
             title: 'Vue',
@@ -219,7 +230,8 @@ function getCoreSide() {
             // 表示不会关闭
             collapsable: false,
             children: [
-                'HTML5/a.basic'
+                'HTML5/basic',
+                'HTML5/elements'
             ]
         }, {
             title: 'Swift4.x',
