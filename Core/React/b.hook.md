@@ -4,6 +4,7 @@
 	- [Why?](#why)
 	- [Trivia](#trivia)
 	- [自定义 hook](#%E8%87%AA%E5%AE%9A%E4%B9%89-hook)
+	- [useRef](#useref)
 	- [useState](#usestate)
 	- [useReducer](#usereducer)
 	- [useEffect](#useeffect)
@@ -49,6 +50,23 @@ Hook 是一个特殊的函数，它可以让你“钩入” React 的特性，�
 > 自定义 Hook 更像是一种约定而不是功能
 
 在 React 内，如果一个函数以 `use` 开头并调用其他 React Hook，则其就是一个自定义 hook
+
+## useRef
+
+useRef 返回一个可变的 ref 对象，其 `.current` 属性被初始化为传入的参数。
+本质上来说就是在变量的 `.current` 保存了一个指向子组件实例的值
+
+```ts
+function Test() {
+	const helloRef = useRef(null)
+	// 使用
+	helloRef.current.focus()
+
+	return (
+		<input ref={helloRef} />
+	)
+}
+```
 
 
 ## useState
