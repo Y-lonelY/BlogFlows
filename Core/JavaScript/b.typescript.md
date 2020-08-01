@@ -2,6 +2,7 @@
 
 - [useful features](#useful-features)
 - [how React hooks work with TypeScript](#how-react-hooks-work-with-typescript)
+- [Tips](#tips)
 - [declare](#declare)
 - [结合React Ref 进行使用](#%E7%BB%93%E5%90%88react-ref-%E8%BF%9B%E8%A1%8C%E4%BD%BF%E7%94%A8)
 - [对dom节点进行类型断言](#%E5%AF%B9dom%E8%8A%82%E7%82%B9%E8%BF%9B%E8%A1%8C%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80)
@@ -53,6 +54,11 @@ function Test({ value }: Testprops) {
   const [other, setOther] = useState(false)
 }
 ```
+
+## Tips
+
+在 TypeScript 内为对象动态分配属性名：`interface Test { [key: string]: any }`，则 Test 可以接受任务字符串作为键的字段
+
 
 ## declare
 
