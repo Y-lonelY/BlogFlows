@@ -137,3 +137,26 @@ Go 也支持通过反斜杠进行转义，参考 [Y-lonelY/dataType](https://git
 - 浮点数转换时需要注意每个类型的精度范围，注意精度丢失的问题
 - 浮点数转整形，会直接截取整数部分
 
+
+
+
+
+### Conditional Judgement
+
+具体可以参考 [Y-lonelY](https://github.com/Y-lonelY/study-go/blob/master/base/condition_judge.go) 进行理解
+
+在 `if` 语句的使用过程中，应该注意以下细节
+
+- 条件语句**不需要**括号进行包裹
+- 大括号必须存在
+- 左括号必须在 `if` 或 `else` 同一行
+- 在 `if` 之后，条件判断语句之前，可以添加变量初始化语句，通过 `;` 进行分隔
+
+- `if...else` 内定义的变量只能在其块内使用，类似 JavaScript 的块级作用域概念
+
+
+
+
+
+
+
