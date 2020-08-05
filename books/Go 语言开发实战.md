@@ -174,7 +174,7 @@ func main() {
 
 ### Conditional Judgement
 
-具体可以参考 [Y-lonelY](https://github.com/Y-lonelY/study-go/blob/master/base/condition_judge.go) 进行理解
+具体可以参考 [Y-lonelY/Condition-Judge](https://github.com/Y-lonelY/study-go/blob/master/base/condition_judge.go) 进行理解
 
 在 `if` 语句的使用过程中，应该注意以下细节
 
@@ -189,4 +189,19 @@ func main() {
 - 匹配项内无须使用 `break`，因为 Go 语言中默认给每个 `case` 带 `break`
 - 可以添加 `fallthrough` 强制执行后面的 `case` 分支，且 `fallthrough` 必须放在 `case` 分支的最后一行
 - `case` 和判断条件必须是同类型或最终结果为相同类型的表达式
+
+
+
+### Loop
+
+`for` 是 Go 语言中唯一的循环语句，Go 内没有 `while`、`do...while` 循环
+
+参考 [Y-lonelY/loop](https://github.com/Y-lonelY/study-go/blob/master/base/loop.go) 进行理解
+
+基本语法结构通过初试语句、条件表达式和结束语句组成，在 Go 内可以对基本组成进行组合，从而衍生出一些不同的写法
+
+1. 省略初试语句、条件表达式的写法
+2. 类 `while` 写法，将结束语句放在循环体内
+3. `for` 关键字后无表达式，此时执行无限循环，通过 `break` 跳出循环
+4. 通过 `range` 关键字对 array, string 等可迭代对象进行循环，注意与 JavaScript 不同的是 `index && value` 的占位顺序
 
