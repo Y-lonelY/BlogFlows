@@ -116,6 +116,8 @@ function getPackagesSide() {
             children: [
                 'React/react',
                 'React/redux',
+                'React/antd-pro',
+                'React/react-router',
                 'Scenes/a.monitor',
                 'Vue/vue',
                 'Vue/vuex',
@@ -141,7 +143,7 @@ function getConceptSide() {
                 'frontend/react',
                 'frontend/module',
                 'frontend/node',
-                'frontend/mv*'
+                'frontend/mvvm'
             ]
         },
         {

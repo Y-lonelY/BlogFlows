@@ -37,6 +37,10 @@ function Test({ value }: Testprops) {
 }
 ```
 
+## Tips
+
+在 TypeScript 内为对象动态分配属性名：`interface Test { [key: string]: any }`，则 Test 可以接受任务字符串作为键的字段
+
 
 ## declare
 
