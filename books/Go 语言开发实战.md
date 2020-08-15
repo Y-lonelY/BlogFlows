@@ -8,6 +8,8 @@
 
 
 
+> 这里主要记录 Go 入门的基础知识，结合 JavaScript 对其中概念进行理解
+
 **Go 的优势：**
 
 1. 简单易学。
@@ -205,3 +207,59 @@ func main() {
 3. `for` 关键字后无表达式，此时执行无限循环，通过 `break` 跳出循环
 4. 通过 `range` 关键字对 array, string 等可迭代对象进行循环，注意与 JavaScript 不同的是 `index && value` 的占位顺序
 
+
+
+## Function
+
+函数是组织好的、可重复利用的执行特定任务的代码块。函数是编程语言中一个绕不开的话题。
+
+结合 JavaScript 内的函数进行理解，可以发现一些相似的概念：
+
+- 函数作用域，参看 [Y-lonelY/scope](https://github.com/Y-lonelY/study-go/blob/master/function/scope.go) 进行理解
+- 函数作为值传递
+- 闭包
+- 匿名函数
+
+在 Go 内的函数声明 `func funcname(参数列表)(返回值列表) { 函数体 }`
+
+
+
+### 函数变量（函数作为值）
+
+在 Go 内，函数也是一种类型，通过 `type` 关键字定义类型，在使用时形如 `int` 等，可以结合 typescript 的 `interface` 进行理解
+
+同一类型的函数，如果形参类型，大小，顺序一致，则输出结果一致
+
+参看 [Y-lonelY/asValue](https://github.com/Y-lonelY/study-go/blob/master/function/asValue.go) 进行理解
+
+函数变量的使用步骤：
+
+1. 定义一个函数类型
+2. 实现定义的函数类型（的函数）
+3. 将其作为参数调用
+
+
+
+### 匿名函数
+
+回想一下，在 JavaScript 内，匿名函数机会无处不在
+
+```javascript
+// case 1 自执行
+(function hello(data) {
+  console.log(data)
+})("hello world")
+
+// case 2 函数声明时赋值给一个变量，arrow function 尤为流行
+const hello = () => { statement }
+
+// case 3 作为回调函数进行参数传递，node 中比较常见 
+function hello(str, callback) {
+  callback(str)
+}
+hello('hello world', (str) => { console.log(str) })
+```
+
+在 Go 内，匿名函数的使用方法也类似，参考 [Y-lonelY/anonymous](https://github.com/Y-lonelY/study-go/blob/master/function/anonymous.go) 进行理解
+
+匿名函数可以理解为在需要时才被定义的函数，没有函数名，只有函数体
