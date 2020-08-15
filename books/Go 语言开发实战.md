@@ -8,6 +8,8 @@
 
 
 
+> 这里主要记录 Go 入门的基础知识，结合 JavaScript 对其中概念进行理解
+
 **Go 的优势：**
 
 1. 简单易学。
@@ -172,3 +174,92 @@ func main() {
 
 
 
+### Conditional Judgement
+
+具体可以参考 [Y-lonelY/Condition-Judge](https://github.com/Y-lonelY/study-go/blob/master/base/condition_judge.go) 进行理解
+
+在 `if` 语句的使用过程中，应该注意以下细节
+
+- 条件语句**不需要**括号进行包裹
+- 大括号必须存在
+- 左括号必须在 `if` 或 `else` 同一行
+- 在 `if` 之后，条件判断语句之前，可以添加变量初始化语句，通过 `;` 进行分隔
+- `if...else` 内定义的变量只能在其块内使用，类似 JavaScript 的块级作用域概念
+
+在 `switch` 语句的使用过程中，应该注意以下细节
+
+- 匹配项内无须使用 `break`，因为 Go 语言中默认给每个 `case` 带 `break`
+- 可以添加 `fallthrough` 强制执行后面的 `case` 分支，且 `fallthrough` 必须放在 `case` 分支的最后一行
+- `case` 和判断条件必须是同类型或最终结果为相同类型的表达式
+
+
+
+### Loop
+
+`for` 是 Go 语言中唯一的循环语句，Go 内没有 `while`、`do...while` 循环
+
+参考 [Y-lonelY/loop](https://github.com/Y-lonelY/study-go/blob/master/base/loop.go) 进行理解
+
+基本语法结构通过初试语句、条件表达式和结束语句组成，在 Go 内可以对基本组成进行组合，从而衍生出一些不同的写法
+
+1. 省略初试语句、条件表达式的写法
+2. 类 `while` 写法，将结束语句放在循环体内
+3. `for` 关键字后无表达式，此时执行无限循环，通过 `break` 跳出循环
+4. 通过 `range` 关键字对 array, string 等可迭代对象进行循环，注意与 JavaScript 不同的是 `index && value` 的占位顺序
+
+
+
+## Function
+
+函数是组织好的、可重复利用的执行特定任务的代码块。函数是编程语言中一个绕不开的话题。
+
+结合 JavaScript 内的函数进行理解，可以发现一些相似的概念：
+
+- 函数作用域，参看 [Y-lonelY/scope](https://github.com/Y-lonelY/study-go/blob/master/function/scope.go) 进行理解
+- 函数作为值传递
+- 闭包
+- 匿名函数
+
+在 Go 内的函数声明 `func funcname(参数列表)(返回值列表) { 函数体 }`
+
+
+
+### 函数变量（函数作为值）
+
+在 Go 内，函数也是一种类型，通过 `type` 关键字定义类型，在使用时形如 `int` 等，可以结合 typescript 的 `interface` 进行理解
+
+同一类型的函数，如果形参类型，大小，顺序一致，则输出结果一致
+
+参看 [Y-lonelY/asValue](https://github.com/Y-lonelY/study-go/blob/master/function/asValue.go) 进行理解
+
+函数变量的使用步骤：
+
+1. 定义一个函数类型
+2. 实现定义的函数类型（的函数）
+3. 将其作为参数调用
+
+
+
+### 匿名函数
+
+回想一下，在 JavaScript 内，匿名函数机会无处不在
+
+```javascript
+// case 1 自执行
+(function hello(data) {
+  console.log(data)
+})("hello world")
+
+// case 2 函数声明时赋值给一个变量，arrow function 尤为流行
+const hello = () => { statement }
+
+// case 3 作为回调函数进行参数传递，node 中比较常见 
+function hello(str, callback) {
+  callback(str)
+}
+hello('hello world', (str) => { console.log(str) })
+```
+
+在 Go 内，匿名函数的使用方法也类似，参考 [Y-lonelY/anonymous](https://github.com/Y-lonelY/study-go/blob/master/function/anonymous.go) 进行理解
+
+匿名函数可以理解为在需要时才被定义的函数，没有函数名，只有函数体
