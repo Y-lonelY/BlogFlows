@@ -13,7 +13,7 @@
 
 ## Assets
 
-[第三方typescript package 网站](https://microsoft.github.io/TypeSearch/)
+[第三方 typescript package 网站](https://microsoft.github.io/TypeSearch/)
 
 [Redux With TypeScript官方文档](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
 
@@ -44,14 +44,27 @@
 解决：使用 any 语法，例如 `let obj = {} as any`
 
 
+
+## Maps
+
+记录项目内，关于 `typescript` 和组件声明时的一些映射关系
+
+```js
+const maps = {
+  "React.FC": "函数组件，支持范型"
+}
+```
+
+
+
+
 ## Create My App
 
-React 项目内引入 TypeScript
+React 项目内引入 TypeScript，参考 [adding-typescript](https://create-react-app.dev/docs/adding-typescript) 进行操作
 
-- 进入已经建立的 create my app 项目的根目录，执行 `npm install --save typescript @types/node @types/react @types/react-dom @types/jest` 向已存在项目内引入对应的 TypeScript
-- 使用文件后缀 `.tsx`（替代 `.ts`, `.js`, `.jsx`）
-- 在tsconfig.json配置文件的 `compilerOptions` 里设置选项 `"jsx": "react"`
-- 启动项目，准备开始修正错误
+1. 进入已经建立的 create my app 项目的根目录，执行 `npm install --save typescript @types/node @types/react @types/react-dom @types/jest` 向已存在项目内引入对应的 TypeScript
+2. 使用文件后缀 `.tsx`（替代 `.ts`, `.js`, `.jsx`）
+3. 在tsconfig.json配置文件的 `compilerOptions` 里设置选项 `"jsx": "react"`
 
 ### Config
 
