@@ -4,6 +4,8 @@
 # Ada Library Information
 *.ali
 
+*.zip
+
 *.DS_store
 
 # ignore file
