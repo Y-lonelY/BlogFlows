@@ -10,6 +10,40 @@
 
 
 
+## Install && Update
+
+参考 [Create React App / Get Start](https://create-react-app.dev/docs/getting-started) 进行本地项目构建
+
+- project name 内不能含有大写字母，否则会出现 `Error: name can no longer containe capital letters` 
+- 安装成功之后，通过 `package.json` 查看运行命令
+- `npm run eject` 用来暴露 webpack, scripts 等高级配置文件，是一个单向操作（这意味着你不能 `back`）
+
+
+
+### With Typescript
+
+`yarn add typescript @types/node @types/react @types/react-dom @types/jest` 添加 typescript 以及依赖
+
+`yarn add @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-config-react eslint-plugin-prettier prettier` 添加 Eslint  Prettier 等依赖工具
+
+安装之后进行相关配置，参考[Y-lonelY/init the app](https://github.com/Y-lonelY/fe-template/tree/v0.1-beta.1) 进行学习，主要配置：
+
+- `.eslintrc.js`
+- `.eslintignore`
+- `tsconfig.json`
+- `src/typing.d.ts` 用来全局 declare，解决引入 less, svg 等文件报错的问题
+
+
+
+### Antd Theme
+
+参考 [apply antd theme](https://ant.design/docs/react/use-with-create-react-app-cn) 进行主题配置
+
+- 这里利用 [craco](https://github.com/gsoft-inc/craco) 来进行配置的 override，它是一个对 create-react-app 进行自定义配置的社区解决方案，因为如果你没有 `npm run eject` 的话，是对配置无感知的，但是也并不建议将其暴露出来
+- 注意在 `yarn add @craco/craco` 之后，要修改启动脚本，同时在根目录添加 `craco.config.js` 用于覆盖配置
+
+
+
 ## Travia
 
 1. `process.env.NODE_ENV === 'development'` 用来区分生产环境和开发环境
@@ -118,27 +152,6 @@ return {
 
 
 
-
-
-
-## Install && Update
-
-在当前路径下新建一个名为 rApp 的 react app，可以：
-
-1. `npx create-react-app rapp`  npx 为 npm5.2+ 附带的包运行工具
-2. 也可以执行 `npm init react-app rapp` 
-
-注意，project name 内不能含有大写字母，否则会出现 `Error: name can no longer containe capital letters` 
-
-通过 `npm install react-scripts@latest` 对 react app 进行更新
-
-安装成功之后，通过 `package.json` 查看运行命令，值得一提的是，`npm run eject` 添加一些高级配置，单向操作（这意味着你不能back）
-
-通过 `npm install --save xxxx` 来安装依赖项
-
-如果需要声明全局变量，最好不要在 .html 文件内直接声明，挂载到 `window` 对象上是更好的办法
-
-例如，通过执行 `npm install --save react-router-dom` 来添加路由解决方案，如果提示有漏洞，执行 `npm audit fix --force` 来修复漏洞
 
 
 

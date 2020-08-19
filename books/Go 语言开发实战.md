@@ -6,8 +6,6 @@
 - Rob Pike 是 UNIX, UTF-8, plan9 的作者
 - Ken Thompson 是 B 语言, C 语言的作者, UNIX 之父
 
-
-
 > 这里主要记录 Go 入门的基础知识，结合 JavaScript 对其中概念进行理解
 
 **Go 的优势：**
@@ -215,12 +213,31 @@ func main() {
 
 结合 JavaScript 内的函数进行理解，可以发现一些相似的概念：
 
-- 函数作用域，参看 [Y-lonelY/scope](https://github.com/Y-lonelY/study-go/blob/master/function/scope.go) 进行理解
+- 函数作用域，参看 [Y-lonelY/function/scope](https://github.com/Y-lonelY/study-go/blob/master/function/scope.go) 进行理解
 - 函数作为值传递
 - 闭包
 - 匿名函数
+- 递归函数
 
 在 Go 内的函数声明 `func funcname(参数列表)(返回值列表) { 函数体 }`
+
+
+
+### 函数传参
+
+函数传参分为**值传递**和**引用传递**，在 Go 内，使用的是值传递，即在调用过程中，会将实参复制后进行传递，不会影响到原内容数据
+
+在 Go 内也可以进行引用传递，即将实参地址进行传递，这样做的好处：
+
+- 指针更轻量，可以降低内存开销、时间开销和性能消耗
+- 指针传递可以使得多个函数操作同一个对象
+
+总结一下，Go 内所有的传参都是值传递
+
+- 对于值类型为（int, string, bool, array, struct）的，在函数中无法修改原始值
+- 对于值类型为（pointer, slice, map, chan）的，可以修改原始数据
+
+
 
 
 
@@ -230,7 +247,7 @@ func main() {
 
 同一类型的函数，如果形参类型，大小，顺序一致，则输出结果一致
 
-参看 [Y-lonelY/asValue](https://github.com/Y-lonelY/study-go/blob/master/function/asValue.go) 进行理解
+参看 [Y-lonelY/function/asValue](https://github.com/Y-lonelY/study-go/blob/master/function/asValue.go) 进行理解
 
 函数变量的使用步骤：
 
@@ -263,3 +280,99 @@ hello('hello world', (str) => { console.log(str) })
 在 Go 内，匿名函数的使用方法也类似，参考 [Y-lonelY/anonymous](https://github.com/Y-lonelY/study-go/blob/master/function/anonymous.go) 进行理解
 
 匿名函数可以理解为在需要时才被定义的函数，没有函数名，只有函数体
+
+
+
+### 闭包
+
+结合 JavaScript 来理解，闭包并不是一个陌生的东西，这里加深几个概念：
+
+1.  闭包是由函数与其相关的引用环境组合而成的实体（**闭包 = 函数 + 引用环境**）。因此，**函数 ≠ 闭包**，函数是可执行的代码块，其在定义之后就不会发生改变，而闭包在运行时可以有多个实例，不同的引用环境和相同的函数表达式可以组合产生不同的实例
+2. 函数本身不存储任何信息，闭包具有**记忆性**。因此可以将闭包理解为 `runtime` 的概念
+3. 对象是附有行为的数据，而闭包是附有数据的行为
+
+闭包的优势：
+
+- 模块化，以简单的方式来开发较小的模块，提高开发效率
+- 抽象，闭包是数据和行为的组合
+- 简化代码
+
+
+
+### 可变参数
+
+类似 JavaScript 内的 `arguments` 概念，支持可变参数。在 Go 内，如果一个函数的参数、类型一致，但是个数不定，可以采用可变参数
+
+参看 [Y-lonelY/function/scope](https://github.com/Y-lonelY/study-go/blob/master/function/scope.go) 进行理解
+
+通过三点运算符来表示可变参数，使用可变参数注意以下细节
+
+- 一个函数最多只能有一个可变参数
+- 如果参数列表还有其他类型参数，则可变参数应该放在形参最后
+
+```go
+// 可变参数实现，形参解构
+func varParams(data ...float64) (sum, avg float64, count int)  {
+	for _, value := range data {
+		sum += value
+		count++
+	}
+	avg = sum / float64(count)
+	return sum, avg, count
+}
+
+func main() {
+	source := []float64{4,5,6}
+  // 传递参数解构
+	fmt.Println(varParams(source...))
+}
+```
+
+
+
+## Pointer
+
+指针是存储另一个变量的内存地址的变量
+
+例如，变量 a 的值为 6，存储地址为 0x777777，变量 b 值为变量 a 的地址，则 b 指向 a
+
+参考 [Y-lonelY/pointer/define](https://github.com/Y-lonelY/study-go/blob/master/pointer/define.go) 进行理解
+
+在 Go 内：
+
+- 通过取地址符 `&` 来获取变量的内存地址
+- 指针不能运算
+
+通过 `var pointerName *pointerType` 来**声明一个指针**，例如 `var p *int = &a`，指针的使用流程：
+
+1. 声明一个指针变量
+2. 为指针变量赋值
+3. 访问指针变量指向的地址值
+4. 获取指针变量指向的变量值，通过 `*` 获取
+
+**空指针**，指的是当一个指针被定义后没有分配到任何变量，其值为 `nil`，通过 `p == nil` 来判断是否为空指针
+
+使用指针的场景：
+
+1. 通过指针修改变量的值
+2. 将指针作为函数参数进行传递，作为函数参数传递时，在函数体内，复制一个指针，但是**指针指向的内存没有发生改变**，从而可以实现对传入数据的修改
+
+
+
+## Array
+
+数组是**相同类型**的一组数据构成的长度固定的序列。与 JavaScript 不同，数组内可以存放不同类型的数据（但是不建议这样做）
+
+因为数组的内存是一段连续的存储区域，因此数组的索引速度非常快，但是数组也有一定的缺陷，就是定义后长度不能改变
+
+基本定义方式 `var 变量名 = [数组长度]数据类型{value}`，比如 `var nums = [2]int{1,2}`
+
+参考 [Y-lonelY/array/define](https://github.com/Y-lonelY/study-go/blob/master/array/define.go) 进行理解
+
+关于数组定义，注意：
+
+- 数组长度必须大于 0，未初始化的数组不等于 `nil`
+- 初始化数组 `{}` 内元素个数不能大于定义的数组长度
+- 数组长度在定义时可以忽略，用 `...`（或者不设置） 来让编译器自动计算
+- 通过 `len()` 来获取数组长度
+

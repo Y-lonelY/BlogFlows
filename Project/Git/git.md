@@ -52,6 +52,16 @@ stash 相关命令，stash 主要体现在切换分支或者 pull 产生 merge�
 - `git stash pop stash@{0}` 应用并删除第一个 stash 缓存
 
 
+
+### push
+
+试想一个场景，如果你在本地 `reset head` 到一个历史 commit，同时在此基础上进行开发，然后不希望再使用 `remote/master` 上的一些提交，跳过他们直接覆盖本地提交，则可以使用 `git push --force` 将本地 commit 强行推送至服务端
+
+- 这种操作带来的风险点：如果另一个人在该分支上也提交了内容，那么会将他的提交内容也覆盖（清空）
+
+
+
+
 ## rebase
 
 ### 合并多个 commit
@@ -71,8 +81,10 @@ stash 相关命令，stash 主要体现在切换分支或者 pull 产生 merge�
 
 ### Failed to compile Module not found...
 
-描述：clone react 项目之后，发现 `Failed to compile Module not found does not match the corresponding path on disk`，即在本地磁盘找不到引入的模块<br>
-原因：在 Mac 下文件名不区分大小写，因此 git 无法追踪到文件名大小写的更改，从而无法同步到远程仓库，而在 windows 系统下，是区分大小写的<br>
+描述：clone react 项目之后，发现 `Failed to compile Module not found does not match the corresponding path on disk`，即在本地磁盘找不到引入的模块
+
+原因：在 Mac 下文件名不区分大小写，因此 git 无法追踪到文件名大小写的更改，从而无法同步到远程仓库，而在 windows 系统下，是区分大小写的
+
 解决：重新更改文件名大小写即可
 
 
