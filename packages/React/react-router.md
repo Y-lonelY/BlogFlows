@@ -1,17 +1,89 @@
 # React Router
 
-[react 路由组件](https://reacttraining.com/react-router/web/guides/quick-start) 通过 `npm install react-router-dom --save` 来引入
+> React 生态的路由组件
 
-react router 内包含三种类型组件：
+执行 `npm install react-router-dom --save`  或者 `yarn add react-router-dom` 来引入
 
-1. 路由器组件
-2. 路由器匹配组件
-3. 导航组件
+⚠️ [react-router future](https://reacttraining.com/blog/reach-react-router-future/) 将会发布新的路由组件，主要是因为 React Hooks 的发布从根本上改变了生态，从而引发了 react-router 的重构，可以关注一下！
 
-理解：路由器匹配组件一般映射一个模块，当 url 改变时则会去匹配该模块并展示，但是所有的路由器匹配组件都必须被包裹在路由器组件内
+简单介绍下 [react-router](https://reactrouter.com/web/example/basic) 的基础知识和一些可利用的组件，接着会介绍针对项目内的使用和组件封装方法
+
+## Basic
+
+React-router 包含三种类型组件，**路由器匹配组件**通常映射一个业务模块，当 url 改变时则会去匹配该模块并展示，所有的路由器匹配组件都必须被包裹在**路由器组件**内：
+
+1. 路由器组件， like `<BrowserRouter>` and `<HashRouter>`
+2. 路由器匹配组件，like `<Route>`  and  `<Switch>`
+3. 导航组件，like `<Link>`, `<NavLink>`, and `<Redirect>`
+
+此外，React-router 还提供了一些很棒的特性：
+
+- [Prompt](https://reactrouter.com/web/example/preventing-transitions) 用来阻止用户直接退出当前路径，通常用来确定用户表单提交
+- [no-match](https://reactrouter.com/web/example/no-match) 用来捕获匹配到的路由，并对其进行处理
+- 一个页面内，多个地方匹配路由是一种很常见的场景，比如侧边栏、面包屑和主体内容，在 React-router 内，不过是实现多个 `<Switch><Route></Route></Switch>` 的事情，参考 [Sidebar](https://reactrouter.com/web/example/sidebar)
+- React-router 提供 [animated-transitions](https://reactrouter.com/web/example/animated-transitions) 来处理页面切换的过渡效果，注意需要引入 `react-transition-group`
+- [Modal Gallery](https://reactrouter.com/web/example/modal-gallery) 是一个 hack 方法的实例，通过 state 同时支持在当前页面内跳转和替换当前页面两种展示模式
 
 
-## 通过import实现组件的异步加载
+
+### 路由跳转
+
+在  `react-router` 内实现路由跳转，可以通过 `<Link>`、`withRouter`、`useHistory`、`<Redirect>`、`<NavLink>`  来实现
+
+#### Link
+
+针对 `to` 属性，可以支持 string、object、function 三种形式
+
+通过 `replace` 来控制 `target = blank or self`
+
+```ts
+// with params && query
+<Link
+  to={{
+    pathname: "/courses",
+    search: "?sort=name",
+    hash: "#the-hash",
+    state: { fromDashboard: true }
+  }}
+/>
+```
+
+
+
+#### withRouter
+
+给控件绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现
+
+```js
+import { withRouter } from 'react-router-dom';
+class FlowHeader extends React.Component<FlowHeaderProps, FlowHeaderState> {
+	// statement
+
+    handleRouter = (index) => {
+        const selectedItem = flowItems[index];
+        if (selectedItem.label === this.state.currentItem) {
+            return;
+        } else {
+            this.props.history.push('/');
+        }
+    }
+}
+
+export default withRouter(FlowHeader);
+
+// use in redux
+export default withRouter(connect(...)(MyComponent))
+```
+
+## 
+
+
+
+## In Project
+
+介绍在项目的一些使用技巧
+
+### 利用 import 实现组件的异步加载
 
 `import()` 方法会返回一个 Promise 对象，可以利用其进行异步加载操作
 
@@ -51,84 +123,19 @@ export function asyncComponent(targetComponent) {
 const component = asyncComponent(() => import ('@/view/Practice'));
 ```
 
-## 路由跳转
-
-在 react-router 内实现路由跳转，可以通过 `<Link>`、`withRouter`、`useHistory` 来实现
-
-### useHistory
 
 
-
-### <Link>
-
-针对 `to` 属性，可以支持 string、object、function 三种形式
-
-通过 `replace` 来控制 `target = blank or self`
-
-```ts
-// with params && query
-<Link
-  to={{
-    pathname: "/courses",
-    search: "?sort=name",
-    hash: "#the-hash",
-    state: { fromDashboard: true }
-  }}
-/>
-```
-
-### withRouter
-
-给控件绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现
-
-```js
-import { withRouter } from 'react-router-dom';
-class FlowHeader extends React.Component<FlowHeaderProps, FlowHeaderState> {
-	// statement
-
-    handleRouter = (index) => {
-        const selectedItem = flowItems[index];
-        if (selectedItem.label === this.state.currentItem) {
-            return;
-        } else {
-            this.props.history.push('/');
-        }
-    }
-}
-
-export default withRouter(FlowHeader);
-
-// use in redux
-export default withRouter(connect(...)(MyComponent))
-```
-
-## router
-
-路由器组件，是 react router 的**地基**，两个关注组件 `<BroswerRouter>` 和 `<HashRouter>`
-
-一般来说，如果有服务器交互，则应该使用 `<BroswerRouter>`，如果作为静态文件服务器，则使用 `<HashRouter>`
-
-`<BroswerRouter>` 利用 H5.history.api(pushState, replaceState, popState) 来实现 UI 和 URL 的同步
-
-`<HashRouter>` 利用 window.location.hash 来实现 UI 和 URL 的同步
-
-
-## router matching
-
-路由器匹配组件，两个关注组件 `<Route>` 和 `<Switch>`
-
-`<Route>` 通过比较组件设置的path和当前URL的路径，如果能够匹配上，则返回内容，否则返回 null；如果不设置 path 属性，则一定会匹配
-
-`<Switch>` 组件通常用来包裹 `<Route>` list，在 `<Switch>` 中按照组合的先后顺序进行遍历，返回第一个匹配的 `<Route>`，如果一个都没匹配上，可以设置一个无path属性的 `<Route>` 来作为 404 页面
-
-
-## Use In App
+### Use In App
 
 在 react 项目中，对 react-router 的封装
 
 1. `RouteConfig.js` 用来引入相关的组件，实现对路由的配置，实现对 `<Route>` API 的相关属性配置
 2. `Router.js` 用来实现路由递归逻辑，输入 config，输出 react-router 相关的组件
 3. 在 `app.js` 内引入 `RouteConfig.js` 和 `Router.js`，并通过 `<BrowserRouter>` 或者其他 API 来封装启动路由
+
+
+
+
 
 ## Q&A
 

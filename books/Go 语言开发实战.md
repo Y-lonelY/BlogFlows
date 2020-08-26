@@ -28,6 +28,15 @@
 
 
 
+**package**
+
+Go 内常用的内置包
+
+1. `strings` 参考 [Y-lonelY/packages/strings](https://github.com/Y-lonelY/study-go/blob/master/package/strings.go) 进行应用
+2. 
+
+
+
 ## Base
 
 
@@ -130,7 +139,7 @@ Go 也支持通过反斜杠进行转义，参考 [Y-lonelY/dataType](https://git
 字符串内的每一个元素叫做 **字符**，定义字符时使用**单引号**，在 Go 内字符有两种类型：
 
 - `byte`，1个字节，表示 UTF-8 字符串的单个字节的值
-- `rune`，4个字节，表示单个 unicode 字符
+- `rune`，4个字节，表示单个 unicode 字符，**如果字符串内涉及到中文，推荐使用 rune，因为 byte 存不下一个汉语文字的 Unicode 值**
 
 这里，拓展一下，计算机是二进制的，字符最终也是转换成二进制保存起来的
 
@@ -361,13 +370,13 @@ func main() {
 
 ## Array
 
-数组是**相同类型**的一组数据构成的长度固定的序列。与 JavaScript 不同，数组内可以存放不同类型的数据（但是不建议这样做）
+数组是**相同类型**的一组数据构成的**长度固定**的序列。与 JavaScript 不同，数组内可以存放不同类型的数据（但是不建议这样做）
 
 因为数组的内存是一段连续的存储区域，因此数组的索引速度非常快，但是数组也有一定的缺陷，就是定义后长度不能改变
 
 基本定义方式 `var 变量名 = [数组长度]数据类型{value}`，比如 `var nums = [2]int{1,2}`
 
-参考 [Y-lonelY/array/define](https://github.com/Y-lonelY/study-go/blob/master/array/define.go) 进行理解
+参考 [Y-lonelY/containerType/array](https://github.com/Y-lonelY/study-go/blob/master/containerType/array.go) 进行理解
 
 关于数组定义，注意：
 
@@ -375,4 +384,55 @@ func main() {
 - 初始化数组 `{}` 内元素个数不能大于定义的数组长度
 - 数组长度在定义时可以忽略，用 `...`（或者不设置） 来让编译器自动计算
 - 通过 `len()` 来获取数组长度
+
+在 Go 内，数组并非引用类型（这点区别于 JavaScript），**而是值类型**，这代表将一个数组作为参数进行传递时，会将原始数组复制出一份并分配给新的变量，两者最直观的区别就是，在函数内改变值，原数据是否会发生改变
+
+- 当数组内为引用类型时，比如一个二维数组，如果改变其某项值，仍然会改变原始数据，这点和 JavaScript 一致
+
+
+
+## Slice
+
+与 JavaScript 一个很大区别就是，在 Go 内数组的长度不可变。但是在很多场景中，需要动态改变该数组
+
+针对这类场景，Go 提供了另一种内置类型，切片（Slice）来覆盖这个场景。从底层来看，切片引用了数组的对象，因此与数组的语法有很多相似之处
+
+注意，**切片是引用类型**，可以这样理解：切片没有任何自己的数据，它只是底层数组的一个引用，对切片所做的任何修改都将反映在底层数组内
+
+- 修改切片的值时，当多个切片共享同一个底层数组时，对每个元素所做的更改将在数组中反映
+
+切片的数据结构可以理解为一个结构体，这个结构体包含三个元素
+
+- 指针，指向数组中切片指定的开始位置
+- 长度，即切片的长度（切片内元素的数量）
+- 容量，也就是切片起始位置的长度（从创建切片的索引开始的底层数组中元素的数量）
+
+参考 [Y-lonelY/containerType/slice](https://github.com/Y-lonelY/study-go/blob/master/containerType/slice.go) 进行理解
+
+- 当使用 `append()` 追加元素时，如果容量不够 `(cap-len == 0)` 时，Go 就会创建一个新的内存地址来存储元素
+- `copy()` 不会简历源切片与目标切片之间的联系，修改一个不会影响另一个
+
+**初始化**
+
+1. 通过 `var s = []int{1,2,3}` 直接初始化切片
+2. 从数组内截取产生切片，语法为 `s = arr[startIndex:endindex]`, 注意**包前不包后**，且 `startIndex` 和 `endIndex` 可以作为缺省值
+3. 类似 2，也可以从切片内截取产生切片
+
+
+
+## Map
+
+Go 提供内置类型 `Map`，用来形成字典（也叫做集合），在 Go 内，**Map 是引用类型**
+
+参考 [Y-lonelY/containerType/map](https://github.com/Y-lonelY/study-go/blob/master/containerType/map.go) 进行理解
+
+对 `map` 的理解可以基于 JavaScript 的 `object` 和 `map` 进行思考
+
+`Map` 是一种集合，可以对其进行遍历，但是由于 `map` 是由 **hash 表实现**的，因此其并不保证读取顺序
+
+`Map` 长度不固定，通过 `len()` 方法获取其键值对个数，同一个 `map` 中的 `key` 必须唯一
+
+在 `Map` 类型取值过程中，如果 key 不存在时，会得到该 value 值类型的默认值，比如：`string` 类型会返回空字符串，`int` 类型会返回 0，同时 **会返回一个该 key 是否存在的标识**，通过该标识我们可以做一些操作
+
+通过 `delete(m, key)` 来删除指定键值对，通过 `m = make(map[type]type)` 来清空 map
 
