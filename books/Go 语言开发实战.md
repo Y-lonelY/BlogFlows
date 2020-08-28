@@ -32,8 +32,10 @@
 
 Go 内常用的内置包
 
-1. `strings` 参考 [Y-lonelY/packages/strings](https://github.com/Y-lonelY/study-go/blob/master/package/strings.go) 进行应用
-2. 
+1. `strings` 是字符串切割、比较等基本操作的包，参考 [Y-lonelY/packages/strings](https://github.com/Y-lonelY/study-go/blob/master/package/strings.go) 
+2. `strconv` 是一个字符串转换的包，参考 [Y-lonelY/packages/strconv](https://github.com/Y-lonelY/study-go/blob/master/package/strconv.go) 
+3. `time` 提供了时间处理类的函数，参考 [Y-lonelY/packages/time](https://github.com/Y-lonelY/study-go/blob/master/package/time.go) 
+4. `math` 提供了基本的数学处理函数和能力，参考 [Y-lonelY/packages/math](https://github.com/Y-lonelY/study-go/blob/master/package/math.go) 
 
 
 
