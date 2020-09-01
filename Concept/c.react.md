@@ -109,11 +109,14 @@ React 内错误根据其表现类型可以分为：
 - 渲染错误，即在渲染阶段发生异常，比如某个组件没有引入就使用
 - 事件错误，即渲染没问题，但是在在调用其触发事件时发生错误，包括同步事件，异步事件以及 Promise 事件
 
+捕获错误实际上就是弄清楚，who when where what cause what（即什么人在什么时间因为执行了某个文件的具体方法从而导致了某个错误）
+
 对于错误事件捕获的方法有：
 
-- `React Error boundaries`，可以捕获引用和渲染错误
-- `window.addEventListener('error')`，可以捕获事件错误的同步情况
-- `window.addEventListener('unhandledrejection')`，可以捕获异步事件错误
+- 使用 `try {} catch(e){}` 语句在事件处理器内部捕获错误
+- `React Error boundaries`，可以捕获资源引用和组件渲染错误，通常这两者在 dev 时就能发现
+- `window.addEventListener('error')`，可以捕获**事件处理**错误
+- `window.addEventListener('unhandledrejection')`，可以捕获**异步代码**错误
 
 
 ```js
@@ -158,18 +161,81 @@ selectorChange = async (value: string) => {
 }
 ```
 
+
+
+### Js 内的 ErrorEvent
+
+通过 `onerror` 捕获的错误类型为 [ErrorEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/ErrorEvent) ，ErrorEvent 继承于 Event，其自身属性包括：
+
+- `message: string` 错误的描述信息
+- `filename: string` 发生错误的文件名
+- `lineno: number` 错误发生的行号
+- `colno: number` 错误发生的列号
+- `error: Error` error 实例
+
+继续了解 [Event](https://developer.mozilla.org/zh-CN/docs/Web/API/Event) 获取更多信息，罗列一些关键点：
+
+- `Event.currentTarget` 标识的是事件沿着 DOM 触发时的当前目标，它指向的是事件绑定元素（因为有可能在触发过程中被改变），`Event.target` 指向的是事件触发元素
+- `isTrusted: boolean` 表示事件是由浏览器（比如用户点击）发起（true）的还是由脚本（使用事件创建方法）引起的（false）
+- `timestamp` 不同浏览器对其定义不一致，因此通常不要使用这个参数来作为时间记录
+- `target.performance.timeOrigin` 表示开始记录的高精度 timestamp
+
+通过 `onunhandledrejection` 捕获的错误类型为 [PromiseRejectionEvent](https://developer.mozilla.org/zh-CN/docs/Web/API/PromiseRejectionEvent) ，它出现在 JavaScript 内 `promise` 被 `reject` 时触发事件，其同样继承于 Event，其自身属性包括：
+
+- `promise` 
+- `reason` 表示 promise 为什么被 rejected
+
+
+
+
+
+### 不同手段获取错误信息的数据上报
+
+针对不同途径获取的错误信息，进行处理后统一上报的信息：
+
+```js
+export interface ErrorInfo {
+  app?: string
+  // "onerror" | "onunhandledrejection" | "componentDidCatch"
+  caughtEvent?: string
+  user?: string
+  message?: string
+  // window.performance.timeOrigin 时间戳
+  timeOrigin?: number | string
+  // at filepath lineno:colno
+  stack?: string
+  // event.type 事件类型
+  type?: string
+  // event.isTrusted 事件触发来源
+  isTrusted?: boolean
+  // 是否启用 cookie
+  cookieEnabled?: boolean
+  cookie?: string
+  userAgent?: string
+  href?: string
+  screenHeight?: number | string
+  screenWidth?: number | string
+}
+```
+
+
+
 ### Error boundaries
 
-Error boundaries 是 React 组件，它会在其子组件树中的任何位置捕获javascript错误，并记录这些错误，展示降级UI而不是崩溃的组件树
+[Error Boundaries](https://zh-hans.reactjs.org/docs/error-boundaries.html#how-about-event-handlers) 是 React 提出的一种用于错误捕获的**组件**，事实上，它是一个的定义了 `static getDerivedStateFromError()` 或 `componentDidCatch()` 生命周期方法的 class 组件
 
-如果 class 组件定义了 `static getDerivedStateFromError()` 或 `componentDidCatch()` 生命周期方法，则该组件就成为了 Error boundaries
+Error Boundaries 的出现是为了解决：部分 UI 的错误导致整个 App 的崩溃的问题，比如一个页面内，侧边栏出现的问题导致整个页面无法显示，此时可以通过捕获侧边栏的错误，渲染出降级的 UI（或者另一个方案）来避免这种情况
+
+Error boundaries **可以捕获并打印发生在其子组件树任何位置的 JavaScript 错误并渲染出备用 UI**
 
 以下情况下不能通过 Error Boundaries 来实现 catch 错误：
 
-- 组件的内部的事件处理函数，因为 Error Boundaries 处理的仅仅是 Render 中的错误，而 Hander Event 并不发生在 Render 过程中
+- 组件的内部的事件处理函数，因为 Error Boundaries 处理的仅仅是 Render 中的错误，而 Handle Event 并不发生在 Render 过程中
 - 异步函数中的异常，Error Boundaries 不能 catch，比如 setTimeout 或者 setInterval ,requestAnimationFrame等函数中的异常
-- 服务器端的 rendering
+- 服务端渲染
 - 它仅捕获其子组件中的错误，本身的错误无法捕获
+
+你可以查看 <a href="" target="_blank">封装 Error Boundaries</a> 来了解更多
 
 
 ```jsx
