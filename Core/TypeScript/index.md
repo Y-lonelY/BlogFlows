@@ -275,7 +275,7 @@ class SuperMan extends Person {
           return super.say()
       }
 
-      fly() {
+      fly () {
           return `${this.name} can fly at the age of ${this.age}`
       }
 }
@@ -289,3 +289,4 @@ const p1 = new Person("xiaoming")
 
 - 前置成员变量，表示其有成员访问权限，比如上面例子的 `name` 属性
 - 在 TypeScript 内，在调用 constructor 内的其他属性之前，必须**强制执行** `super()` 方法
+
