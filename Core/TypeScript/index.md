@@ -188,3 +188,104 @@ function pickCard(x: any): any {
 ```
 
 编译器会根据顺序依次进行匹配，因此，通常将复杂的 overloads 放在前面
+
+
+
+## Union
+
+个人认为，`union` 是 TypeScript 内一个非常棒的特性，它提供了极大的便利性和兼容性，在学习官方文档的时候，它的一个特性让我对它有了更多的想象，它就是 `Discriminating Unions`
+
+- 这里插一句，TypeScript 同样提供 `&` 关键字（**An intersection type combines multiple types into one**）来对多个类型进行合并操作
+
+```typescript
+interface TestA {
+    name: "a"
+    age: number
+}
+
+interface TestB {
+    name: "b"
+    surname: string
+}
+
+interface TestC {
+    name: "c"
+    height: number
+}
+
+type Person = TestA | TestB | TestC
+
+function testPerson(data: Person) {
+  	// Property 'age' does not exist on type 'Person'.
+  	// Property 'age' does not exist on type 'TestB'.(2339)
+    console.log(data.age)
+  	
+  	// 我们可以利用**文本类型**来进行判断
+  	switch (data.name) {
+        case 'a': {
+            console.log(data.age)
+            break
+        }
+        case 'b': {
+            console.log(data.surname)
+            break
+        }
+        case 'c': {
+            console.log(data.height)
+            break
+        }
+    }
+}
+```
+
+
+
+## Classes
+
+如果你厌烦了在 JavaScript 内通过函数和原型的方式来创建组件，那么通过类来创建是一个不错的尝试！
+
+我们先从一个简单的例子开始：
+
+```typescript
+class Person {
+    name: string
+
+    constructor(message: string) {
+      	// if you haven't define the name, you will get error
+      	// Property 'name' does not exist on type 'Person'.(2339)
+        this.name = message
+    }
+
+    say() {
+        return `hello, ${this.name}`
+    }
+}
+
+// 通过 extends 关键字来实现继承
+class SuperMan extends Person {
+    age: number
+    
+    constructor(name: string) {
+        super(name)
+        this.age = 10
+    }
+  	// a case to override the say()
+     say () {
+          console.log("override the say function")
+          return super.say()
+      }
+
+      fly() {
+          return `${this.name} can fly at the age of ${this.age}`
+      }
+}
+
+const p1 = new Person("xiaoming")
+```
+
+
+
+注意：
+
+- 前置成员变量，表示其有成员访问权限，比如上面例子的 `name` 属性
+- 在 TypeScript 内，在调用 constructor 内的其他属性之前，必须**强制执行** `super()` 方法
