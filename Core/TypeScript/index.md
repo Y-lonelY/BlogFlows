@@ -242,51 +242,35 @@ function testPerson(data: Person) {
 
 ## Classes
 
+> A class declaration creates two things: a type representing instances of the class and a constructor function!
+
 如果你厌烦了在 JavaScript 内通过函数和原型的方式来创建组件，那么通过类来创建是一个不错的尝试！
 
-我们先从一个简单的例子开始：
+我们先从一个[简单的例子](https://github.com/Y-lonelY/study-typescript/blob/master/classes/define.ts)开始
 
-```typescript
-class Person {
-    name: string
+在这个例子中，我们需要注意：
 
-    constructor(message: string) {
-      	// if you haven't define the name, you will get error
-      	// Property 'name' does not exist on type 'Person'.(2339)
-        this.name = message
-    }
-
-    say() {
-        return `hello, ${this.name}`
-    }
-}
-
-// 通过 extends 关键字来实现继承
-class SuperMan extends Person {
-    age: number
-    
-    constructor(name: string) {
-        super(name)
-        this.age = 10
-    }
-  	// a case to override the say()
-     say () {
-          console.log("override the say function")
-          return super.say()
-      }
-
-      fly () {
-          return `${this.name} can fly at the age of ${this.age}`
-      }
-}
-
-const p1 = new Person("xiaoming")
-```
-
-
-
-注意：
-
-- 前置成员变量，表示其有成员访问权限，比如上面例子的 `name` 属性
+- 前置成员变量，表示其有成员访问权限
 - 在 TypeScript 内，在调用 constructor 内的其他属性之前，必须**强制执行** `super()` 方法
+
+Class 在被声明时会产生两个动作：
+
+1. 创建一个代表类实例的类型，因此可以支持 `interface extends classes` 的写法
+2. 创建一个构造函数
+
+
+
+### 成员属性
+
+和其他强类型语言一项，TypeScript 内的类也具有成员属性的概念，它提供 `public`、`private`、 `proteced` 以及 `readonly` ，默认为 `public`
+
+这里比较特殊的是 `private`，TypeScript 既支持 ECMAScript 的语法（`#`）也有自己的语法（`private`）
+
+- 相较之下，`#` 的写法内置在 JavaScript 的 runtime，因此它能够更好地保证私有字段的隔离
+- `private` 的特点在于，即使两个类一模一样，但是只要包含 `private` 字段，则它们在类型判定上是不相等的，参考 [Y-lonelY/private](https://github.com/Y-lonelY/study-typescript/blob/master/classes/private.ts) 进行理解
+
+关于 `protected` 总结了一些点，具有可以参考 [understanding-protected)](https://www.typescriptlang.org/docs/handbook/classes.html#understanding-protected) 来进行理解
+
+- 父类内定义的 `protected` 属性，可以在其子类中进行访问，但是其实例（子类和父类的实例）不能访问
+- 如果对父类的构造函数添加 `protected` 标志符，则不能将其进行实例化
 
