@@ -1,16 +1,26 @@
-# TypeScript
+# TypeScript - Basic - Part I
 
-> TypeScript extends JavaScript by adding types.
+> Typed JavaScript at Any Scale.
 
-本文针对一些重要的知识点进行记录，如果你希望系统地进行学习，你可以从[官方文档](https://www.typescriptlang.org/)开始
+![mask](/Users/yango/github/blog/BlogFlows/Core/assets/ts.png)
 
-之前在开始一个新项目的过程中，一个后端同学希望参与到其中，并且坚持要用 `JavaScript` （其实他都不了解 JavaScript 和 TypeScript，仅仅是厌恶 TypeScript 类型检查所带来的开发成本），所以我们就从介绍 `TypeScript` 的优势开始！
+
+
+本文针对 TypeScript 的基础知识进行查漏补缺（可能有些特性你已经在项目内熟练使用了，但是并不清楚它的实际意义和处理方式），如果希望系统地进行学习，你可以从[官方文档](https://www.typescriptlang.org/)开始!
+
+一些题外话：前段时间，在开始一个新项目的过程中，一个后端同学希望参与到其中，并坚持要用 `JavaScript` （相信这种情况只是少数，其实他都不了解 JavaScript 和 TypeScript，仅仅是厌恶 TypeScript 所带来的学习成本），所以这里我们就从介绍 `TypeScript` 的优势开始！
 
 - The main benefit of TypeScript is that it can highlight unexpected behavior in your code, lowering the chance of bugs.
 - While the size, scope, and complexity of programs written in JavaScript has grown exponentially, the ability of the JavaScript language to express the relationships between different units of code has not.
-- 
+- By understanding JavaScript, TypeScript saves you time catching errors and providing fixes before you run code.
 
-如果你是一个初学者，你可以在 [TypeScript Playground](https://www.typescriptlang.org/play/) 上来进行测试和学习🥕
+简而言之就是，TypeScript 能够在增强代码的健壮性和可读性的同时，降低其可维护成本，尤其是维护一个大型项目时，其优势更为明显！
+
+TypeScript 并不是“洪水猛兽”，我们可以**Gradual Adoption(逐步采用)**，从一些简单的文件开始进行学习和开发！
+
+![](/Users/yango/github/blog/BlogFlows/Core/assets/TypeScriptBasic.png)
+
+🥕如果你是一个初学者，强烈推荐在 [TypeScript Playground](https://www.typescriptlang.org/play/) 上来进行测试和学习
 
 
 
@@ -20,27 +30,31 @@
 
 在 `JavaScript` 内，已经提供了一些原始类型：`boolean`, `bigint`, `null`, `number`, `string`, `symbol`, `object` 和 `undefined`
 
-在此基础上，`TypeScript` 扩展了这个列表：
+在此基础上，`TypeScript` 开发了一些扩展的类型来处理不同的场景：
 
-- `any` allow anything
-- `unkonwn` 
-  - like you can't predict the user input
+- **any** 允许任意类型，主要用于兼容第三方库 
+- **unkonwn**
+  - `like you can't predict the user input`
   - 用来通知编译器和未来的读者，这个变量可以是任意类型
   - 如果你使用了一个该类型的变量，你可以通过类型判断来进行处理
-- `never` it's not possible that this type could happen
-- `void` a function which returns undefined or has no return value
+- **never** 用来表示一个不可能出现的值类型，通常用在错误处理
+- **void** 用于函数没有任何返回值或者返回值为 `undefined`，`return null` 会报错噢
 
-同时，TypeScript提供了
 
-1. `interface` 和 `type` 两种语法来创建自定义的 type
-2. `union` 和 `generics(范型)` 来创建复杂的数据结构
-3. `as` 通过断言来告诉编译器 `trust me, I know what I’m doing.`
 
-接下来，我会对一些概念进行选择性地介绍，也许在工作中你已经掌握了它的使用方法，但是你并不清楚它的定义
+### Nullable
+
+在 TypeScript 内，`null` 和 `undefined` 是比较特殊的存在，它们可以被赋值到任意类型，并且你不能阻止这类操作
+
+TypeScript 实现了 [strictNullChecks](https://www.typescriptlang.org/tsconfig#strictNullChecks) 用来保证在正确的时机进行类型检查，即当你声明一个变量时，它不再自动包含 `null` 或者 `undefined`
+
+当你的值可能为 `null` 或者 `undefined` 时，编译器会报错，从而在外层阻止一些“危险”的操作
+
+
 
 ### Tuple
 
-`Tuple` 允许你声明一个具有特定顺序和数量的类型数组，这意味着你必须按照特定顺序和类型来进行取值和赋值操作
+`Tuple` 应该是开发过程中经常用到的一个类型，它允许你声明一个具有特定顺序和数量的类型数组，这意味着你必须按照特定顺序和类型来进行取值和赋值操作
 
 ```typescript
 let t:[string, number] = ["hello", 1]
@@ -50,37 +64,50 @@ t = [1, "world"]
 
 
 
-### Union
+### Enums
 
-For example like below:
+TypeScript 在其 handbook 内花了一章的篇幅来介绍 [`enums`](https://www.typescriptlang.org/docs/handbook/enums.html#computed-and-constant-members)，以至于我想了解一个**枚举**类型为何有如此魔力
+
+- 它相对于 JavaScript 具备哪些特性？
+- 它在开发时能够为我们提供何种便利？
+
+`enums` 允许开发者定义一系列的命名常量，这有助于阅读代码和创建一组不同的案例，先来了解[基本特性](https://github.com/Y-lonelY/study-typescript/tree/master/enums/basic.ts)，**注意 `enums` 的成员变量命名首字母大写**
+
+对于枚举的特性，主要是取值，看一下它的编译文件就很清楚了：
 
 ```typescript
-// define a complex datatype
-function testType(value: string | string[]) {
-  if (typeof value === 'string') {
-    // statement
-  } else if (Array.isArray(value)) {
-    // statement
-  }
+// define a easy enums case
+enum Hello {
+  A,
+  B,
+  C
 }
+
+// after compile
+var Hello;
+(function (Hello) {
+   // Hello["A"] = 0 返回值为 0，这一步的操作，最后输出 Hello {"A": 0, 0: "A"}
+    Hello[Hello["A"] = 0] = "A";
+    Hello[Hello["B"] = 1] = "B";
+    Hello[Hello["C"] = 2] = "C";
+})(Hello || (Hello = {}));
 ```
 
 
 
-### Generics
-
-For example, we define a generics like below:
-
-```typescript
-interface GenericTest<Value> {
-  get: () => Value
-  set: (type: Value) => void
-}
-
-const gen: Generic<string> = {}
-```
+`emuns` 结合 `keyof` 关键字可以生成一个字符类型的 union，其参数为 `enums` 内的成员变量的名字，参考[transfer-to-union](https://github.com/Y-lonelY/study-typescript/tree/master/enums/transfer-to-union.ts)进行理解，这个特性挺棒的，期待在项目内进行实践
 
 
+
+---
+
+
+
+此外，`TypeScript` 提供了一些很酷的东西：
+
+1. `interface` 和 `type` 两种语法来创建自定义的 type
+2. `union` 和 `generics(范型)` 来创建复杂的数据结构
+3. `as` 通过断言来告诉编译器 `trust me, I know what I’m doing.`
 
 
 
@@ -105,6 +132,102 @@ Typescript 内的一个核心法则就是：类型检查专注于值具有的类
    - 同时，通过断言也可以来绕过这种类型检查，同时还有一种比较 hack 方法，将值赋值给一个新的变量来进行传递也可以对该类型检查进行规避
    - 此外，`[index: number]: string` 可以用来表示可索引类型，你应该熟悉 `index` 签名模式，它在开发过程中确实能够带来很多便利
 3. 一个 `interface` 可以通过 `extends` 关键字来延伸**多个** `interface`，比如 `interface A extends B,C {}`
+
+
+
+## Generics
+
+范型和枚举一样，是为数不多的，原生 JavaScript 不具备的特性
+
+> A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also reusable.
+>
+> Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems.
+
+范型的设计和实现就是为了解决组件复用的问题，我理解它就是一种抽象，类似函数：接受输入的参数（类型），做一定转换后，输出相应的类型，因此范型通常用在函数的传参相互影响或者返回值和传参存在某种关联时
+
+来看下面这个例子，我们希望定义一个函数，并且保证其输入类型和输出类型保持一致
+
+- 如果参数类型只有一种，我们可以直接用该类型来规约
+- 如果输入/输出类型不止一种，你可能会想到用 `union` 或者 `any` 来做这件事，但是这些手段并不能够保证其一致性
+
+所以，看看范型是怎么做的：
+
+```typescript
+// 定义一个函数，并且通过范型来保证输入类型和输出类型一致
+function test<T>(args: T): T { return args }
+
+// 调用这个函数，当然你也可以省略 `<string>`，将类型推断交给编译器去处理
+// 基础类型推荐省略的写法，复杂的类型推荐显示指定
+let t = test<string>("hello")
+
+// 定义一个函数类型
+interface GenetateTest<U> {
+  (args: U): U
+}
+// 同时，我们也可以这样做
+// 弄清楚范型签名放的位置，会给我们提供极大的便利
+interface GenetateOtherTest {
+  <U>(args: U): U
+}
+let t2: GenerateTest = t
+```
+
+
+
+使用范型一个提供了极佳的抽象，但是同时也导致了一些问题，实际上，可以理解 `<T>` 为任意值，但是有些属性只属于特定类型的值，这里就会产生冲突，为此 TypeScript 提供了一些约束条件来保证程序的运行，参考 [Generics Constrait](https://github.com/Y-lonelY/study-typescript/tree/master/generic/constrait.ts) 进行理解
+
+
+
+
+
+## Union
+
+个人认为，`union` 是 TypeScript 内一个非常棒的特性，它提供了极大的便利性和兼容性，在学习官方文档的时候，它的一个特性让我对它有了更多的想象，它就是 `Discriminating Unions(辨别组合)`
+
+- 这里插一句，TypeScript 同样提供 `&` 关键字（**An intersection type combines multiple types into one**）来对多个类型进行合并操作
+
+```typescript
+interface TestA {
+    name: "a"
+    age: number
+}
+
+interface TestB {
+    name: "b"
+    surname: string
+}
+
+interface TestC {
+    name: "c"
+    height: number
+}
+
+type Person = TestA | TestB | TestC
+
+function testPerson(data: Person) {
+  	// Property 'age' does not exist on type 'Person'.
+  	// Property 'age' does not exist on type 'TestB'.(2339)
+    console.log(data.age)
+  	
+  	// 我们可以利用**文本类型**来进行判断
+  	switch (data.name) {
+        case 'a': {
+            console.log(data.age)
+            break
+        }
+        case 'b': {
+            console.log(data.surname)
+            break
+        }
+        case 'c': {
+            console.log(data.height)
+            break
+        }
+    }
+}
+```
+
+
 
 
 
@@ -191,55 +314,6 @@ function pickCard(x: any): any {
 
 
 
-## Union
-
-个人认为，`union` 是 TypeScript 内一个非常棒的特性，它提供了极大的便利性和兼容性，在学习官方文档的时候，它的一个特性让我对它有了更多的想象，它就是 `Discriminating Unions`
-
-- 这里插一句，TypeScript 同样提供 `&` 关键字（**An intersection type combines multiple types into one**）来对多个类型进行合并操作
-
-```typescript
-interface TestA {
-    name: "a"
-    age: number
-}
-
-interface TestB {
-    name: "b"
-    surname: string
-}
-
-interface TestC {
-    name: "c"
-    height: number
-}
-
-type Person = TestA | TestB | TestC
-
-function testPerson(data: Person) {
-  	// Property 'age' does not exist on type 'Person'.
-  	// Property 'age' does not exist on type 'TestB'.(2339)
-    console.log(data.age)
-  	
-  	// 我们可以利用**文本类型**来进行判断
-  	switch (data.name) {
-        case 'a': {
-            console.log(data.age)
-            break
-        }
-        case 'b': {
-            console.log(data.surname)
-            break
-        }
-        case 'c': {
-            console.log(data.height)
-            break
-        }
-    }
-}
-```
-
-
-
 ## Classes
 
 > A class declaration creates two things: a type representing instances of the class and a constructor function!
@@ -269,8 +343,16 @@ Class 在被声明时会产生两个动作：
 - 相较之下，`#` 的写法内置在 JavaScript 的 runtime，因此它能够更好地保证私有字段的隔离
 - `private` 的特点在于，即使两个类一模一样，但是只要包含 `private` 字段，则它们在类型判定上是不相等的，参考 [Y-lonelY/private](https://github.com/Y-lonelY/study-typescript/blob/master/classes/private.ts) 进行理解
 
-关于 `protected` 总结了一些点，具有可以参考 [understanding-protected)](https://www.typescriptlang.org/docs/handbook/classes.html#understanding-protected) 来进行理解
+关于 `protected` 总结了一些点，具有可以参考 [understanding-protected](https://www.typescriptlang.org/docs/handbook/classes.html#understanding-protected) 来进行理解
 
 - 父类内定义的 `protected` 属性，可以在其子类中进行访问，但是其实例（子类和父类的实例）不能访问
 - 如果对父类的构造函数添加 `protected` 标志符，则不能将其进行实例化
 
+
+### Todo
+
+- Advanced Features
+- Compile Configs
+
+
+**Thanks for reading, solo with code!🍁**
