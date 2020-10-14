@@ -20,6 +20,12 @@ TypeScript 提供一系列高级的用法来对类型进行建模，本文就是
 
 [Type Guards](https://github.com/Y-lonelY/study-typescript/tree/master/advance/typeGuards.ts) 就是为了解决这类问题
 
+> A type guard is some expression that performs a **runtime check** that guarantees the type in some scope.
+
+从官方文档内，我们可以理解 `Type Guards` 是在 runtime 时执行类型检查的表达式
+
+我们从如下例子开始
+
 ```typescript
 interface SuperMan {
   age: number
@@ -51,7 +57,7 @@ if ("power" in man) {
 }
 ```
 
-2. 如果你确切知道该变量的类型，可以使用 `as` 来进行断言
+2. 如果你确切知道该变量的类型，可以使用 `as` 来进行断言，**但是通常不建议这么做**
 
 ```typescript
 let temp = man as SuperMan
