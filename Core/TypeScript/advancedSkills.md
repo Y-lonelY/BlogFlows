@@ -22,7 +22,7 @@ TypeScript 提供一系列高级的用法来对类型进行建模，本文就是
 
 > A type guard is some expression that performs a **runtime check** that guarantees the type in some scope.
 
-从官方文档内，我们可以理解 `Type Guards` 是在 runtime 时执行类型检查的表达式
+**我理解 `Type Guards` 是在 runtime 时执行类型检查的表达式，目的就是区分当前的变量类型，一般利用不同类型中字段差异来实现**
 
 我们从如下例子开始
 
@@ -45,7 +45,7 @@ let man: SuperMan | IronMan = {
 
 那么问题来了，如何确定 man 是 SuperMan 还是 IronMan，从而使用不同类型内的属性呢?
 
-1. 在 JavaScript 内我们可以通过 `in` 操作符结合不同类型变量的字段差异来进行判断，如下所示
+1. 通过 `in` 操作符结合不同类型变量的**字段差异**来进行判断，如下所示
 
 ```typescript
 // in poerator
@@ -63,4 +63,21 @@ if ("power" in man) {
 let temp = man as SuperMan
 console.log(temp.power)
 ```
+
+3. 自定义的类型判断方法，通常返回一个 `boolean` 
+
+```typescript
+function isSuper(man: SuperMan | IronMan): man is SuperMan {
+  return (man as SuperMan).power !== undefined
+}
+
+if (isSuper(man)) {
+  console.log('man is superMan')
+} else {
+  console.log('man is ironMan')
+}
+```
+
+4. 通过 `typeof` 关键字来判断类型。但是其作用范围有限：`undefined`, `number`, `string`, `boolean`, `bigint`, `symbol`, `object`, `function`，这种通常用于基本类型的判断
+5. 通过 `instanceof` 通过构造函数来缩小判断范围
 

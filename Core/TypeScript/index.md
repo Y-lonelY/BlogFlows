@@ -42,6 +42,16 @@ TypeScript 并不是“洪水猛兽”，我们可以**Gradual Adoption(逐步�
 
 
 
+### Nullable
+
+在 TypeScript 内，`null` 和 `undefined` 是比较特殊的存在，它们可以被赋值到任意类型，并且你不能阻止这类操作
+
+TypeScript 实现了 [strictNullChecks](https://www.typescriptlang.org/tsconfig#strictNullChecks) 用来保证在正确的时机进行类型检查，即当你声明一个变量时，它不再自动包含 `null` 或者 `undefined`
+
+当你的值可能为 `null` 或者 `undefined` 时，编译器会报错，从而在外层阻止一些“危险”的操作
+
+
+
 ### Tuple
 
 `Tuple` 应该是开发过程中经常用到的一个类型，它允许你声明一个具有特定顺序和数量的类型数组，这意味着你必须按照特定顺序和类型来进行取值和赋值操作
