@@ -56,3 +56,28 @@
 =  0 0111
 ```
 
+
+
+
+
+## Operator
+
+### void
+
+`void expression` 运算符用来对给定的表达式进行求值，然后返回 `undefined`
+
+**通常利用 `void 0` 来获取 `undefined` 的原始值**
+
+```typescript
+// TypeScript `?` operator
+let a = a?.length
+// after compiling
+var a = a === null | a === void 0 ? void 0 : a.length
+
+// 阻止默认行为
+<a href="javascript: void(0)">hello</a>
+
+// 用来确保返回值为 undefined, 防止泄漏，防止返回值改变导致非预期的副作用
+button.onclick = () => void doSomething()
+```
+

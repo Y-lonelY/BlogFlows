@@ -81,3 +81,88 @@ if (isSuper(man)) {
 4. 通过 `typeof` 关键字来判断类型。但是其作用范围有限：`undefined`, `number`, `string`, `boolean`, `bigint`, `symbol`, `object`, `function`，这种通常用于基本类型的判断
 5. 通过 `instanceof` 通过构造函数来缩小判断范围
 
+
+
+### Type Assertions Operator
+
+TypeScript 内也提供 `?`, `??` 和 `!` 操作符来进行类型的断言，从而达到类型判断的目的（注：ES2020 也推出了一样的语法）
+
+从使用方法上很好理解，现在我们来看看各个操作符是如何实现的？
+
+```typescript
+// `?` operator
+const len = a?.length
+// after compiling
+// void 0 === undefined
+var len = a === null || a === void 0 ? void 0 : a.length;
+
+// `??` operator
+const len = a ?? b
+// after compiling
+var len = a !== null || a !== void 0 ? a : b
+
+// `!` operator
+const len = a!.length
+// after compiling
+var len = a.length
+```
+
+
+
+## Type Alias
+
+`type` 和 `interface` 在用法上有太多相似之处，但是它们也存在一些微妙的区别，这也正是我们需要清楚的
+
+- TypeScript 推荐优先使用 `interface` 来自定义类型，因为 `interface` 更加贴近 JavaScript 内的 `object` 用法
+- 理论上，`interface` 的所有特性，`type` 都能够实现
+- `type` 能够命名其他需要手写的类型，比如 `type MyNumber = number`
+
+它们最大的区别在于继承方式和定义方式的不同，`type` 不能被重复定义，其属性扩展方式也不同于 `interface`，参考[Y-lonelY/InterfaceVsType](https://github.com/Y-lonelY/study-typescript/blob/master/advance/interfaceVsType.ts)
+
+我们先来看看 `type` 的使用方式，我们从定义行为、继承方式和重复定义的行为来进行比较
+
+```typescript
+// define a type
+// `=` is required
+type Person = {
+  name: string
+}
+
+// type extend Person
+type SpiderMan = Person & {
+  age: number
+}
+
+// error: Duplicate identifier 'SpiderMan'.
+type SpiderMan = {}
+
+let a: SpiderMan = {
+  name: 'ylonely',
+  age: 18
+}
+```
+
+再来看看 `interface` 的使用方法
+
+```typescript
+// define interface
+interface Animal {
+  name: string
+}
+
+// extend to Animal
+interface Panda extends Animal {
+  age: number
+}
+
+interface Panda {
+  weight: number
+}
+
+let p:Panda = {
+  name: 'kitty',
+  age: 18,
+  weight: 100
+}
+```
+
