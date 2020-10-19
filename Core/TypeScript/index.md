@@ -143,7 +143,7 @@ Typescript 内的一个核心法则就是：类型检查专注于值具有的类
 >
 > Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems.
 
-范型的设计和实现就是为了解决组件复用的问题，我理解它就是一种抽象，类似函数：接受输入的参数（类型），做一定转换后，输出相应的类型
+范型的设计和实现就是为了解决组件复用的问题，我理解它就是一种抽象，类似函数：接受输入的参数（类型），做一定转换后，输出相应的类型，因此范型通常用在函数的传参相互影响或者返回值和传参存在某种关联时
 
 来看下面这个例子，我们希望定义一个函数，并且保证其输入类型和输出类型保持一致
 

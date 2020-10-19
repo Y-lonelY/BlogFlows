@@ -166,3 +166,38 @@ let p:Panda = {
 }
 ```
 
+
+
+## Index Type
+
+索引类型通常用在范型中，它的两个关键点：
+
+- `keyof` 索引搜索操作符，将类似对象的属性转换成 `union` 类型
+- `O[K]` 索引访问操作符，用来访问属性值，编译器会根据返回值自动判断类型
+
+我们通过一个[例子]()来进行观察：
+
+```typescript
+// 这里利用 keyof 来获取所有的键
+function get<T, K extends keyof T>(o: T, targets: K[]): T[K][] {
+  return targets.map(item => o[item])
+}
+
+interface Indexs {
+  a: string
+  b: number
+}
+
+let a: Indexs = {
+  a: 'a',
+  b: 7
+}
+
+// res type will be recongnized as union type: (string | number)[]
+let res = get(a, ['a', 'b'])
+```
+
+其实这也很好理解，对于 `index type` 我们只需要将关注线放在键/值上，通过 `keyof` 获取键，通过 `T[K]` 获取值，接下来我们将对键的**索引签名**进行更加深入的分析
+
+回想一下，在 JavaScript 内，键有两种类型：`string` 和 `number`，比如 `a["5277"] or a[5277]`，当我们需要定义一个接受任何属性名的对象时，我们通常利用 `{[key: string | number]: any}` 来表示一个值为任何类型，键为字符串或者数字的 object
+
