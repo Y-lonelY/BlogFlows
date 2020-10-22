@@ -201,3 +201,31 @@ let res = get(a, ['a', 'b'])
 
 回想一下，在 JavaScript 内，键有两种类型：`string` 和 `number`，比如 `a["5277"] or a[5277]`，当我们需要定义一个接受任何属性名的对象时，我们通常利用 `{[key: string | number]: any}` 来表示一个值为任何类型，键为字符串或者数字的 object
 
+
+
+## Conditional Types
+
+条件类型的标准形式为: `T extends U ? X : Y` ，它表示：如果 U 能够被分配给 T（暂时理解成 U 是 T 的一个成员），则返回 X，否则返回 Y
+
+比如官网上的一个例子：
+
+```typescript
+decalare function f<T extends boolean>(x: T): T extends true ? number : string
+
+// correct
+f(true)
+
+// error: Argument of type 'number' is not assignable to parameter of type 'boolean'.
+f(1)
+```
+
+- 如果 x 为一个 number 类型，则其无法被分配给 boolean 类型，会直接抛出编译错误
+
+- 如果 x 为 true，则函数返回值类型为 `number`，否则为 `string`
+
+思考一下这种设计的目的？
+
+基于这种模式，我们可以结合范型，通过改变范型的形参 `T` ，达到同一个入口进入，返回不同的 `type` 的效果。
+
+**注意，这种方式不同于 union**
+
