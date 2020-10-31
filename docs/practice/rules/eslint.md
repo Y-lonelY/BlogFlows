@@ -1,22 +1,25 @@
 # ESLint
 
-eslint已经在 MVVM 项目被普遍使用，因此了解其在项目内配置和使用显得尤为重要
+::: tip
+Find and fix problems in your JavaScript code
+:::
+
+[ESlint](https://eslint.org/)已经在 MVVM 项目被普遍使用，这里主要介绍其配置相关
 
 在项目根目录下:
 
 - `touch .eslintignore` 来跳过指定文件的检查，类比 `.gitignore` 进行配置
-- `touch .eslintrc` 进行 ESLint 配置
-
-## Validate In Project
+- `touch .eslintrc` 或者 `touch .eslintrc.js` 进行 ESLint 配置，前者是一个 json 格式文件，后者通过 `module.exports= {}` 来进行配置
 
 
-### Compiler
+
+## Compiler
 
 这里主要指通过 VS Code 来进行编译器的校验
 
-添加 ESLint extension
+1. 添加 ESLint extension
 
-在 VS Code 内集成 ESLint 的检查
+2. 在 VS Code 内集成 ESLint 的检查
 
 `⌘ ⇧ P` 内搜索 setting，打开配置文件，完成配置后会自动检测
 
@@ -31,7 +34,9 @@ eslint已经在 MVVM 项目被普遍使用，因此了解其在项目内配置�
 ],
 ```
 
-### With TypeScript
+
+
+## With TypeScript
 
 TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情况进行省略（比如 create-react-app 内已经集成了 eslint）
 
@@ -64,6 +69,8 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
 }
 ```
 
+
+
 ## Config
 
 **Where to config?**
@@ -74,17 +81,11 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
 
 **注意**，如果使用 `.eslintrc.js`，则需要使用 `module.exports = {}` 来进行配置
 
+这里展示一个简单的示例：
 
-### Some Rules
-
-1. `no-unsafe-finally`：由于 JavaScript 会暂停 `try catch` 的工作流，直到 `finally` 语句执行完毕，因此如果在 `finally` 内包含 `return`, `throw`,
-`break` 或者 `continue` 语句时会打断正常的工作流
-
-
-### ESLint In React, inclueds .ts, .tsx, .js, .jsx
-
-```js
-/**
+```javascript
+module.exports = {
+  /**
  * 0 - 禁用此规则   warn or 1 - 输出错误信息，不影响 exit code  error or 2 - 输出错误信息， exit code 置为 1
  * eslint-disable to disable the check
  */
@@ -138,4 +139,14 @@ TypeScript 文件添加 ESLint 检查，前面三步可以根据项目实际情�
   // 对某一类文件的配置进行覆盖
   "overrides": []
 }
+}
 ```
+
+
+
+### Special Rules
+
+1. `no-unsafe-finally`：由于 JavaScript 会暂停 `try catch` 的工作流，直到 `finally` 语句执行完毕，因此如果在 `finally` 内包含 `return`, `throw`,
+`break` 或者 `continue` 语句时会打断正常的工作流
+
+
