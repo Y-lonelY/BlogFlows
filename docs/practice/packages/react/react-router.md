@@ -1,6 +1,8 @@
 # React Router
 
-> React 生态的路由组件
+::: tip
+React 生态的路由组件
+:::
 
 执行 `npm install react-router-dom --save`  或者 `yarn add react-router-dom` 来引入
 
@@ -16,6 +18,8 @@ React-router 包含三种类型组件，**路由器匹配组件**通常映射一
 2. 路由器匹配组件，like `<Route>`  and  `<Switch>`
 3. 导航组件，like `<Link>`, `<NavLink>`, and `<Redirect>`
 
+---
+
 此外，React-router 还提供了一些很棒的特性：
 
 - [Prompt](https://reactrouter.com/web/example/preventing-transitions) 用来阻止用户直接退出当前路径，通常用来确定用户表单提交
@@ -26,101 +30,9 @@ React-router 包含三种类型组件，**路由器匹配组件**通常映射一
 
 
 
-### 路由跳转
-
-在  `react-router` 内实现路由跳转，可以通过 `<Link>`、`withRouter`、`useHistory`、`<Redirect>`、`<NavLink>`  来实现
-
-#### Link
-
-针对 `to` 属性，可以支持 string、object、function 三种形式
-
-通过 `replace` 来控制 `target = blank or self`
-
-```ts
-// with params && query
-<Link
-  to={{
-    pathname: "/courses",
-    search: "?sort=name",
-    hash: "#the-hash",
-    state: { fromDashboard: true }
-  }}
-/>
-```
-
-
-
-#### withRouter
-
-给控件绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现
-
-```js
-import { withRouter } from 'react-router-dom';
-class FlowHeader extends React.Component<FlowHeaderProps, FlowHeaderState> {
-	// statement
-
-    handleRouter = (index) => {
-        const selectedItem = flowItems[index];
-        if (selectedItem.label === this.state.currentItem) {
-            return;
-        } else {
-            this.props.history.push('/');
-        }
-    }
-}
-
-export default withRouter(FlowHeader);
-
-// use in redux
-export default withRouter(connect(...)(MyComponent))
-```
-
-
-
 ## In Project
 
-介绍在项目的一些使用技巧
-
-### 利用 import 实现组件的异步加载
-
-`import()` 方法会返回一个 Promise 对象，可以利用其进行异步加载操作
-
-```js
-// 封装异步加载组件，通过接受一个 import() 方法，返回对应的组件
-import React from 'react';
-
-export function asyncComponent(targetComponent) {
-    class AsyncComponent extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                component: null
-            }
-        }
-
-        componentDidMount() {
-            targetComponent().then(md => {
-                this.setState({
-                    // 同时兼容 ES6 和 CommonJS 的模块
-                    component: md.default ? md.default : md
-                });
-            })
-        }
-
-        render() {
-            const Target = this.state.component;
-            // 通过自闭和标签进行返回，是为了接受可能出现的 props 参数传递
-            return Target ? <Target {...this.props} /> : null;
-        }
-    }
-
-    return AsyncComponent;
-}
-
-// 在其他文件内的使用方法，之所以这个方法不进行封装，是为了相对路径的考虑，保证组件寻找不会紊乱
-const component = asyncComponent(() => import ('@/view/Practice'));
-```
-
+记录在实际项目/组件封装过程中的点
 
 
 ### Use In App
@@ -130,7 +42,6 @@ const component = asyncComponent(() => import ('@/view/Practice'));
 1. `RouteConfig.js` 用来引入相关的组件，实现对路由的配置，实现对 `<Route>` API 的相关属性配置
 2. `Router.js` 用来实现路由递归逻辑，输入 config，输出 react-router 相关的组件
 3. 在 `app.js` 内引入 `RouteConfig.js` 和 `Router.js`，并通过 `<BrowserRouter>` 或者其他 API 来封装启动路由
-
 
 
 
@@ -157,4 +68,60 @@ server {
         try_files $uri /index.html;
     }
 }
+```
+
+
+
+## 路由跳转
+
+在  `react-router` 内实现路由跳转，可以通过 `<Link>`、`withRouter`、`useHistory`、`<Redirect>`、`<NavLink>`  来实现
+
+::: tips
+推荐使用 `useHistory` 获取 `history` 对象来控制路由跳转
+:::
+
+
+### Link
+
+针对 `to` 属性，可以支持 string、object、function 三种形式
+
+通过 `replace` 来控制 `target = blank or self`
+
+```ts
+// with params && query
+<Link
+  to={{
+    pathname: "/courses",
+    search: "?sort=name",
+    hash: "#the-hash",
+    state: { fromDashboard: true }
+  }}
+/>
+```
+
+
+
+### withRouter
+
+给控件绑定事件，使其能够通过 javascript 来实现跳转，通过 `withRouter` 来实现，相当于将 `history` 对象赋值在 `props` 上
+
+```js
+import { withRouter } from 'react-router-dom';
+class FlowHeader extends React.Component<FlowHeaderProps, FlowHeaderState> {
+	// statement
+
+    handleRouter = (index) => {
+        const selectedItem = flowItems[index];
+        if (selectedItem.label === this.state.currentItem) {
+            return;
+        } else {
+            this.props.history.push('/');
+        }
+    }
+}
+
+export default withRouter(FlowHeader);
+
+// use in redux
+export default withRouter(connect(...)(MyComponent))
 ```
