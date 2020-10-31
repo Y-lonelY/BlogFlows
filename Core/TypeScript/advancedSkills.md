@@ -22,7 +22,7 @@ TypeScript 提供一系列高级的用法来对类型进行建模，本文就是
 
 > A type guard is some expression that performs a **runtime check** that guarantees the type in some scope.
 
-**我理解 `Type Guards` 是在 runtime 时执行类型检查的表达式，目的就是区分当前的变量类型，一般利用不同类型中字段差异来实现**
+**我理解 `Type Guards` 是在 runtime 时执行类型检查的表达式（简单来说就是区分类型的手段），目的就是区分当前的变量类型，一般利用不同类型中字段差异来实现**
 
 我们从如下例子开始
 
@@ -111,7 +111,7 @@ var len = a.length
 
 ## Type Alias
 
-`type` 和 `interface` 在用法上有太多相似之处，但是它们也存在一些微妙的区别，这也正是我们需要清楚的
+`type` 和 `interface` 在用法上有太多相似之处，但是它们也存在一些微妙的区别，这也正是我们需要弄清楚的
 
 - TypeScript 推荐优先使用 `interface` 来自定义类型，因为 `interface` 更加贴近 JavaScript 内的 `object` 用法
 - 理论上，`interface` 的所有特性，`type` 都能够实现
@@ -175,7 +175,7 @@ let p:Panda = {
 - `keyof` 索引搜索操作符，将类似对象的属性转换成 `union` 类型
 - `O[K]` 索引访问操作符，用来访问属性值，编译器会根据返回值自动判断类型
 
-我们通过一个[例子]()来进行观察：
+其语法类似 object，我们通过一个例子来进行观察：
 
 ```typescript
 // 这里利用 keyof 来获取所有的键
@@ -197,7 +197,7 @@ let a: Indexs = {
 let res = get(a, ['a', 'b'])
 ```
 
-其实这也很好理解，对于 `index type` 我们只需要将关注线放在键/值上，通过 `keyof` 获取键，通过 `T[K]` 获取值，接下来我们将对键的**索引签名**进行更加深入的分析
+其实这也很好理解，对于 `index type` 我们只需要将关注线放在键/值上，通过 `keyof` 获取键，通过 `T[K]` 获取值
 
 回想一下，在 JavaScript 内，键有两种类型：`string` 和 `number`，比如 `a["5277"] or a[5277]`，当我们需要定义一个接受任何属性名的对象时，我们通常利用 `{[key: string | number]: any}` 来表示一个值为任何类型，键为字符串或者数字的 object
 
@@ -225,7 +225,7 @@ f(1)
 
 思考一下这种设计的目的？
 
-基于这种模式，我们可以结合范型，通过改变范型的形参 `T` ，达到同一个入口进入，返回不同的 `type` 的效果。
+基于这种模式，我们可以结合范型，通过改变范型的形参 `T` ，达到同一个入口进入，返回不同的 `type` 的效果
 
 **注意，这种方式不同于 union**
 
