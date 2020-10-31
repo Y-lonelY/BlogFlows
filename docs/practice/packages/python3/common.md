@@ -1,18 +1,22 @@
-# Python3
+# Python3 Common Packages
+
+**快速索引**
+
+- [PyMysql](https://pypi.org/project/PyMySQL/) 用来连接数据库的中间件
+- [sys](https://docs.python.org/3/library/sys.html) 系统特定的参数和方法
+
+**Solo with code✨**
+
 
 ## PyMysql
 
-::: tip
-用来连接数据库的中间件
-:::
-
-### Install
+**Install**
 
 在 terminal 内执行命令 `sudo pip3 install PyMysql`，安装 pymysql server
 
 在 .py 中 `import pymysql` 即可
 
-### 基本用法
+**基本用法**
 
 **注意：一次只能执行一次插入/更新语句，不能一次执行多条**
 
@@ -55,7 +59,7 @@ conn.close()
 
 sys 能够解决：
 
-- 通过 `sys.argv` 在脚本内获取外部传递参数
+1. 通过 `sys.argv` 在脚本内获取外部传递参数
 
 ```python
 #!/usr/bin/env python3
