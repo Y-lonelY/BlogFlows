@@ -42,15 +42,31 @@ function setPackages() {
   return [
     '',
     {
-      title: 'JavaScript',
-      collapsable: false,
-      children: ["javascript/common"]
-    },
-    {
       title: 'React',
       collapsable: false,
-      children: ["react/common", 'react/react-router', 'react/state-container']
-    }
+      children: ['react/common', 'react/react-router', 'react/state-container'],
+    },
+    {
+      title: 'JavaScript',
+      collapsable: true,
+      children: ['javascript/common'],
+    },
+
+    {
+      title: 'NodeJS',
+      collapsable: true,
+      children: ['node/common', 'node/koa'],
+    },
+    {
+      title: 'Vue',
+      collapsable: true,
+      children: ['vue/common', 'vue/state-container'],
+    },
+    {
+      title: 'Python3',
+      collapsable: true,
+      children: ['python3/common'],
+    },
   ]
 }
 
