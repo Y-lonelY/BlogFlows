@@ -28,10 +28,8 @@ module.exports = {
       '/practice_packages/': setPackages(),
       '/practice_rules/': setRules(),
       '/practice_explore/': setExplore(),
+      '/practice_project/': setProject(),
       '/core/': getCoreSide(),
-      // '/practice/': practice(),
-      '/project/': getProjectSide(),
-      '/packages/': getPackagesSide(),
       '/normalize/': getNormalizeSide('Normalize'),
       '/concept/': getConceptSide(),
       '/tools/': getToolsSide(),
@@ -98,19 +96,48 @@ function setBooks() {
   ]
 }
 
-function practice() {
+function setProject() {
   return [
-    '/practice/',
+    '',
     {
-      title: 'practice',
-      collapsable: false,
+      title: 'JavaScript',
+      // 表示不会关闭
+      collapsable: true,
       children: [
-        'React-Error-Catcher',
-        'GROWTH性能优化实践',
-        '布局方式的实践',
-        '理解一下this',
-        '谈谈Vue和React',
+        'JavaScript/a.javascript',
+        'JavaScript/b.jquery',
+        'JavaScript/last.units',
       ],
+    },
+    {
+      title: 'Css',
+      collapsable: false,
+      children: ['Css/a.cluster'],
+    },
+    {
+      title: 'MySQL',
+      collapsable: false,
+      children: ['Mysql/mysql'],
+    },
+    {
+      title: 'Git',
+      collapsable: false,
+      children: ['Git/git'],
+    },
+    {
+      title: 'TypeScript',
+      collapsable: false,
+      children: ['TypeScript/a.typescript'],
+    },
+    {
+      title: 'HTML5',
+      collapsable: false,
+      children: ['HTML5/a.html5'],
+    },
+    {
+      title: 'Swift',
+      collapsable: false,
+      children: ['Swift/a.cluster', 'Swift/b.matters'],
     },
   ]
 }
@@ -154,31 +181,6 @@ function getNormalizeSide(groupA) {
   ]
 }
 
-function getPackagesSide() {
-  return [
-    '/packages/',
-    {
-      title: 'Packages',
-      collapsable: false,
-      children: [
-        'React/react',
-        'React/redux',
-        'React/antd-pro',
-        'React/react-router',
-        'Scenes/a.monitor',
-        'Vue/vue',
-        'Vue/vuex',
-        'Vue/ui-frame',
-        'a.cluster',
-        'c.swift',
-        'd.python',
-        'e.node',
-        'eslint',
-      ],
-    },
-  ]
-}
-
 function getConceptSide() {
   return [
     '/concept/',
@@ -197,52 +199,6 @@ function getConceptSide() {
       title: 'LF-Concept',
       collapsable: false,
       children: ['network', 'css'],
-    },
-  ]
-}
-
-function getProjectSide() {
-  return [
-    '/project/',
-    {
-      title: 'JavaScript',
-      // 表示不会关闭
-      collapsable: true,
-      children: [
-        'JavaScript/a.javascript',
-        'JavaScript/b.jquery',
-        'JavaScript/last.units',
-      ],
-    },
-    {
-      title: 'Css',
-      collapsable: false,
-      children: ['Css/a.cluster'],
-    },
-    {
-      title: 'MySQL',
-      collapsable: false,
-      children: ['Mysql/mysql'],
-    },
-    {
-      title: 'Git',
-      collapsable: false,
-      children: ['Git/git'],
-    },
-    {
-      title: 'TypeScript',
-      collapsable: false,
-      children: ['TypeScript/a.typescript'],
-    },
-    {
-      title: 'HTML5',
-      collapsable: false,
-      children: ['HTML5/a.html5'],
-    },
-    {
-      title: 'Swift',
-      collapsable: false,
-      children: ['Swift/a.cluster', 'Swift/b.matters'],
     },
   ]
 }

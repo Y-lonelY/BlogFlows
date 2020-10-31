@@ -5,7 +5,11 @@ module.exports = [
       {
 				text: '探索',
 				link: '/practice_explore/'
-			},
+      },
+      {
+        text: '工程',
+        link: '/practice_project/'
+      },
 			{
 				text: '组件',
 				link: '/practice_packages/'
