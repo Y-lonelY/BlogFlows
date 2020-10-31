@@ -2,6 +2,10 @@ module.exports = [
   {
     text: '实践',
 		items: [
+      {
+				text: '探索',
+				link: '/practice_explore/'
+			},
 			{
 				text: '组件',
 				link: '/practice_packages/'
@@ -9,7 +13,7 @@ module.exports = [
 			{
 				text: '规范',
 				link: '/practice_rules/'
-			}
+      }
 		]
   },
   {

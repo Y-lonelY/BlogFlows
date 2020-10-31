@@ -26,6 +26,8 @@ module.exports = {
     lastUpdated: 'Last updated at',
     sidebar: {
       '/practice_packages/': setPackages(),
+      '/practice_rules/': setRules(),
+      '/practice_explore/': setExplore(),
       '/core/': getCoreSide(),
       // '/practice/': practice(),
       '/project/': getProjectSide(),
@@ -67,6 +69,21 @@ function setPackages() {
       collapsable: true,
       children: ['python3/common'],
     },
+  ]
+}
+
+function setRules() {
+  return ['', 'eslint']
+}
+
+function setExplore() {
+  return [
+    '',
+    '布局方式的实践',
+    'GROWTH性能优化实践',
+    'React-Error-Catcher',
+    '理解一下this',
+    '谈谈Vue和React',
   ]
 }
 
