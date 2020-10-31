@@ -1,12 +1,14 @@
+# State Container Library
+
+::: tip
+React 内的状态管理库
+:::
+
 # Redux
 
-> 记录 redux 的学习和在项目内的使用
+[redux](https://redux.js.org/introduction/getting-started) 不局限于使用，它可以在任何框架内使用，它的出现主要是为了解决**多交互，多数据源下的代码结构和组件通信**
 
-## Basic
-
-Redux 不局限于使用，它可以在任何框架内使用，它的出现主要是为了解决**多交互，多数据源下的代码结构和组件通信**
-
-从组件角度看:
+从组件角度看，state 不外乎有两个作用：`get` 和 `set`，即**获取状态**和**通过改变状态来引起交互**
 
 - 某个组件的状态，需要共享
 - 某个状态需要在任何地方能够拿到，即一个全局状态
@@ -19,9 +21,14 @@ Redux 的设计思路：
 1. Web 应用就是一个状态机，视图和状态一一对应
 2. 所有的状态都保存在一个对象内
 
+
+
+## Redux 成员
+
 ### Store
 
-可以看成一个容器，用来保存数据，整个应用只能有一个 Store，它通过 `createStore()` 方法进行创建，它可以接受的参数：
+Store可以理解成一个容器，用来保存数据，整个应用只能有一个 Store，它通过 `createStore()` 方法进行创建，它可以接受的参数：
+
 - Reducer
 - defaultState
 - applyMiddleware()
@@ -33,16 +40,20 @@ Store 的职责：
 3. 提供 `Store.dispatch(action)` 来通知 reducer 根据 action 更新 state，是 View 发出 Action 的唯一方式
 4. 通过 `subscribe(listener)` 来注册监听器和通过其返回函数销毁监听器，表示一旦 state 发生变化，立即调用监听函数，在 React 项目中，只要把 `render()` 或者 `setState()` 方法放入监听函数中，就可以实现 View 的自动渲染
 
+
 ### State
 
-> "建议你尽可能地把 state 范式化，不存在嵌套。把所有数据放到一个对象里，每个数据以 ID 为主键，不同实体或列表间通过 ID 相互引用数据"
+::: warning
+"建议你尽可能地把 state 范式化，不存在嵌套。把所有数据放到一个对象里，每个数据以 ID 为主键，不同实体或列表间通过 ID 相互引用数据"
+:::
 
 State 可以看作是对 Store 对象内某个时间点的数据的一次快照，一个应用只有一个 Store，只要 state 相同则可以判定其视图相同
 
 
+
 ### Action
 
-**Action仅仅用来描述有事情发生这一事实，并不会更新 state**
+**Action 仅仅用来描述有事情发生这一事实，并不会更新 state**
 
 一般来说，用户接触不到 Store，自然也无法改变它，用户接触到的是视图，所以改变 Store 内 state 是用户通过视图发起的，而这个过程的媒介就是 Action
 
@@ -51,6 +62,7 @@ Action 就是 View 发起的通知，来通知 state 需要变化
 Action 是一个对象，`type` 属性为必需属性，用来表示 Action 名字
 
 只有两个对象完全相同时，则两个 Action 才相等，否则为独立的 Action，因此随着传递信息的不同，会产生很多个 Action，这时需要封装一个函数来作为 Action Creater(即 Action 生成器，用来简化代码结构)
+
 
 
 ### Reducer
@@ -71,6 +83,7 @@ Reducer 可以简单表示为 `Reducer(currentState, action) -> newState`，它�
 4. 一定要返回 state，如果遇到未知的 action，可以直接返回旧的 state
 
 
+
 ### Redux Work Flow
 
 了解以上几点概念之后，可以对 redux 的工作流程做一个梳理：
@@ -79,53 +92,21 @@ Reducer 可以简单表示为 `Reducer(currentState, action) -> newState`，它�
 2. Store 接受到 Action 之后调用 Reducer，向其传递 state 和 action 参数，并且接收 Reducer 返回的新 State
 3. State 一旦发生变化，就会调用 `subscribe(listener)` 监听函数，listener 通过 `getState()` 获得当前的 State，再利用 React 的 setState() 来重新渲染
 
+
+
 ### Middleware
 
 中间件就是一个函数，对 `store.dispatch(action)` 进行改造，在发出 Action 和执行 Reducer 之间，添加其他功能
 
 在 Redux 中，在创建 Store 时，通过传递 `applyMiddleware(middleware1,...)` 参数来引入中间件
 
-注意：中间件的引入也需要注意顺序
+**注意：中间件的引入也需要注意顺序**
+
 
 
 ## React-Redux
 
-### Store 传递
-
-要使每个组件都能够获取到 Store
-
-1. 第一种办法，将 store 作为 props 属性传递到每一个被 `connect()` 包装的组件内
-2. 更加推荐的做法，是通过 `<Provider store={store}>` 组件来包裹根组件
-
-方法2的原理是将 Store 挂载到 React 组件的 context 属性上，所以可以通过 `const { store } = this.context` 来获取 store 对象
-
-
-### Connect
-
-`Connect()` 用来连接 React 组件和 Redux Store，连接操作不会更改原来组件，返回值为一个新的与 Redux Store 连接的组件类
-
-作用是将视图组件转换为容器组件，作为容器组件，其需要定义输入和输出：
-1. 输入逻辑：外部数据（即 state 对象）如何转换为视图组件的参数
-2. 输出逻辑：用户动作如何转变为 Action，从视图组件传出
-
-#### mapStateToProps
-
-mapStateToProps 参数负责输入逻辑，本质是一个函数，输入为 state，输出为 state 对象到当前组件 props 对象的映射关系，返回值是一个对象，每一个键值对都表示一组映射
-
-mapStateToProps 第一个形参一定是 state，但是其还可以接受 `ownProps`，其代表容器组件的 props 对象，使用 ownprops 作为参数后，如果容器组件的参数发生变化时，也会引发 视图组件的重新渲染
-
-mapStateToProps 不是必需的，如果不传，则表示 Store 的更新不会引起当前视图组件的更新
-
-#### mapDispatchToProps
-
-mapDispatchToProps 负责输出逻辑，用来建立视图组件参数到 `store.dispatch()` 方法的映射，它可以是一个函数，也可以是一个对象
-
-作为函数，接受 `dispatch` 和 `ownProps` 作为形参，返回值是一个对象，每个键值对都是一个映射，定义视图组件的参数怎样发出 Action
-
-更多的用法是作为对象，其键名（比如 xxx）对应视图组件的同名属性名（对应 `this.props.xxx`），其键值为一个 Action Creator，是一个函数
-
-
-### Instance
+这里看一个简单的示例：
 
 `store.js`，用来生成 store 实例，添加中间件和集成 reducer
 
@@ -201,3 +182,42 @@ export default connect(state => ({
     changeChart
 })(DailyView);
 ```
+
+
+
+### Store 传递
+
+要使每个组件都能够获取到 Store
+
+1. 第一种办法，将 store 作为 props 属性传递到每一个被 `connect()` 包装的组件内
+2. 更加推荐的做法，是通过 `<Provider store={store}>` 组件来包裹根组件
+
+方法2的原理是将 Store 挂载到 React 组件的 context 属性上，所以可以通过 `const { store } = this.context` 来获取 store 对象
+
+
+
+### Connect
+
+`Connect()` 用来连接 React 组件和 Redux Store，连接操作不会更改原来组件，返回值为一个新的与 Redux Store 连接的组件类
+
+作用是将视图组件转换为容器组件，作为容器组件，其需要定义输入和输出：
+1. 输入逻辑：外部数据（即 state 对象）如何转换为视图组件的参数
+2. 输出逻辑：用户动作如何转变为 Action，从视图组件传出
+
+
+### mapStateToProps
+
+mapStateToProps 参数负责输入逻辑，本质是一个函数，输入为 state，输出为 state 对象到当前组件 props 对象的映射关系，返回值是一个对象，每一个键值对都表示一组映射
+
+mapStateToProps 第一个形参一定是 state，但是其还可以接受 `ownProps`，其代表容器组件的 props 对象，使用 ownprops 作为参数后，如果容器组件的参数发生变化时，也会引发 视图组件的重新渲染
+
+mapStateToProps 不是必需的，如果不传，则表示 Store 的更新不会引起当前视图组件的更新
+
+
+### mapDispatchToProps
+
+mapDispatchToProps 负责输出逻辑，用来建立视图组件参数到 `store.dispatch()` 方法的映射，它可以是一个函数，也可以是一个对象
+
+作为函数，接受 `dispatch` 和 `ownProps` 作为形参，返回值是一个对象，每个键值对都是一个映射，定义视图组件的参数怎样发出 Action
+
+更多的用法是作为对象，其键名（比如 xxx）对应视图组件的同名属性名（对应 `this.props.xxx`），其键值为一个 Action Creator，是一个函数
