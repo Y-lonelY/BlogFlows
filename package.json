@@ -1,7 +1,7 @@
 {
-  "name": "BlogFlows",
-  "version": "1.0.0",
-  "description": "A Summary",
+  "name": "blog",
+  "version": "2.0.0",
+  "description": "Note the record the konwledge!",
   "main": "index.js",
   "scripts": {
     "server": "vuepress dev docs",

@@ -76,7 +76,7 @@ server {
 
 在  `react-router` 内实现路由跳转，可以通过 `<Link>`、`withRouter`、`useHistory`、`<Redirect>`、`<NavLink>`  来实现
 
-::: tips
+::: tip
 推荐使用 `useHistory` 获取 `history` 对象来控制路由跳转
 :::
 

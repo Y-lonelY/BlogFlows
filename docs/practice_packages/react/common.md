@@ -25,7 +25,7 @@ clone 一个 react 项目后，在执行 `npm install` 之后，发现 node-sass
 ## React Hot Loader
 
 ::: tip
-React Hot Loader is a plugin that allows React components to be live reloaded without the loss of state
+"React Hot Loader is a plugin that allows React components to be live reloaded without the loss of state"
 :::
 
 [React-hot-loader](https://github.com/gaearon/react-hot-loader) 是一个插件，允许 React 组件在不丢失状态的条件下进行实时重新加载操作

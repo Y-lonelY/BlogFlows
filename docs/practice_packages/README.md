@@ -4,7 +4,7 @@
 记录在开发过程中，对于常用库的**快速入门技巧**和一些需要**注意的点（踩过的坑）**
 :::
 
-<img src="../assets/package.jpg" alt="package" />
+<img src="./assets/package.jpg" alt="package" />
 
 该模块从两方面进行展开
 

@@ -1,3 +1,9 @@
+# Vue State Container
+
+::: tip
+Vue 内的状态管理库
+:::
+
 # Vuex
 
 > Vue的状态管理模式

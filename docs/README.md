@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /home.jpg
-actionText: Let's do it →
+actionText: Let's solo with code →
 actionLink: /core/
 features:
 - title: Pleasure
@@ -10,5 +10,5 @@ features:
   details: 在知识碎片化到系统化的过程中成长
 - title: Project
   details: 在实战中大展拳脚吧
-footer: Solo With Code!
+footer: Just have fun!
 ---

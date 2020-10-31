@@ -5,8 +5,8 @@
 
 module.exports = {
   // 页面 title 类似 logo 角色
-  title: 'LoreFlows',
-  description: 'Welcome To The Knowledge Palace!',
+  title: "YlonelY's Blog",
+  description: 'Solo with code, just have fun!',
   head: [
     // logo
     ['link', { rel: 'icon', href: '/logo.ico' }],
@@ -23,10 +23,11 @@ module.exports = {
     nav: require('./nav.js'),
     // 文档根目录
     docsDir: 'docs',
-    lastUpdated: 'Last Updated',
+    lastUpdated: 'Last updated at',
     sidebar: {
+      '/practice_packages/': setPackages(),
       '/core/': getCoreSide(),
-      '/practice/': practice(),
+      // '/practice/': practice(),
       '/project/': getProjectSide(),
       '/packages/': getPackagesSide(),
       '/normalize/': getNormalizeSide('Normalize'),
@@ -35,6 +36,22 @@ module.exports = {
       '/books/': setBooks(),
     },
   },
+}
+
+function setPackages() {
+  return [
+    '',
+    {
+      title: 'JavaScript',
+      collapsable: false,
+      children: ["javascript/common"]
+    },
+    {
+      title: 'React',
+      collapsable: false,
+      children: ["react/common", 'react/react-router', 'react/state-container']
+    }
+  ]
 }
 
 function setBooks() {

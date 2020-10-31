@@ -1,17 +1,25 @@
-# Vue
+# Vue Common Packages
+
+**快速索引**
+
+- [CodeMirror](https://codemirror.net/) 代码编辑器
+- [Vue Router](https://router.vuejs.org/zh/) Vue 内的路由组件
+
+**Solo with code✨**
+
 
 ## Vue CodeMirror
 
-> 基于 CodeMirror，适用于 Vue 的 Web 代码编辑器
+::: tip
+基于 CodeMirror，适用于 Vue 的 Web 代码编辑器
+:::
 
 [CodeMirror](https://codemirror.net/)
 [Vue-CodeMirror](https://github.com/surmon-china/vue-codemirror)
 
-### Usage
-
 `npm install vue-codemirror --save` 引入依赖，通过 `import` 相关的插件资源来实现增量功能
 
-封装成组件进行使用
+一个简单的入门示例：
 
 ```vue
 <template>
@@ -68,11 +76,13 @@ export default {
 ```
 
 
+
 ## Vue Router
 
-> Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌
+::: tip
+Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌
+:::
 
-### Basic
 
 通过 `npm install -s vue-router` 安装package
 
@@ -96,6 +106,7 @@ this.$router.push({
     query: this.queryData
 }).catch(err => {})
 ```
+
 
 ### 导航守卫
 
@@ -300,204 +311,3 @@ const router = new VueRouter({
 })
 ```
 
-
-## Vue-cli2
-
-`sudo npm install -g @vue/cli` 安装最新的 vue-cli，安装完成之后通过 `vue --version` 来看当前安装的版本
-
-`vue create [app name]` 来创建一个新项目
-
-
-## VuePress
-
-> Vue 驱动的静态网站生成器
-
-### Install
-
-[VuePress](https://vuepress.vuejs.org/zh/guide/deploy.html#github-pages)
-
-执行 `sudo npm install -g vuepress` 全局安装 vuepress，这意味着可以在全局使用 vuepress 定义的命令，注意 node 版本保持在v8以上
-
-接着新建一个文件夹，执行 `npm init -y` 来初始化项目，会输出一个 package.json 文件
-
-执行 `mkdir docs` 新建 docs 文件夹，用来存放 .md文件和 .vuepress文件夹
-
-进入 `docs` 目录后，执行 `mkdir .vuepress` 来新建一个 .vuepress 文件夹，用来存放相关配置文件，进入 .vuepress，执行 `touch config.js` 新建一个 config.js 文件，编辑该文件进行相关配置
-
-至此，一个基本的系统搭建完成，接着可以执行 `vuepress dev docs` 相关命令来查看
-
-### Basics
-
-> 静态资源引用
-
-所有的 .md 文件都会被编译成 vue 组件，因此在 .md 文件内尽量使用相对路径来引用静态资源
-
-还有一种解决方案，利用 `~` 关键字来指出这是一个 webpack 模块请求，可以配置别名来利用别名引用静态资源，别名在 config.js 内进行配置
-
-公共文件放在 `.vuepress/public` 内进行引用，比如 icon，pwa 图标等，打包出来之后会放在.vuepress/dist/的根目录
-
-可以配置别名来利用别名引用静态资源，别名在 config.js 内进行配置
-
-```js
-module.exports = {
-  // 该参数用于合并 webpack 配置
-  configureWebpack: {
-    // 通过 alias 配置文件目录别名
-    resolve: {
-      alias: {
-        '@alias': 'path/to/some/dir'
-      }
-    }
-  }
-}
-```
-
-在应用过程中，注意 `base` 参数的使用：
-
-- 如果你的网站会被部署到一个非根路径，你将需要在 .vuepress/config.js 中设置 base，比如部署到 `https://y-lonely.github.io/BlogFlows/` 则 `base` 的值为 `/BlogFlows/`，总是以 / 作为开头和结尾
-- 一个 base 路径一旦被设置，它将会自动地作为前缀插入到 .vuepress/config.js 中所有以 / 开始的资源路径中
-- 着就会导致在本地打开 dist 内的 index.html 文件，会找不到引用资源，从而导致样式错误，此时需要注释掉 base 参数设置，则可以在本地正确展示 dist/index.html
-
-### Config
-
-package.json 文件配置
-
-```json
-{
-  "name": "BlogFlows",
-  "version": "1.0.0",
-  "description": "A Summary",
-  "main": "index.js",
-  // 自定义脚本
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    // 本地环境启动项目
-    "server": "vuepress dev docs",
-    // 输出 dist
-    "build": "vuepress build docs",
-    "docs:build": "vuepress build docs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yanGo1221/BlogFlows.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yanGo1221/BlogFlows/issues"
-  },
-  "homepage": "https://github.com/yanGo1221/BlogFlows#readme"
-}
-```
-
-.vuepress/config.js 用于配置主要内容
-
-```js
-module.exports = {
-  // 页面 title 类似 logo 角色
-  title: "LoreFlows",
-  description: "Welcome To The Knowledge Palace!",
-  head: [
-  // logo
-    ['link', { rel: 'icon', href: '/logo.ico'}]
-  ],
-  // github 仓库名
-  base: '/BlogFlows/',
-  // 本地运行端口
-  port: 7727,
-  markdown: {
-    lineNumbers: true
-  },
-  themeConfig: {
-    // github 地址
-    repo: 'https://github.com/yanGo1221',
-    // 标题栏导航
-    nav: require('./nav.js'),
-    // 文档根目录
-    docsDir: 'docs',
-    lastUpdated: 'Last Updated',
-    sidebar: {
-      '/tools/': getToolsSide(),
-      // statements
-    }
-  }
-}
-
-function getToolsSide() {
-  return [
-    '/tools/',
-    {
-      title: 'Tools',
-      collapsable: false,
-      children: [
-      // 即 /tools/a.babel.md
-        'a.babel',
-        'b.shell',
-        'c.developTools',
-        'd.nginx'
-      ]
-    }
-  ]
-}
-```
-
-.vuepress/nav.js 用于配置 homepage
-
-```js
-module.exports = [{
-  text: '核心',
-  link: '/core/'
-}, {
-  // 子菜单
-  text: '工程',
-  items: [
-    {
-      text: '项目',
-      link: '/project/'
-    },
-    {
-      text: '规范',
-      link: '/normalize/'
-    }
-  ]
-}];
-```
-
-### 部署到GitHub Page
-
-`.vuepress/config.js` 内添加 bash 参数，用来表示 github 仓库名，例如 `base: '/BlogFlows/',`
-
-根目录执行 `touch deploy.sh` 用来添加发布脚本，具体配置如下：
-
-```shell
-# !/usr/bin/env sh
-
-# 确保脚本抛出遇到的错误
-set -e
-
-# 生成静态文件
-npm run docs:build
-
-# 进入生成的文件夹
-cd docs/.vuepress/dist
-
-# 如果是发布到自定义域名
-# echo 'www.example.com' > CNAME
-
-git init
-git add -A
-git commit -m 'deploy'
-
-# 如果发布到 https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
-
-# 如果发布到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:Y-lonelY/BlogFlows.git master:gh-pages
-
-cd -
-```
-
-在 `package.json` 内添加相应的执行脚本，`"docs:build": "vuepress build docs"`
-
-接着 `./deploy.sh` 执行脚本，注意在执行脚本之前，通过 `chmod 755 deploy.sh` 为其赋予可执行权限
