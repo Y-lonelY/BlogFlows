@@ -25,17 +25,30 @@ module.exports = {
     docsDir: 'docs',
     lastUpdated: 'Last updated at',
     sidebar: {
+      // PRACTICE MODULE
       '/practice_packages/': setPackages(),
       '/practice_rules/': setRules(),
       '/practice_explore/': setExplore(),
       '/practice_project/': setProject(),
+      // READING MODULE
+      '/reading_literature/': setLiterature(),
       '/core/': getCoreSide(),
       '/normalize/': getNormalizeSide('Normalize'),
       '/concept/': getConceptSide(),
       '/tools/': getToolsSide(),
-      '/books/': setBooks(),
     },
   },
+}
+
+function setLiterature() {
+  return [
+    '',
+    {
+      title: 'Literature',
+      collapsable: false,
+      children: ['前端架构--从入门到微前端', 'Go语言开发实战'],
+    },
+  ]
 }
 
 function setPackages() {
@@ -82,17 +95,6 @@ function setExplore() {
     'React-Error-Catcher',
     '理解一下this',
     '谈谈Vue和React',
-  ]
-}
-
-function setBooks() {
-  return [
-    '/books/',
-    {
-      title: 'Frontend',
-      collapsable: false,
-      children: ['前端架构--从入门到微前端', 'Go语言开发实战'],
-    },
   ]
 }
 

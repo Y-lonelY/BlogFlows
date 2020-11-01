@@ -1,24 +1,34 @@
 module.exports = [
   {
-    text: '实践',
+    text: 'Practice',
 		items: [
       {
-				text: '探索',
+				text: 'Explore',
 				link: '/practice_explore/'
       },
       {
-        text: '工程',
+        text: 'Project',
         link: '/practice_project/'
       },
 			{
-				text: '组件',
+				text: 'Packages',
 				link: '/practice_packages/'
 			},
 			{
-				text: '规范',
+				text: 'Rules',
 				link: '/practice_rules/'
       }
 		]
+  },
+  {
+    text: 'Reading',
+    items: [{
+      text: 'Literature',
+      link: '/reading_literature/',
+    },{
+      text: 'media',
+      link: '/reading_media/'
+    }]
   },
   {
     text: '核心',
@@ -28,26 +38,14 @@ module.exports = [
     text: '工程',
     items: [
       {
-        text: '项目',
-        link: '/project/',
-      },
-      {
         text: 'rules',
         link: '/normalize/',
-      },
-      {
-        text: 'packages',
-        link: '/packages/',
       },
     ],
   },
   {
     text: '概念',
     link: '/concept/',
-  },
-  {
-    text: '阅读',
-    link: '/books/',
   },
   {
     text: '工具',
