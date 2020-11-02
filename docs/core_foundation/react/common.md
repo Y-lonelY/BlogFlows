@@ -1,6 +1,8 @@
 # React
 
-> React 基础知识和概念
+::: tip
+React 基础知识和概念
+:::
 
 ## JSX
 

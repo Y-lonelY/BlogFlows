@@ -85,7 +85,7 @@ vue plugin机制，类似koa2的中间件，使插件在项目内使用变得更
 - 利用Vue本身特性，通过全局自定义指令来声明方法
 - 利用Vue本身特性，通过全局mixin来为每个组件添加方法和属性
 
-```
+```vue
 // 自定义一个插件
 let TestPlugins = {};
 
@@ -108,7 +108,7 @@ export default TestPlugins;
 
 将自定义的插件，注册到Vue命名空间上，我理解`Vue.use(TestPlugin, {name: 'test'})`实际上是对 `TestPlugin.install(new Vue(), {name: 'test'})`函数过程的一个封装
 
-```
+```vue
 // 在生成Vue实例之前，通过 `Vue.use()` 方法来将其进行注册
 // main.js
 import Vue from 'vue'
