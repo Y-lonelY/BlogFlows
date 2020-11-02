@@ -25,7 +25,10 @@ module.exports = [
     items: [{
       text: 'Literature',
       link: '/reading_literature/',
-    },{
+    }, {
+      text: 'article',
+      link: '/reading_article/'
+    }, {
       text: 'media',
       link: '/reading_media/'
     }]

@@ -32,12 +32,27 @@ module.exports = {
       '/practice_project/': setProject(),
       // READING MODULE
       '/reading_literature/': setLiterature(),
+      '/reading_article/': setArticle(),
+      '/reading_media/': setMedia(),
+
       '/core/': getCoreSide(),
       '/normalize/': getNormalizeSide('Normalize'),
       '/concept/': getConceptSide(),
       '/tools/': getToolsSide(),
     },
   },
+}
+
+function setMedia() {
+  return [
+    ''
+  ]
+}
+
+function setArticle() {
+  return [
+    ''
+  ]
 }
 
 function setLiterature() {
