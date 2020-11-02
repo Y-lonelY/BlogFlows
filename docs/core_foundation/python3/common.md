@@ -1,6 +1,8 @@
 # Basic
 
-> Python3 基本知识和使用
+::: tip
+Python3 基本知识和使用
+:::
 
 ## 字符串
 

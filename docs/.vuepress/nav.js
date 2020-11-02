@@ -34,8 +34,14 @@ module.exports = [
     }]
   },
   {
-    text: '核心',
-    link: '/core/',
+    text: 'Core',
+    items: [{
+      text: 'foundation',
+      link: '/core_foundation/'
+    }, {
+      text: 'concept',
+      link: '/core_concept/'
+    }]
   },
   {
     text: '工程',
@@ -45,10 +51,6 @@ module.exports = [
         link: '/normalize/',
       },
     ],
-  },
-  {
-    text: '概念',
-    link: '/concept/',
   },
   {
     text: '工具',
