@@ -15,12 +15,16 @@ Array是一组有序列表，与其他语言相比，JavaScript内数组可以�
 将 `map()` 和 `async/await` 结合起来使用会有一点复杂，关键在于 `Promise.all()` 方法
 
 ```js
-const anAsyncFunction = () => {
-	return Promise.resolve('ok')
+const list = ["request1", "request2", "request3"]
+// 单个异步请求
+const anAsyncFunction = async (data) => {
+	return await request(data)
 }
+
+// 组合异步请求
 const getData = async () => {
   return Promise.all(list.map(item => anAsyncFunction(item)))
 }
-// 遍历所有异步请求的请求数据
+// 捕获所有异步请求的请求数据
 const data = await getData()
 ```
