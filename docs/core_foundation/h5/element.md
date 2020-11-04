@@ -1,4 +1,15 @@
-# HTML5 Elements
+# HTML5 Elements Module
+
+## Handle DOM Element
+
+```js
+// 查询元素
+const ele = document.querySelector('.target')
+// 添加 class
+ele.classList.add('add-class')
+// 设置属性
+ele.setAttribute('name', 'hello')
+```
 
 ## figure
 

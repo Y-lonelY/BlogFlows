@@ -99,7 +99,7 @@ function setPackages() {
 }
 
 function setRules() {
-  return ['', 'eslint']
+  return ['', 'eslint', 'git', 'style']
 }
 
 function setExplore() {

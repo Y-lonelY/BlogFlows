@@ -44,15 +44,6 @@ module.exports = [
     }]
   },
   {
-    text: '工程',
-    items: [
-      {
-        text: 'rules',
-        link: '/normalize/',
-      },
-    ],
-  },
-  {
     text: '工具',
     link: '/tools/',
   },
