@@ -34,13 +34,94 @@ module.exports = {
       '/reading_literature/': setLiterature(),
       '/reading_article/': setArticle(),
       '/reading_media/': setMedia(),
-
-      '/core/': getCoreSide(),
-      '/normalize/': getNormalizeSide('Normalize'),
-      '/concept/': getConceptSide(),
+      // CORE MODULE
+      '/core_foundation/': setCoreFoundation(),
+      '/core_concept': setCoreConcept(),
+      // TOOL MODULE
       '/tools/': getToolsSide(),
     },
   },
+}
+
+function setCoreConcept() {
+  return [
+    '',
+    {
+      title: 'JavaScript',
+      collapsable: false,
+      children: ['common', 'module', '理解一下this']
+    },
+    {
+      title: 'React',
+      collapsable: false,
+      children: ['common', '谈谈Vue和React']
+    },
+    {
+      title: 'Style',
+      collapsable: false,
+      children: ['common']
+    },
+    {
+      title: 'Network',
+      collapsable: false,
+      children: ['common']
+    }
+  ]
+}
+
+function setCoreFoundation() {
+  return [
+    '',
+    {
+      title: 'JavaScript',
+      collapsable: false,
+      children: [
+        "common",
+        "array",
+        "es"
+      ]
+    },
+    {
+      title: 'React',
+      collapsable: true,
+      children: [
+        "common",
+        "advanced",
+        "hook"
+      ]
+    },
+    {
+      title: 'TypeScript',
+      collapsable: true,
+      children: [
+        "common",
+        "utility"
+      ]
+    },
+    {
+      title: 'HTML5',
+      collapsable: true,
+      children: [
+        "element"
+      ]
+    },
+    {
+      title: 'Vue2',
+      collapsable: true,
+      children: [
+        "common",
+        "advanced"
+      ]
+    },
+    {
+      title: 'Python3',
+      collapsable: true,
+      children: [
+        "common",
+        "advanced"
+      ]
+    }
+  ]
 }
 
 function setMedia() {
@@ -108,8 +189,6 @@ function setExplore() {
     '布局方式的实践',
     'GROWTH性能优化实践',
     'React-Error-Catcher',
-    '理解一下this',
-    '谈谈Vue和React',
   ]
 }
 

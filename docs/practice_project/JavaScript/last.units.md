@@ -45,19 +45,6 @@ function isEmptyObject(obj) {
 ```
 
 
-## 元素轮廓线
-
-在浏览器上为每个元素添加轮廓线
-
-```javascript
-function addEleOutline() {
-    [].forEach.call($$("*"), function(a) {
-        a.style.outline = "1px solid #" + (~~(Math.random() * (1 << 24))).toString(16);
-    });
-}
-```
-
-
 ## 清空元素
 
 类似 jquery 的 empty()
