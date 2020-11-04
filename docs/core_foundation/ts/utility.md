@@ -39,3 +39,40 @@ let a: Pick<Person, 'name' | 'age'> = {
 
 
 
+## Union Related
+
+- `Exclude<Type, Union>` 相当于对两个集合求**差集**
+- `Extract<Type, union>` 相当于对两个集合求**交集**
+
+这里将包含 `union` 参数的 utility 归位一类，它们的行为类似对集合进行处理，在处理 `union` 类型时能够提供便利
+
+![union](../assets/ts/union.png)
+
+参考下面这个例子进行理解：
+
+```typescript
+// Exclude<unionA, unionB>
+type A = "a" | "b" | "c"
+type B = "a" | "f"
+
+// type C = "b" | "c"
+type C = Exclude<A, B>
+
+// error: Type '"a"' is not assignable to type '"b" | "c"'.(2322)
+let v1: C = "a"
+
+// Extract<unionA, unionB>
+// type E = "a"
+type E = Extract<A, B>
+
+// Type '"b"' is not assignable to type '"a"'.(2322)
+let v2: E = "b"
+```
+
+
+
+## Function Related
+
+- `Parameters<Type>`
+- 
+
