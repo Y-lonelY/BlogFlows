@@ -74,5 +74,72 @@ let v2: E = "b"
 ## Function Related
 
 - `Parameters<Type>`
-- 
+- `ReturnType<Type>`
+
+这里将函数类型的操作归为一类,主要针对函数的传参/返回值进行处理,返回相应的数据类型
+
+![function](../assets/ts/function.png)
+
+1. `Parameters<Type>` 获取函数所有的传参, 并返回一个元组(tuple)
+2. `ReturnType<Type>` 获取函数的返回值类型, 返回
+
+参考下面的例子来进行理解:
+
+ ```typescript
+declare function f1(p: number, q: string): {a: number, b: string}
+
+// 这里注意使用 typeof 来获取其类型
+// 生成一个元组类型: [p: number, q: string]
+type ParamsType = Parameters<typeof f1>
+
+// success
+const p1: ParamsType = [1, 'a']
+
+// Type 'number' is not assignable to type 'string'.(2322)
+const p2: ParamsType = [1, 2]
+
+
+// ReturnType: 捕获返回值类型
+type ReturnParams = ReturnType<typeof f1>
+
+// success
+const r1: ReturnParams = {
+    a: 1,
+    b: 'hello'
+}
+
+// The expected type comes from property 'b' which is declared here on type '{ a: number; b: string; }'
+const r2: ReturnParams = {
+    a: 1,
+    b: 2
+}
+ ```
+
+
+
+## Interesting Utility
+
+还有一些 Uitlity 拥有一些“有趣”的行为,这里将它们归为一类:
+
+- `Record<Keys, Type>`
+- `NonNullable<Type>`: 就是保证类型内不存在 `null` 和 `undefined`
+
+`Record<Keys, Type>` 用于将每个 Key 内对应到指定 Type, 参考下面的例子来进行理解:
+
+```typescript
+interface Person {
+  name: string
+}
+
+type Names = "Kitty" | "Nik"
+
+const nav: Record<Names, Person> = {
+  Kitty: { name: 'kitty'},
+  Nik: {name: 'nik' }
+}
+```
+
+
+
+**Thanks for you reading, solo with code!**
 
