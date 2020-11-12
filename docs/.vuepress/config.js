@@ -36,7 +36,7 @@ module.exports = {
       '/reading_media/': setMedia(),
       // CORE MODULE
       '/core_foundation/': setCoreFoundation(),
-      '/core_concept': setCoreConcept(),
+      '/core_concept/': setCoreConcept(),
       // TOOL MODULE
       '/tools/': getToolsSide(),
     },
@@ -49,22 +49,22 @@ function setCoreConcept() {
     {
       title: 'JavaScript',
       collapsable: false,
-      children: ['common', 'module', '理解一下this']
+      children: ['js/common', 'js/module', 'js/理解一下this']
     },
     {
       title: 'React',
       collapsable: false,
-      children: ['common', '谈谈Vue和React']
+      children: ['react/common', 'react/谈谈Vue和React']
     },
     {
       title: 'Style',
       collapsable: false,
-      children: ['common']
+      children: ['style/common']
     },
     {
       title: 'Network',
       collapsable: false,
-      children: ['common']
+      children: ['network/common']
     }
   ]
 }
@@ -76,49 +76,49 @@ function setCoreFoundation() {
       title: 'JavaScript',
       collapsable: false,
       children: [
-        "common",
-        "array",
-        "es"
+        "js/common",
+        "js/array",
+        "js/es"
       ]
     },
     {
       title: 'React',
       collapsable: true,
       children: [
-        "common",
-        "advanced",
-        "hook"
+        "react/common",
+        "react/advanced",
+        "react/hook"
       ]
     },
     {
       title: 'TypeScript',
       collapsable: true,
       children: [
-        "common",
-        "utility"
+        "ts/common",
+        "ts/utility"
       ]
     },
     {
       title: 'HTML5',
       collapsable: true,
       children: [
-        "element"
+        "h5/element"
       ]
     },
     {
       title: 'Vue2',
       collapsable: true,
       children: [
-        "common",
-        "advanced"
+        "vue2/common",
+        "vue2/advanced"
       ]
     },
     {
       title: 'Python3',
       collapsable: true,
       children: [
-        "common",
-        "advanced"
+        "python3/common",
+        "python3/advanced"
       ]
     }
   ]
@@ -126,7 +126,7 @@ function setCoreFoundation() {
 
 function setMedia() {
   return [
-    ''
+    '', 'medium', 'youtube'
   ]
 }
 
@@ -242,8 +242,15 @@ function getToolsSide() {
   return [
     '/tools/',
     {
-      title: 'Muscle',
+      title: 'Chrome',
       collapsable: false,
+      children: [
+        'chromeDev/console',
+      ],
+    },
+    {
+      title: 'Muscle',
+      collapsable: true,
       children: [
         'muscle/babel',
         'muscle/shell',

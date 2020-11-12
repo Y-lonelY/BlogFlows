@@ -58,7 +58,7 @@ Web 应用的底层协议是超文本传输协议（HyperText Transfer Protocol,
 
 Web 页面由**对象**组成，一个对象就是一个文件，该文件可以是一个 .html文件，一个 .jpg图片等等，比如：一个 Web 页面包含1个 html 基本文件和2个 css 引用文件，则这个 Web 页面包含3个对象
 
-![HTTP请求/响应](./assets/tcp.png)
+![HTTP请求/响应](../assets/tcp.png)
 
 - HTTP客户首先通过发起一个与服务器的**TCP连接请求**，一旦连接建立，该浏览器与服务器进程就可以通过套接字接口访问 TCP，然后客户和服务器从它的套接字发送或者接收 HTTP 报文
 
@@ -187,7 +187,7 @@ HTTP 在其默认方式下使用持续连接，通过 `Connection: keep-alive` �
 
 假设客户上的一个进程想与服务器上的某一个进程建立一条连接。客户应用进程首先通知客户TCP，它希望建立一个与服务器上某个进程之间的连接。客户中的TCP会用以下方式与服务器中的TCP建立一条TCP连接
 
-![three-hands](./assets/three-hands.jpg)
+![three-hands](../assets/three-hands.jpg)
 
 客户端的TCP首先向服务器端的TCP发送一个特殊的TCP报文段（SYN报文段），该报文段会被封装在一个IP数据报中，并发送给服务器
 
@@ -216,7 +216,7 @@ HTTP 在其默认方式下使用持续连接，通过 `Connection: keep-alive` �
 
 参与一条 TCP 连接的两个进程中的任何一个都能终止该连接，当链接结束之后，客户和服务器的资源（即缓存和变量）将被释放
 
-![four-hands](./assets/four-hands.png)
+![four-hands](../assets/four-hands.png)
 
 假如某客户打算关闭连接，客户应用进程发出一个关闭连接的命令：
 
@@ -240,7 +240,7 @@ cookie 技术包含四个组件：
 - 在用户端系统中保留一个 cookie 文件，并由用户的浏览器进行管理
 - 位于 Web 站点的一个后端数据库
 
-![Cookie](./assets/cookie.png)
+![Cookie](../assets/cookie.png)
 
 Web 缓存器也叫代理服务器，它是能够代表初始 Web 服务器来满足 HTTP 请求的网络实体
 

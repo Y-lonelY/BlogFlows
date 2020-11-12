@@ -1,4 +1,4 @@
-# React Concept Module
+# React Concept
 
 ## Trivia
 

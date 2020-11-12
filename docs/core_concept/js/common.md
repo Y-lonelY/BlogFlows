@@ -1,4 +1,4 @@
-# JavaScript Concept Module
+# JavaScript Concept
 
 
 ## 执行机制

@@ -1,4 +1,4 @@
-# HTML5 Elements Module
+# HTML5 Elements
 
 ## Handle DOM Element
 

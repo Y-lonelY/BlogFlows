@@ -1,4 +1,4 @@
-# Style Concept Module
+# Style Concept
 
 ## BFC
 
@@ -23,8 +23,6 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 布局方式一般有：标准流（行内元素，块级元素），浮动，定位（position，z-index），flex布局，display:inline-block
 
 默认为标准流布局方式
-
-对于布局方式的实践，可以参考[布局方式的实践](../../practice/布局方式的实践.html)
 
 
 ### flex布局
@@ -335,7 +333,7 @@ div {
 }
 ```
 
-![position](./assets/position1.png)
+![position](../assets/position1.png)
 
 第二种情况，.child 为绝对定位，.test 为相对定位，此时 .child 已经脱离了文档流，所以不能够撑开.posi元素，导致.test会覆盖在其上面
 
@@ -354,7 +352,7 @@ div {
 }
 ```
 
-![position](./assets/position2.png)
+![position](../assets/position2.png)
 
 
 ### float
