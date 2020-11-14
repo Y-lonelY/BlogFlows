@@ -259,36 +259,30 @@ function setProject() {
 
 function getToolsSide() {
   return [
-    '/tools/',
+    '',
     {
       title: 'Chrome',
-      collapsable: false,
+      collapsable: true,
       children: [
         'chromeDev/console',
       ],
     },
     {
-      title: 'Muscle',
-      collapsable: true,
+      title: 'IDE',
+      collapsable: false,
       children: [
-        'muscle/babel',
-        'muscle/shell',
-        'muscle/nginx',
-        'muscle/macos',
+        'IDE/vim',
+        'IDE/vscode',
       ],
     },
     {
-      title: 'Skeleton',
-      collapsable: true,
+      title: 'Server',
+      collapsable: false,
       children: [
-        'skeleton/chrome',
-        'skeleton/cloud',
-        'skeleton/macos',
-        'skeleton/vscode',
-        'skeleton/windows',
-        'skeleton/xcode',
+        'server/TCCloud',
+        'server/nginx',
       ],
-    },
+    }
   ]
 }
 

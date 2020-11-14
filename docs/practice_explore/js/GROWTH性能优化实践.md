@@ -174,7 +174,7 @@ create-react-app 会将所有用到的模块都打包进一个js文件内，但�
 - 有不同颜色的200，并且其资源的size为from memory 或者from disk
 - 一部分资源为304状态码，即请求发送过去，服务器发现资源并没有发生变化，于是返回一个实体主体为空的响应报文
 
-![reopen](./assets/growth/rerender.png)
+![reopen](../assets/growth/rerender.png)
 
 ok，借此机会来理一理浏览器缓存机制，首先基本概念，浏览器缓存包括：HTTP缓存，indexDB，cookie，localStorage，sessionStorage 等
 
