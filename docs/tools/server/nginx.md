@@ -22,47 +22,87 @@
 
 ## Config
 
-假定一个场景：在一个项目内，后台在3000端口上持续运行，前端为静态文件，同时有一个文件夹用来存放上传的图片
+观察下面的配置:
 
-- 后台服务启动之后，将其代理到 127.0.0.1:7777/service 路径下
-- 将react工程内的 build/index.html 代理到 127.0.0.1:7777/ 路径下
-- 将静态文件夹代理到 127.0.0.1:7777/pics 目录下
+- 开启 gzip
+- 将 80 端口代理到 443, 支持 SSL 证书验证, 支持 https
+- 访问 80 端口会被重定向到 443 端口
+- 将静态文件代理到 443 端口
+- 将本地服务占用端口代理到指定端口
+- 将不同子域名的访问分发到不同的 location
+
+参考
+- [腾讯云 nginx 配置 SSL](https://cloud.tencent.com/document/product/400/35244)
 
 ```
 #user  ylonely;
 worker_processes  1;
-
 events {
     worker_connections  1024;
 }
+
 
 http {
     include       mime.types;
     default_type  application/octet-stream;
     sendfile        on;
     keepalive_timeout  65;
+
+    # gzip config
+    gzip  on;
+    # 压缩阈值 小于 10k 不压缩
+    gzip_min_length 10k;
+    # 分配 4*16k 的内存用于缓存压缩结果
+    gzip_buffers 4 16k;
+    # 压缩级别，越小越快，但是效果越差
+    gzip_comp_level 3;
+    # 压缩级别，越小越快，但是效果越差
+    gzip_comp_level 3;
+    # 设置支持压缩的Content-Type
+    gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png application/javascript;
+
+
     server {
-        listen       7777;
-        server_name  127.0.0.1;
+        # SSL 访问端口为 443
+        listen       443 ssl;
+        # 绑定证书的域名
+        server_name  www.7k7k.life;
+        # 证书文件的名称
+        ssl_certificate 1_www.7k7k.life_bundle.crt;
+        # 私钥文件
+        ssl_certificate_key 2_www.7k7k.life.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        # 套件加密
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+        ssl_prefer_server_ciphers on;
 
         location / {
-	    	# 生产环境
-            root   /Users/yango/Growup/YlonelY-GrowingUp/react-app/build/;
-            index  index.html index.htm;
+                root   /root/blog/dist/;
+                index  index.html index.htm;
         }
 
-		location /service {
-		    proxy_pass http://localhost:3000/service;
-		}
+    }
 
-		location /pics {
-            alias   /Users/yango/Growup/YlonelY-GrowingUp/koa-app/upload;
+    server {
+        listen 80;
+        server_name www.7k7k.life;
+
+        location /grow {
+            proxy_pass http://localhost:3000/grow;
         }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+         }
     }
 
     include servers/*;
 }
 ```
+
+
 
 ### 理解 alias root location
 
@@ -77,9 +117,10 @@ nginx 指定文件路径有两种方式 root 和 alias
 - alias的处理结果是：使用 alias 替换 location，注意，使用 alias 时，目录名后面一定要加 /，否则会找不到文件
 
 
+
 ## Q && A
 
-`Incompatible SockJS! Main site uses: "1.4.0", the iframe: "1.3.0".`
+1. `Incompatible SockJS! Main site uses: "1.4.0", the iframe: "1.3.0".`
 
 解决：添加如下配置
 
@@ -92,6 +133,21 @@ location / {
     proxy_set_header Connection "upgrade";
 }
 ```
+
+2. `CreateDirectory()...failed (3: The system cannot find the path specified)` 
+
+nginx 对于某个文件夹没有访问权限，无法创建 temp 文件夹
+
+解决办法，添加如下代码，同时在nginx根目录手动创建temp及子文件夹
+
+```
+http {
+		client_body_temp_path temp/client_body_temp;
+		proxy_temp_path temp/proxy_temp;
+    	fastcgi_temp_path temp/fastcgi_temp;
+	}
+```
+
 
 
 ## What's nginx?
@@ -133,20 +189,3 @@ nginx 可以简单理解成一个服务器
 
 - 安全和权限，可以在 nginx 层将危险和无权限的信息过滤掉，保证服务器的安全
 - 负载均衡，nginx 可以将客户端请求合理分配到各个服务器上，同时可以通过轮询提供服务器安全检测服务，如果某个服务器异常，则不会为其分配请求，保证客户端访问的稳定性
-
-
-### Q&A
-
-1. `CreateDirectory()...failed (3: The system cannot find the path specified)` 
-
-nginx 对于某个文件夹没有访问权限，无法创建 temp 文件夹
-
-解决办法，添加如下代码，同时在nginx根目录手动创建temp及子文件夹
-
-```
-http {
-		client_body_temp_path temp/client_body_temp;
-		proxy_temp_path temp/proxy_temp;
-    	fastcgi_temp_path temp/fastcgi_temp;
-	}
-```
