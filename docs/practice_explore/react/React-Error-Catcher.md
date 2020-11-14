@@ -2,7 +2,7 @@
 
 > React 内不同类型的错误捕获
 
-![catch image](/Users/yango/github/blog/BlogFlows/practice/assets/React Error Ctacher.png)
+![catch image](../assets/React Error Ctacher.png)
 
 本文将会从三个阶段来探讨发生在在 React 内的错误捕获，并且介绍如何封装一个通用的组件：
 

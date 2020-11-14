@@ -78,7 +78,7 @@ svg 比如 iconfont 可以直接生产一个 svg 图标库的js代码，里面�
 
 打开 console 会发现，同样是是 `.svg` 文件，对比 Time 可以发现，资源1是 `from gzip/http request`（4ms），资源2是 `from memory cache`（0ms）
 
-![svg compare](./assets/growth/svg.png)
+![svg compare](../assets/growth/svg.png)
 
 - 文件大小不同，资源1 size 明显大于资源2，通过比较源文件得出
 - 两者都是 GET 方法，资源1 `Request URL` 为 `xxx.svg`，资源2为 BASE64 编码
@@ -101,7 +101,7 @@ GROWTH项目已经基本部署在腾讯云上了。在收获了一点点的成�
 
 首先，打开 console，勾选 `network - disable cache`，然后重新加载页面，资源加载时间如下：
 
-![第一次加载资源](./assets/growth/init.png)
+![第一次加载资源](../assets/growth/init.png)
 
 可以看到，有个2M多的chunk.js加载了40s以上，所以，它是怎么发生的呢？
 
@@ -109,7 +109,7 @@ GROWTH项目已经基本部署在腾讯云上了。在收获了一点点的成�
 
 第一个想法：查看服务器网速，看是否因为网速限制，导致资源下载过慢，通过 `ping` 来实现，ping 了服务器地址和百度的地址进行比较发现
 
-![ping](./assets/growth/ping.png)
+![ping](../assets/growth/ping.png)
 
 确实服务器网速比较慢，慢了三倍以上，同时根据 TTL 可以看出其经过的路有器节点要比百度多4个
 
@@ -127,7 +127,7 @@ gzip 是一个常用的优化方式，通过对资源文件进行进一步压缩
 
 首先，查看资源的 Request Headers，观察其 `Accept-Encoding: gzip, deflate` 说明浏览器支持 gzip，可以通过配置 Network 的面板来直观看出哪些资源是使用gzip进行压缩后的文件，可以看出只有通过 iconfont 生成在线字体的 js 文件使用了 gzip
 
-![gzip](./assets/growth/gzip.png)
+![gzip](../assets/growth/gzip.png)
 
 那么，将其它资源文件也进行 gzip 压缩，再看看效果
 
@@ -149,7 +149,7 @@ gzip_comp_level 3;
 gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png application/javascript;
 ```
 
-![aftergzip](./assets/growth/aftergzip.png)
+![aftergzip](../assets/growth/aftergzip.png)
 
 可以看出经过 gzip 解压之后，再次重新请求，发现时间缩短了近4倍，对于小于10k的资源，都进行了gzip压缩操作，说明通过 gzip 进行优化是一个可行的方案，但是时间还是很长，继续探索
 
@@ -159,7 +159,7 @@ create-react-app 会将所有用到的模块都打包进一个js文件内，但�
 
 具体实现时通过 import 的异步加载方法结合 react-router 进行，参考[通过import()实现异步加载](../packages/b.react.md#通过import实现组件的异步加载)
 
-![afterasync](./assets/growth/afterasync.png)
+![afterasync](../assets/growth/afterasync.png)
 
 可以发现，`main.chunk.js` 文件减小了100k以上，加载速度提高了2s左右，并且这种优化，会随着模块的增多而更加明显
 
@@ -180,7 +180,7 @@ ok，借此机会来理一理浏览器缓存机制，首先基本概念，浏览
 
 这里，与图相关的是HTTP缓存，即通过HTTP首部行信息来管理缓存，结合下图来对HTTP缓存进行理解
 
-![http-cache](./assets/growth/http-cache.png)
+![http-cache](../assets/growth/http-cache.png)
 
 HTTP缓存分为强缓存（cache-control）和协商缓存（e-tag, last_modified）的简单流程：
 

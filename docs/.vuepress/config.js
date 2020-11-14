@@ -186,9 +186,28 @@ function setRules() {
 function setExplore() {
   return [
     '',
-    '布局方式的实践',
-    'GROWTH性能优化实践',
-    'React-Error-Catcher',
+    {
+      title: 'JavaScript',
+      collapsable: true,
+      children: [
+        'js/performance',
+        'js/GROWTH性能优化实践'
+      ],
+    },
+    {
+      title: 'React',
+      collapsable: false,
+      children: [
+        'react/React-Error-Catcher'
+      ],
+    },
+    {
+      title: 'Style',
+      collapsable: false,
+      children: [
+        'style/布局方式的实践'
+      ],
+    }
   ]
 }
 
