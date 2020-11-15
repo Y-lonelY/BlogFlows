@@ -126,7 +126,22 @@ function setCoreFoundation() {
 
 function setMedia() {
   return [
-    '', 'medium', 'youtube'
+    '',
+    {
+      title: 'Medium',
+      collapsable: false,
+      children: [
+        'medium/common',
+        'medium/callback'
+      ]
+    },
+    {
+      title: 'YouTube',
+      collapsable: true,
+      children: [
+        'youtube/predict2020-2025',
+      ]
+    }
   ]
 }
 
