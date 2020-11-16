@@ -51,6 +51,10 @@
 
 **性能监测对象** 用来监测性能度量事件(可以理解为**性能事件的 Listener** ), 当浏览器的时间线记录一个新的 `performance entries` 时进行捕获
 
+这里需要注意 `observe()` 方法的传参问题, 具体可以参考[W3C observe](https://w3c.github.io/performance-timeline/#observe-method)
+
+- `entryTypes` 和 `type` 只能选择其一传入, 因为 `observe()` 会根据传参的键来进行不同模式(multiple 或者 single)的处理
+
 ```javascript
 // 声明一个 PerformanceObserver 示例对象, 并且注册一个回调
 const ob = new PerformanceObserver((list) => {
