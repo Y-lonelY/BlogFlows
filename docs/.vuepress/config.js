@@ -49,7 +49,7 @@ function setCoreConcept() {
     {
       title: 'JavaScript',
       collapsable: false,
-      children: ['js/common', 'js/module', 'js/理解一下this']
+      children: ['js/common', 'js/理解一下this']
     },
     {
       title: 'React',
