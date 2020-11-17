@@ -75,3 +75,39 @@ ob.disconect()
 让我们看看一个简单页面的针对 `paint` 类型指标的捕获内容:
 
 ![observer](../assets/perf/observer.png)
+
+
+
+## Metrics
+
+我们已经通过一些手段获取了一堆性能数据, 接下来我们要做的事情就是对这些数据进行分类和分析.
+
+我会沉淀一些通用的性能指标
+
+
+
+### FP(First Paint)
+
+`FP = Anything as visually different - Navigator`, 即浏览器开始导航到浏览器屏幕发生可视化改变的时间间隔
+
+
+
+### FCP(First Contentful Paint)
+
+浏览器从导航到渲染 DOM 内容的第一个字节(就是一个 DOM 元素的第一个字节)所花费的时间, 通常情况下 FP 等于 FCP
+
+
+
+### LCP(Largest Contentfil Paint)
+
+视窗内可见的的渲染时间最大的 `image or text block`, 比如 `<svg>`, `<image>`, `<video>` 等存在 url 属性的元素
+
+这是一个很有意义的指标, 它基本上反映了是页面内渲染主要内容的耗时
+
+一个更快的 LCP 能够帮助用户确认当前页面是[可用的](https://web.dev/user-centric-performance-metrics/#questions)(即是否足够的内容让用户可以进行交互)
+
+注意
+
+- 对于 `image` 元素, 上报的 `size` 通常是指视窗内可见的尺寸, 如果元素被隐藏或者部分处于视窗外面(被裁剪或者存在不可见的溢出), 则这部分不会被计入元素的大小
+- 对于 `text` 元素, `size` 代表包含文本内容最小矩形的尺寸
+
