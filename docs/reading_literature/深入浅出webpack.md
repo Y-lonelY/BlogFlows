@@ -82,3 +82,49 @@ require(['jquery'], function($) {
 - 自动刷新, 监听文件变化, 重新构建并刷新浏览器页面
 - 自动发布
 
+# Webpack Config
+
+这里我会对一些重要的配置属性进行介绍, 如有必要会针对性的进行深入分析
+
+先来看一个简单的例子
+
+```javascript
+const path = require('path')
+
+module.exports = {
+  entry: './src/index.js',
+  // to define the output file path and name
+  // with NodeJS core module path
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  // loaders to support file compiler
+  // compiling form right to left 
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        // like get request to transfer params
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+}
+```
+
+
+
+## Loaders
+
+Webpack 仅仅能够理解 `JavaScript` 和 `json` 类型文件, 这显然不足以覆盖我们的日常需求
+
+Webpack 的 Loader 机制能够帮助我们打包 webpack 本身不支持的文件类型, 比如样式文件
+
+- 将其转换为能够被应用“消费”的有意义的模块
+- 将其加入到依赖视图
+
+**loaders** 有两个配置属性
+
+- `test` 用来匹配需要转换的文件类型
+- `use` 用来分配对应的 loader 对该文件进行处理, loaders **从右至左进行解析**
