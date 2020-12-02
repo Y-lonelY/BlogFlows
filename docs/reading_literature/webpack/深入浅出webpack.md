@@ -4,8 +4,7 @@
 
 这是一篇读书笔记, 记录我在阅读**深入浅出 Webpack**和**Webpack 官方文档**过程中的所学所思🔥
 
-
-## 模块化
+# 模块化
 
 > Module is the future!
 
@@ -24,7 +23,9 @@
 
 **我们封装了很多轮子, 来使我们更高效的编码, 但是往往需要编译后的代码才能来让机器执行**
 
-### CommonJS
+
+
+## CommonJS
 
 随着 NodeJS 的流行, 这种模块化方案被发扬光大, 其核心思想是**通过 `require` 方法来同步加载(输入)依赖, 通过 `module.exports` 来输出代码块**
 
@@ -35,7 +36,8 @@ CommonJS 通常被用来在非浏览器端管理依赖，设计目的是避免�
 可以直接在 NodeJS 环境下运行, 但是无法直接在浏览器环境下运行, 需要转换成标准 ES5 
 
 
-### AMD
+
+## AMD
 
 **AMD(Asynchronous Module Definition)** 顾名思义, 它采用异步的方式来加载依赖的模块, jQuery 时代里, [requirejs](https://requirejs.org/) 就是其典型代表.
 
@@ -61,7 +63,9 @@ require(['jquery'], function($) {
 
 缺点也很明显, 就是需要引入第三方依赖来实现
 
-### ES6 module
+
+
+## ES6 module
 
 这应该是大家非常熟悉的, 现代框架都是支持的模块化方案, 但是它也无法在 NodeJS 和浏览器环境下直接运行
 
@@ -69,6 +73,7 @@ require(['jquery'], function($) {
 - ES6 模块是静态的，即导入后无法进行更改
 - ES6 是指针绑定，在编译时输出，不同于 CommonJS 值绑定，模块内做出了修改，会反映到所有使用该模块的代码中
 - ES6模块采用的是单例模式，每次对同一个模块的导入其实都指向同一个实例
+
 
 
 ## 构建
@@ -159,6 +164,36 @@ module.exports = {
 ```
 
 
+
+
+
+## Output
+
+**output** 用来告诉 Webpack 如何在磁盘上写入最终输出的文件, 配置类型为 object
+
+```javascript
+output: {
+  path: path.resolve(__dirname, 'dist'),
+  // [name] will add filename
+  filename: '[name].bundle.js',
+  publicPath: 'https://7k7k.life/assets/'
+},
+```
+
+
+
+- `path` 输出文件存放的目录, 是一个**绝对路径**, 通常通过 `path.resolve(__dirname, 'path')` 来定义
+- `filename` 输出文件的名字, 支持模版字符串, 当 entry 配置为多入口时, 需要使用模版语法来确保每个输出文件有**唯一的名字**
+
+| 变量名                                            | 含义                                 |
+| :------------------------------------------------ | ------------------------------------ |
+| id                                                | Chunk 的唯一标识，从0开始            |
+| name                                              | Chunk 的名称                         |
+| hash, 比如 `[hash:8]` 表示取8位 hash 值           | Chunk 的唯一标识的 Hash 值           |
+| chunkhash                                         | Chunk 内容的 Hash 值, 由一组模块组成 |
+| contenthash, 需要 `ExtractTextWebpackPlugin` 插件 | 代码内容本身组成的 Chunk             |
+
+- `publicPath` 用来配置资源文件的路径, 比如你有一个图片服务器, 地址为 `https:www.images.com/assets/`, 此时可以配置 `output.publicPath:https:www.images.com/assets/ `, 它会告诉 Webpack, 在编译的时候碰到引用该地址的资源文件, 你不用进行感知, 并且这个属性支持在入口文件通过 `__webpack_public_path__ = PublicPath` 来进行动态配置
 
 
 
