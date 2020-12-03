@@ -129,8 +129,8 @@ module.exports = {
 - **Entry**: Webpack 执行构建任务的入口
 - **Module**: 模块是 Webpack 内的核心概念, 一个文件对应一个模块, Webpack 会根据入口递归查找出所有模块的递归关系
 - **Chunk**: 一个代码块由多个模块构成, 用于代码分割.
-- **Loader**: 代码转换器
-- **Plugin**: 扩展插件
+- **Loader**: 代码转换器, 查看[loaders](./loaders.md)
+- **Plugin**: 扩展插件, 了解 [plugin](./plugin)
 - **Output**: 输出内容
 
 
