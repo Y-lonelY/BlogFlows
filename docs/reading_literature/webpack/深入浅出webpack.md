@@ -4,7 +4,8 @@
 
 这是一篇读书笔记, 记录我在阅读**深入浅出 Webpack**和**Webpack 官方文档**过程中的所学所思🔥
 
-# 模块化
+
+## 模块化
 
 > Module is the future!
 
@@ -25,7 +26,7 @@
 
 
 
-## CommonJS
+### CommonJS
 
 随着 NodeJS 的流行, 这种模块化方案被发扬光大, 其核心思想是**通过 `require` 方法来同步加载(输入)依赖, 通过 `module.exports` 来输出代码块**
 
@@ -37,7 +38,7 @@ CommonJS 通常被用来在非浏览器端管理依赖，设计目的是避免�
 
 
 
-## AMD
+### AMD
 
 **AMD(Asynchronous Module Definition)** 顾名思义, 它采用异步的方式来加载依赖的模块, jQuery 时代里, [requirejs](https://requirejs.org/) 就是其典型代表.
 
@@ -65,7 +66,7 @@ require(['jquery'], function($) {
 
 
 
-## ES6 module
+### ES6 module
 
 这应该是大家非常熟悉的, 现代框架都是支持的模块化方案, 但是它也无法在 NodeJS 和浏览器环境下直接运行
 
@@ -91,7 +92,8 @@ require(['jquery'], function($) {
 - 自动刷新, 监听文件变化, 重新构建并刷新浏览器页面
 - 自动发布
 
-# Webpack Config
+
+## Webpack Config
 
 这里我会对一些重要的配置属性进行介绍, 如有必要会针对性的进行深入分析
 
@@ -129,17 +131,17 @@ module.exports = {
 - **Entry**: Webpack 执行构建任务的入口
 - **Module**: 模块是 Webpack 内的核心概念, 一个文件对应一个模块, Webpack 会根据入口递归查找出所有模块的递归关系
 - **Chunk**: 一个代码块由多个模块构成, 用于代码分割.
-- **Loader**: 代码转换器, 查看[loaders](./loaders.md)
-- **Plugin**: 扩展插件, 了解 [plugin](./plugin)
 - **Output**: 输出内容
+- [loaders 代码转换器](./loaders.md)
+- [plugin 扩展插件](./plugins.md)
 
 除此之外, 还有一些配置是用来“服务”上述核心概念, 我们也对其进行理解
 
 - **Resolve**: 如何寻找模块所对应的文件
+- [optimization 优化项](./optimization.md)
 
 
-
-## Entry
+### Entry
 
 `entry` 支持配置**多主入口**
 
@@ -169,7 +171,7 @@ module.exports = {
 
 
 
-## Resolve
+### Resolve
 
 Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似**约定**的方式, 在模块内寻找模块所对应的文件
 
@@ -202,14 +204,7 @@ Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似
 ​		一个很有意思的属性, Ryan 在 deno 发布会上公开 diss 了这个设计(即自动匹配 index, 自动补全 .js), extensions 用来配置补全的后缀和后缀的匹配顺序, 比如 `import App from './app'` , 在默认配置下, 就会优先去匹配 `app.js`, 如果没有匹配到就继续匹配 `app.json`
 
 
-
-
-
-
-
-
-
-## Output
+### Output
 
 **output** 用来告诉 Webpack 如何在磁盘上写入最终输出的文件, 配置类型为 object
 
@@ -239,7 +234,7 @@ output: {
 
 
 
-## Chunk
+### Chunk
 
 一个 **chunk** 由多个 module 组成, 用于代码分割和合并
 
@@ -249,31 +244,6 @@ output: {
 
 **webpack 4 之后通过 optimization.splitChunks 属性来配置, 进行代码分割**
 
-
-
-## Loaders
-
-Webpack 仅仅能够理解 `JavaScript` 和 `json` 类型文件, 这显然不足以覆盖我们的日常需求
-
-Webpack 的 Loader 机制能够帮助我们打包 webpack 本身不支持的文件类型, 比如样式文件
-
-- 将其转换为能够被应用“消费”的有意义的模块
-- 将其加入到依赖视图
-
-**loaders** 有两个配置属性
-
-- `test` 用来匹配需要转换的文件类型
-- `use` 用来分配对应的 loader 对该文件进行处理, loaders **从右至左进行解析**
-
-
-
-## Plugins
-
-Webpack 的 **Plugins** 机制能够帮助我们执行更“细致”的任务, 它可以看作是 **Loaders** 能力的扩展, 比如:
-
-- 打包优化
-- 资源管理
-- 环境变量注入
 
 
 

@@ -2,6 +2,14 @@
 
 > Loaders allow you to preprocess files as you 'import' or 'load' them
 
+
+Webpack 仅仅能够理解 `JavaScript` 和 `json` 类型文件, 这显然不足以覆盖我们的日常需求
+
+Webpack 的 Loader 机制能够帮助我们打包 webpack 本身不支持的文件类型, 比如样式文件
+
+- 将其转换为能够被应用“消费”的有意义的模块
+- 将其加入到依赖视图
+
 先看一个简单的例子
 
 ```javascript

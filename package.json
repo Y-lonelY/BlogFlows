@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Y-lonelY/BlogFlows/issues"
   },
-  "homepage": "https://github.com/Y-lonelY/BlogFlows#readme"
+  "homepage": "https://github.com/Y-lonelY/BlogFlows#readme",
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.7.1"
+  }
 }

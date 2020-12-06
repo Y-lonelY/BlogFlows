@@ -23,6 +23,9 @@ module.exports = {
     nav: require('./nav.js'),
     // 文档根目录
     docsDir: 'docs',
+    // 侧边栏深度
+    sidebarDepth: 2,
+    smoothScroll: true,
     lastUpdated: 'Last updated at',
     sidebar: {
       // PRACTICE MODULE
@@ -41,6 +44,7 @@ module.exports = {
       '/tools/': getToolsSide(),
     },
   },
+  plugins: ['@vuepress/back-to-top'],
 }
 
 function setCoreConcept() {
@@ -157,7 +161,7 @@ function setLiterature() {
     {
       title: 'Literature',
       collapsable: false,
-      children: ['前端架构--从入门到微前端', 'Go语言开发实战'],
+      children: ['webpack/深入浅出webpack', '前端架构--从入门到微前端', 'Go语言开发实战'],
     },
   ]
 }

@@ -2,6 +2,12 @@
 
 > Plugins are the backbone of webpack!
 
+Webpack 的 **Plugins** 机制能够帮助我们执行更“细致”的任务, 它可以看作是 **Loaders** 能力的扩展, 比如:
+
+- 打包优化
+- 资源管理
+- 环境变量注入
+
 Webpack 本身也是基于 Plugins Systerm 建立, 在构建流程中通过注入钩子, Plugins 机制能够进一步扩展 Loaders 的能力.
 
 一个 webpack plugin 是一个有 `apply` 方法的 JavaScript 对象, 这个方法会在整个汇编的生命周期内被 webpack 编译器调用
