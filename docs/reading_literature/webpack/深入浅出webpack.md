@@ -124,7 +124,7 @@ module.exports = {
 
 
 
-我们先对 Webpack 的核心概念进行了解
+这里列举了 webpack 的核心概念
 
 - **Entry**: Webpack 执行构建任务的入口
 - **Module**: 模块是 Webpack 内的核心概念, 一个文件对应一个模块, Webpack 会根据入口递归查找出所有模块的递归关系
@@ -132,6 +132,10 @@ module.exports = {
 - **Loader**: 代码转换器, 查看[loaders](./loaders.md)
 - **Plugin**: 扩展插件, 了解 [plugin](./plugin)
 - **Output**: 输出内容
+
+除此之外, 还有一些配置是用来“服务”上述核心概念, 我们也对其进行理解
+
+- **Resolve**: 如何寻找模块所对应的文件
 
 
 
@@ -162,6 +166,44 @@ module.exports = {
   }
 }
 ```
+
+
+
+## Resolve
+
+Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似**约定**的方式, 在模块内寻找模块所对应的文件
+
+在开发过程中, 我们经常会用 `import React from 'React'`, `import renderCell from '@/components/cell-render'` 等各种类似“代理”的方式来引入模块, 此时 webpack 就是通过 **resolve** 配置项来寻找到相应的模块
+
+通过一个简单的例子来看看常用的属性配置:
+
+```javascript
+  resolve: {
+    // alias 通过别名来映射一个新的导入路径
+    alias: {
+      '@': './src',
+      'components': './src/components'
+    },
+    // mainFields 用来指定适配环境的代码加载顺序
+    mainFields: ["broswer", "main"],
+    // extensions 用来补全后缀, 并指定补全后缀并匹配的优先级
+    extensions: [".ts", ".js", ".json"]
+  },
+```
+
+
+
+<b style="color: #ef613e;">mainFields</b>
+
+​		一些第三方库会根据环境提供多份代码, 比如 `rollup` 打包时可以同时输出 `commonjs` 和 `ES6` 的代码, webpack 会根据 mainFields 来决定代码的使用顺序, 它会按照数组的顺序去 **package.json** 内进行寻找, 匹配到立即返回
+
+<b style="color: #ef613e;">extensions</b>
+
+​		一个很有意思的属性, Ryan 在 deno 发布会上公开 diss 了这个设计(即自动匹配 index, 自动补全 .js), extensions 用来配置补全的后缀和后缀的匹配顺序, 比如 `import App from './app'` , 在默认配置下, 就会优先去匹配 `app.js`, 如果没有匹配到就继续匹配 `app.json`
+
+
+
+
 
 
 

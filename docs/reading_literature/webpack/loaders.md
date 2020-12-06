@@ -8,7 +8,7 @@
 const path = require('path')
 
 module.exports = {
-	// some other configs
+	// ...other configs
   module: {
     rules: [
       {
@@ -28,6 +28,53 @@ module.exports = {
 - 扩展: loader 支持传参来应用不同的转换方式
 
 通过 Loaders, 我们可以极大地进行定制化工作, 体现在压缩, 打包, 语言转换等等
+
+我们来看一个更加复杂的例子:
+
+```javascript
+const path = require('path')
+
+module.exports = {
+	// ...other configs
+  module: {
+    rules: [
+			{
+        test: /\.(js|mjs|jsx|ts|tsx)$/,
+        include: paths.appSrc,
+        loader: require.resolve('babel-loader'),
+        options: {
+          customize: require.resolve(
+            'babel-preset-react-app/webpack-overrides'
+          ),
+
+          plugins: [
+            [
+              require.resolve('babel-plugin-named-asset-import'),
+              {
+                loaderMap: {
+                  svg: {
+                    ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
+                  },
+                },
+              },
+            ],
+          ],
+          // This is a feature of `babel-loader` for webpack (not Babel itself).
+          // It enables caching results in ./node_modules/.cache/babel-loader/
+          // directory for faster rebuilds.
+          cacheDirectory: true,
+          cacheCompression: isEnvProduction,
+          compact: isEnvProduction,
+          },
+       },
+    ]
+  }
+}
+```
+
+
+
+
 
 
 
