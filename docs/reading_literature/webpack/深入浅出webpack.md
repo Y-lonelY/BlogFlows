@@ -93,7 +93,8 @@ require(['jquery'], function($) {
 - 自动发布
 
 
-## Webpack Config
+
+## Webpack Main Config
 
 这里我会对一些重要的配置属性进行介绍, 如有必要会针对性的进行深入分析
 
@@ -246,4 +247,32 @@ output: {
 
 
 
+## Webpack Else Config
+
+这里介绍一些常用的, 但是没那么重要的配置项
+
+### Target
+
+**Target** 用来控制 webpack 构建出针对不同环境的代码
+
+### Devtool
+
+**Devtool** 控制 webpack 如何生成 Source Map, 默认值为 `false`, 如果在开发时希望生成 source map 来进行调试, 可以设置 `{ devtool: 'source-map'}`
+
+### Watch
+
+**Watch** 控制 webpack 是否开启监听模式, 开启监听模式之后, webpack 会监听文件的变化, 在文件发生变化时重新编译, 设置 `{ watch: true }`
+
+使用 `DevServer` 时, 默认开启, 通过 `watchOptions` 来进行更加灵活的设置
+
+```javascript
+  watchOptions: {
+    // 不监听的文件
+    ignored: /node_modules/,
+    // 监听到变化到产生动作的延迟, 防止更新频率太高
+    aggregateTimeout: 300,
+    // 主动轮训, 每 1000 毫秒判断一次
+    poll: 1000
+  }
+```
 
