@@ -4,76 +4,7 @@
 
 这是一篇读书笔记, 记录我在阅读**深入浅出 Webpack**和**Webpack 官方文档**过程中的所学所思🔥
 
-
-## 模块化
-
-> Module is the future!
-
-对于现在的 Web 应用来说, 模块化是一个绕不开的话题. **模块化是指将一个复杂的系统分解为多个模块以方便编码, 简单来说就是: 输入/输出代码块**
-
-在 jQuery 的那个时代, 大多数的脚本都是将其 API 挂载到全局命名空间（比如 `window.$`）下, 以在不同文件内进行引用.
-
-现在回过头来思考一下, 这样的做法会带来一些问题
-
-- 无法合理地管理项目的依赖和版本（命名空间冲突的问题）
-- 无法方便地控制依赖的加载顺序
-
-当项目的依赖增多或者前端项目变大时, 这种方式越来越难以维护, 于是有了模块的一些解决方案
-
-这里仅针对 JavaScript 内的模块化方案进行介绍, 还有关于样式的模块化方案, 比如 `less` 等, 这里就不再进赘述, 目的是为了让你能够感知到: 
-
-**我们封装了很多轮子, 来使我们更高效的编码, 但是往往需要编译后的代码才能来让机器执行**
-
-
-
-### CommonJS
-
-随着 NodeJS 的流行, 这种模块化方案被发扬光大, 其核心思想是**通过 `require` 方法来同步加载(输入)依赖, 通过 `module.exports` 来输出代码块**
-
-CommonJS 通常被用来在非浏览器端管理依赖，设计目的是避免模块定义全局对象.
-
-**在 CommonJS 内，一个文件就是一个模块**
-
-可以直接在 NodeJS 环境下运行, 但是无法直接在浏览器环境下运行, 需要转换成标准 ES5 
-
-
-
-### AMD
-
-**AMD(Asynchronous Module Definition)** 顾名思义, 它采用异步的方式来加载依赖的模块, jQuery 时代里, [requirejs](https://requirejs.org/) 就是其典型代表.
-
-看一个使用 `requirejs` 的例子：
-
-```javascript
-// defined a module
-define('jquery', function(jq) {
-  return jq.noConflict(true)
-})
-
-// require a moduel
-require(['jquery'], function($) {
-  console.log($)
-})
-```
-
-其优势在于
-
-- 可以直接在浏览器环境或者 NodeJS 环境下运行
-- 可以异步加载依赖
-- 可以并行加载多个依赖
-
-缺点也很明显, 就是需要引入第三方依赖来实现
-
-
-
-### ES6 module
-
-这应该是大家非常熟悉的, 现代框架都是支持的模块化方案, 但是它也无法在 NodeJS 和浏览器环境下直接运行
-
-- 一个文件就是一个模块，不支持按需加载
-- ES6 模块是静态的，即导入后无法进行更改
-- ES6 是指针绑定，在编译时输出，不同于 CommonJS 值绑定，模块内做出了修改，会反映到所有使用该模块的代码中
-- ES6模块采用的是单例模式，每次对同一个模块的导入其实都指向同一个实例
+- [modules](./modules.md)
 
 
 
@@ -96,11 +27,23 @@ require(['jquery'], function($) {
 
 ## Webpack Main Config
 
-这里我会对一些重要的配置属性进行介绍, 如有必要会针对性的进行深入分析
+这里列举了 webpack 的核心概念
+
+- **Entry**: Webpack 执行构建任务的入口
+- **Module**: 模块是 Webpack 内的核心概念, 一个文件对应一个模块, Webpack 会根据入口递归查找出所有模块的递归关系
+- **Chunk**: 一个代码块由多个模块构成, 用于代码分割.
+- **Output**: 输出内容
+- [loaders 代码转换器](./loaders.md)
+- [plugin 扩展插件](./plugins.md)
+
+除此之外, 还有一些配置是用来“服务”上述核心概念, 我们也对其进行理解
+
+- [optimization 优化项](./optimization.md)
 
 先来看一个简单的例子
 
 ```javascript
+// module.config.js
 const path = require('path')
 
 module.exports = {
@@ -127,19 +70,9 @@ module.exports = {
 
 
 
-这里列举了 webpack 的核心概念
+我们将配置项写在 <b style="color: #ef613e;">webpack.config.js</b> 文件内, 通过 `module.exports = {...}` 来导出, 因为该文件**就是一个标准的 Node.js CommonJS Module**
 
-- **Entry**: Webpack 执行构建任务的入口
-- **Module**: 模块是 Webpack 内的核心概念, 一个文件对应一个模块, Webpack 会根据入口递归查找出所有模块的递归关系
-- **Chunk**: 一个代码块由多个模块构成, 用于代码分割.
-- **Output**: 输出内容
-- [loaders 代码转换器](./loaders.md)
-- [plugin 扩展插件](./plugins.md)
 
-除此之外, 还有一些配置是用来“服务”上述核心概念, 我们也对其进行理解
-
-- **Resolve**: 如何寻找模块所对应的文件
-- [optimization 优化项](./optimization.md)
 
 
 ### Entry
@@ -172,42 +105,12 @@ module.exports = {
 
 
 
-### Resolve
-
-Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似**约定**的方式, 在模块内寻找模块所对应的文件
-
-在开发过程中, 我们经常会用 `import React from 'React'`, `import renderCell from '@/components/cell-render'` 等各种类似“代理”的方式来引入模块, 此时 webpack 就是通过 **resolve** 配置项来寻找到相应的模块
-
-通过一个简单的例子来看看常用的属性配置:
-
-```javascript
-  resolve: {
-    // alias 通过别名来映射一个新的导入路径
-    alias: {
-      '@': './src',
-      'components': './src/components'
-    },
-    // mainFields 用来指定适配环境的代码加载顺序
-    mainFields: ["broswer", "main"],
-    // extensions 用来补全后缀, 并指定补全后缀并匹配的优先级
-    extensions: [".ts", ".js", ".json"]
-  },
-```
-
-
-
-<b style="color: #ef613e;">mainFields</b>
-
-​		一些第三方库会根据环境提供多份代码, 比如 `rollup` 打包时可以同时输出 `commonjs` 和 `ES6` 的代码, webpack 会根据 mainFields 来决定代码的使用顺序, 它会按照数组的顺序去 **package.json** 内进行寻找, 匹配到立即返回
-
-<b style="color: #ef613e;">extensions</b>
-
-​		一个很有意思的属性, Ryan 在 deno 发布会上公开 diss 了这个设计(即自动匹配 index, 自动补全 .js), extensions 用来配置补全的后缀和后缀的匹配顺序, 比如 `import App from './app'` , 在默认配置下, 就会优先去匹配 `app.js`, 如果没有匹配到就继续匹配 `app.json`
-
 
 ### Output
 
 **output** 用来告诉 Webpack 如何在磁盘上写入最终输出的文件, 配置类型为 object
+
+个人感觉, webpack 提供如此丰富的输出命名模版变量, 就是希望通过文件名的改变与否, 来间接使用浏览器的[缓存策略](/practice_explore/js/GROWTH性能优化实践.md)
 
 ```javascript
 output: {
@@ -259,6 +162,8 @@ output: {
 
 **Devtool** 控制 webpack 如何生成 Source Map, 默认值为 `false`, 如果在开发时希望生成 source map 来进行调试, 可以设置 `{ devtool: 'source-map'}`
 
+
+
 ### Watch
 
 **Watch** 控制 webpack 是否开启监听模式, 开启监听模式之后, webpack 会监听文件的变化, 在文件发生变化时重新编译, 设置 `{ watch: true }`
@@ -274,5 +179,26 @@ output: {
     // 主动轮训, 每 1000 毫秒判断一次
     poll: 1000
   }
+```
+
+
+
+### Externals
+
+**externals** 用来告诉 webpack 哪些文件不需要被打包, 那么什么情况下使用这个配置项呢?
+
+我们还是以 JQuery 为例来进行说明(你懂的):
+
+​		比如你在已经在 `index.html` 内通过 `<script src="path/to/jquery.js"></script>` 引入了 JQuery, 实际上其已经挂载到全局的 namespace 上了, 如果你在某个模块内通过 `import $ from 'jquery'` 引入其进行使用的话, webpack 会将同一份 JQuery 脚本打包两次, 浪费了性能和加载流量, 此时 `externals` 就派上了用场:
+
+**externals 用来告诉 webpack, 在 JavaScript runtime 环境内, 可以直接访问到指定的全局变量, 不需要再进行打包**
+
+```javascript
+module.export = {
+  externals: {
+    // 把导入语句里的 jquery 替换成运行环境里的全局变量 jQuery
+    jquery: 'jQuery'
+  }
+}
 ```
 
