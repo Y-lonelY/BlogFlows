@@ -107,8 +107,8 @@ Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似
   resolve: {
     // alias 通过别名来映射一个新的导入路径
     alias: {
-      '@': './src',
-      'components': './src/components'
+      // 如果直接用 './src' 会产生错误
+      '@': path.resolve(__dirname, 'src/')
     },
     // mainFields 用来指定适配环境的代码加载顺序
     mainFields: ["broswer", "main"],
@@ -126,3 +126,18 @@ Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似
 <b style="color: #ef613e;">extensions</b>
 
 ​		一个很有意思的属性, Ryan 在 deno 发布会上公开 diss 了这个设计(即自动匹配 index, 自动补全 .js), extensions 用来配置补全的后缀和后缀的匹配顺序, 比如 `import App from './app'` , 在默认配置下, 就会优先去匹配 `app.js`, 如果没有匹配到就继续匹配 `app.json`
+
+---
+
+简单来说, webpack 会结合 `package.json` 和 `resolve` 配置来定位目标文件
+
+**要明白, 最终的目的是找到正确的文件, 并以正确的方式对其进行解析和打包**
+
+![webpack module resolve](../assets/resolve.png)
+
+如果指定的路径是一个文件: webpack 会直接打包这个文件, 这个过程会结合 `resolve.extensions` 配置来判断哪些文件类型是被支持的
+
+如果指定的路径是一个目录: 
+
+- 如果文件内包含 `package.json`, 则会根据 `resolve.mainFields` 和 `resolve.exportsFields`  配置内的字段顺序进行查找, 第一个匹配的作为文件路径
+- 如果文件内不包含 `package.json`, 也会根据 `resolve.mainFields` 配置内的字段顺序进行查找, 去检查是否匹配的文件名在 `imported/required` 文件目录内
