@@ -72,10 +72,10 @@ this.setState((state, props) => ({
 
 ### state的一些冷知识
 
-执行`setState()`一定会触发render()方法吗，这里针对class组件和react hook组件来实验两种特殊情况：
+执行`setState()`一定会触发render()方法吗，这里针对 Class Component 和 Functional Component 来实验两种特殊情况：
 
-- 对于 class组件，`setState(null)` 和 `setState(sameValue)`（即传入相同的值）并不会触发render()方法，因为它在调用setState()时，是进行合并操作
-- 对于 react hook组件，上面两种情况均会触发render()方法，因为它是替换操作，即只要调用了state重新赋值的方法，就一定会调用render()方法
+- 对于 Class Component，`setState(null)` 和 `setState(sameValue)`（即传入相同的值）并不会触发render()方法，因为它在调用setState()时，是进行合并操作
+- 对于 Functional Component，上面两种情况均会触发render()方法，因为它是替换操作，即只要调用了state重新赋值的方法，就一定会调用render()方法
 
 
 ## 组件
