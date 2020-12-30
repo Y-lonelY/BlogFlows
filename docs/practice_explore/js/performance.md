@@ -6,7 +6,45 @@
 3. 针对前端性能分析数据可视化
 :::
 
-## Base
+## Chrome Performance Visualization
+
+我们先从 Chrome 控制台提供的能力开始！
+
+
+
+### Performance Monitor
+
+在控制台通过 `cmd + shift + p`，输入 `performance monitor` 进行调用，展示当前页面的实时指标情况
+
+<img src="../assets/perf/performanceMonitor.png" alt="performanceMonitor" />
+
+- <b>CPU usage: </b>当前站点所用的 CPU 百分比
+- <b>JS heap size: </b>应用所占用的内存大小
+- <b>DOM Nodes: </b> 内存中的 DOM 节点数
+- <b>JS event listeners: </b> JavaScript 内事件监听器数量
+- <b>Documents:</b> (意义不大)number of live document resources like stylesheets and scripts
+- <b>Documents Frames:</b> (意义不大)the number of live frames on the page (iframes and workers)
+- <b>Layouts / sec: </b> 布局重绘速率
+- <b>Style recalcs / sec:</b> 样式重绘速率
+
+
+
+### Waterfall
+
+接着我们看看经典的 waterfall
+
+<img src="../assets/perf/waterfall.png" alt="waterfall" />
+
+- <b>Queueing:</b> 浏览器将资源放入队列的时间
+- <b>Stalled:</b> 因放入队列而发生停滞的时间
+- <b>DNS Lookup:</b> DNS 解析时间
+- <b>Initial connection:</b> 建立 HTTP 请求的耗时
+- <b>TTFB:</b> 等待服务器返回资源的耗时
+- <b>Content Download:</b> 浏览器下载资源的时间
+
+
+
+## Let's do it!
 
 就让我们的探索旅程从 Chrome performance 的一个示例开始!
 
