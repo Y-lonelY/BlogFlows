@@ -1,14 +1,14 @@
 ---
 home: true
 heroImage: /home.png
-actionText: Let's get it →
+actionText: Let's get it 🤜🏻
 actionLink: /practice_explore/
 features:
 - title: Pleasure
-  details: 好好保护那个以学习为乐的小男孩
-- title: Systematization
-  details: 在知识碎片化到系统化的过程中成长
-- title: Project
-  details: 在实战中大展拳脚吧
+  details: 保护好那个以学为乐的小男孩
+- title: Skill
+  details: 沉淀、复盘、提升
+- title: Value
+  details: 思考价值体现
 footer: Just have fun, solo with code!
 ---
