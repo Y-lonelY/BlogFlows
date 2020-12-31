@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /home.jpg
+heroImage: /home.png
 actionText: Let's get it →
 actionLink: /practice_explore/
 features:
