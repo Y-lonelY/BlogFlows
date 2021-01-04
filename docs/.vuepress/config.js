@@ -254,11 +254,6 @@ function setProject() {
       children: ['Mysql/mysql'],
     },
     {
-      title: 'Git',
-      collapsable: false,
-      children: ['Git/git'],
-    },
-    {
       title: 'TypeScript',
       collapsable: false,
       children: ['TypeScript/a.typescript'],
@@ -280,8 +275,15 @@ function getToolsSide() {
   return [
     '',
     {
-      title: 'Chrome',
+      title: 'Git',
       collapsable: true,
+      children: [
+        'git/index',
+      ],
+    },
+    {
+      title: 'Chrome',
+      collapsable: false,
       children: [
         'chromeDev/console',
       ],

@@ -26,25 +26,25 @@ module.exports = [
       text: 'Literature',
       link: '/reading_literature/',
     }, {
-      text: 'article',
+      text: 'Article',
       link: '/reading_article/'
     }, {
-      text: 'media',
+      text: 'Media',
       link: '/reading_media/'
     }]
   },
   {
     text: 'Core',
     items: [{
-      text: 'foundation',
+      text: 'Foundation',
       link: '/core_foundation/'
     }, {
-      text: 'concept',
+      text: 'Concept',
       link: '/core_concept/'
     }]
   },
   {
-    text: '工具',
+    text: 'Tools',
     link: '/tools/',
   },
 ]

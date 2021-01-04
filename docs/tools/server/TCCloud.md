@@ -32,16 +32,6 @@ wget 是一个从网络上自动下载文件的自由工具，支持通过 HTTP�
 - `node --version` 查看安装是否成功
 
 
-### Git
-
-Git环境搭建
-
-- 通过 `yum install git` 安装 git 环境
-- `git --version` 查看是否安装成功
-- `git config --global user.name ""` 设置用户名
-- `git config --global user.email ""` 设置email
-
-
 ### Vuepress
 
 Vuepress环境安装
@@ -49,10 +39,3 @@ Vuepress环境安装
 - `npm install -g vuepress` 安装 vuepress，如果发现 command not found，则可能是环境变了Path路径不对
 - `cd /root/node-v12.13.1-linux-x64/bin/` 和 `cd /usr/local/bin/` 查看各自目录下是否有 vuepress，目的是在后者文件内存在 vuepress
 - `ln -s /root/node-v12.13.1-linux-x64/bin/vuepress /usr/local/bin/vuepress` 建立 vuepress 命令的软链接
-
-
-### Nginx
-
-`yum install nginx` 安装 nginx
-
-`whereis nginx` 查看 nginx 安装路径，在 /etc/nginx 内修改配置文件
