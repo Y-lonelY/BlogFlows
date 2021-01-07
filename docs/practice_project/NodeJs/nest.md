@@ -23,3 +23,11 @@
 ### shared Module 
 
 通常情况下，**Module** 是单例，因此可以在多个模块之间共享：即模块一旦被创建，则可以被任意模块重复使用。
+
+
+
+### Middleware
+
+> Middleware is a function which is called **before** the route handler.
+
+中间件是在接受到客户端发起的请求之后 --- 服务端路由处理之前过程中，执行的函数方法。因此它可以可以访问到请求主体，返回主体以及 `next()` 方法
