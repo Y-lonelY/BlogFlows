@@ -1,5 +1,7 @@
 # Git
 
+
+
 ## 添加license
 
 GitHub添加license
@@ -7,6 +9,8 @@ GitHub添加license
 - 登录至github项目，在项目内`create new file`
 - 输入 liscense
 - 选择通过模板进行创建，选择MIT模板之后，进行commit操作
+
+
 
 ## 添加 SSH keys
 
@@ -20,6 +24,7 @@ rsa(非对称加密)
 之后到指定目录内复制 `pub` 内容到 github 即可
 
 **如果不希望内次提交都输入密码，在生成 keys 时直接 enter**
+
 
 
 ## rebase
@@ -54,3 +59,10 @@ rsa(非对称加密)
 试想一个场景，如果你在本地 `reset head` 到一个历史 commit，同时在此基础上进行开发，然后不希望再使用 `remote/master` 上的一些提交，跳过他们直接覆盖本地提交，则可以使用 `git push --force` 将本地 commit 强行推送至服务端
 
 - 这种操作带来的风险点：如果另一个人在该分支上也提交了内容，那么会将他的提交内容也覆盖（清空）
+
+
+
+## Checkout
+
+- `git checkout .` **清除当前工作区改动**
+

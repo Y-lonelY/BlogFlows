@@ -35,6 +35,7 @@ telnet
 - `quit` 退出 
 
 
+
 ## 配置 zsh
 
 `cat /etc/shells` 查看当前系统已安装的 shell
@@ -46,6 +47,8 @@ telnet
 `sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"` 安装 [Oh My Zsh](https://github.com/robbyrussell/oh-my-zsh)，它是一个开源的，社区驱动的用来管理 zsh 配置的框架
 
 之后可以通过 `brew --version` 查看 brew 是否安装成功，安装成功之后可以通过 `brew install [name]` 来安装相应的服务，并进行管理
+
+
 
 ## 解决系统占用100多G问题
 

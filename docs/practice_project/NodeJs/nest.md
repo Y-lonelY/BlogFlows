@@ -2,6 +2,10 @@
 
 
 
+## Notes
+
+
+
 ### 处理 body 参数
 
 > 具体例子参考: [request-payloads](https://docs.nestjs.com/controllers#request-payloads)
@@ -31,3 +35,45 @@
 > Middleware is a function which is called **before** the route handler.
 
 中间件是在接受到客户端发起的请求之后 --- 服务端路由处理之前过程中，执行的函数方法。因此它可以可以访问到请求主体，返回主体以及 `next()` 方法
+
+
+
+### Exception Filters
+
+nest 内置的**异常层**能够捕获未处理的错误，并向客户端返回友好的响应内容
+
+`global exception filter` **总是能够处理错误**：如果错误是 `HttpException` 类型（或者继承至该类型），则返回相应的错误，否则直接返回 `{"statusCode": 500, "message": "Internal server error"}` 的默认值
+
+
+
+### Pipes Trigger
+
+管道会在控制器路由处理程序之前对参数进行捕获，从而进行**转换**或者**验证**
+
+
+
+### Guards Trigger
+
+Guards 会在中间件之后执行，在任何管道/拦截器之前执行完毕
+
+
+
+## Details
+
+### `forRoot()`
+
+`forRoot()` 可以同步/异步返回加载模块，比如 `imports: [TypeOrmModule.forRoot()]`
+
+
+
+## Improves
+
+### Redis
+
+参考 [caching](https://docs.nestjs.com/techniques/caching) 和 [cms-api-redis](https://github.com/Y-lonelY/cms-apis/tree/master/src/redis) 来进行理解
+
+1. 新建 `RedisModule`，通过 imports 来配置使用 redis store
+2. 在 `RedisService` 内提供操作内存的方法，比如 `get(), set()` 等
+
+
+
