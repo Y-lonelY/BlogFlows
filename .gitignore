@@ -8,6 +8,7 @@
 
 *.DS_store
 
+
 # ignore file
 /docs/.vuepress/dist
 
