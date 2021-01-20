@@ -53,23 +53,23 @@ function setCoreConcept() {
     {
       title: 'JavaScript',
       collapsable: false,
-      children: ['js/common', 'js/理解一下this']
+      children: ['js/common', 'js/理解一下this'],
     },
     {
       title: 'React',
       collapsable: false,
-      children: ['react/common', 'react/谈谈Vue和React']
+      children: ['react/common', 'react/谈谈Vue和React'],
     },
     {
       title: 'Style',
       collapsable: false,
-      children: ['style/common']
+      children: ['style/common'],
     },
     {
       title: 'Network',
       collapsable: false,
-      children: ['network/common']
-    }
+      children: ['network/common'],
+    },
   ]
 }
 
@@ -79,52 +79,33 @@ function setCoreFoundation() {
     {
       title: 'JavaScript',
       collapsable: false,
-      children: [
-        "js/common",
-        "js/array",
-        "js/es"
-      ]
+      children: ['js/common', 'js/array', 'js/es'],
     },
     {
       title: 'React',
       collapsable: true,
-      children: [
-        "react/common",
-        "react/advanced",
-        "react/hook"
-      ]
+      children: ['react/common', 'react/advanced', 'react/hook'],
     },
     {
       title: 'TypeScript',
       collapsable: true,
-      children: [
-        "ts/common",
-        "ts/utility"
-      ]
+      children: ['ts/common', 'ts/utility'],
     },
     {
       title: 'HTML5',
       collapsable: true,
-      children: [
-        "h5/element"
-      ]
+      children: ['h5/element'],
     },
     {
       title: 'Vue2',
       collapsable: true,
-      children: [
-        "vue2/common",
-        "vue2/advanced"
-      ]
+      children: ['vue2/common', 'vue2/advanced'],
     },
     {
       title: 'Python3',
       collapsable: true,
-      children: [
-        "python3/common",
-        "python3/advanced"
-      ]
-    }
+      children: ['python3/common', 'python3/advanced'],
+    },
   ]
 }
 
@@ -134,25 +115,18 @@ function setMedia() {
     {
       title: 'Medium',
       collapsable: false,
-      children: [
-        'medium/common',
-        'medium/callback'
-      ]
+      children: ['medium/common', 'medium/callback'],
     },
     {
       title: 'YouTube',
       collapsable: true,
-      children: [
-        'youtube/predict2020-2025',
-      ]
-    }
+      children: ['youtube/predict2020-2025'],
+    },
   ]
 }
 
 function setArticle() {
-  return [
-    ''
-  ]
+  return ['']
 }
 
 function setLiterature() {
@@ -161,7 +135,11 @@ function setLiterature() {
     {
       title: 'Literature',
       collapsable: false,
-      children: ['webpack/深入浅出webpack', '前端架构--从入门到微前端', 'Go语言开发实战'],
+      children: [
+        'webpack/深入浅出webpack',
+        '前端架构--从入门到微前端',
+        'Go语言开发实战',
+      ],
     },
   ]
 }
@@ -206,27 +184,25 @@ function setExplore() {
   return [
     '',
     {
+      title: 'Frontend Engineer',
+      collapsable: false,
+      children: ['engineers/webhooks'],
+    },
+    {
       title: 'JavaScript',
-      collapsable: true,
-      children: [
-        'js/performance',
-        'js/GROWTH性能优化实践'
-      ],
+      collapsable: false,
+      children: ['js/performance', 'js/GROWTH性能优化实践'],
     },
     {
       title: 'React',
       collapsable: false,
-      children: [
-        'react/React-Error-Catcher'
-      ],
+      children: ['react/React-Error-Catcher'],
     },
     {
       title: 'Style',
       collapsable: false,
-      children: [
-        'style/布局方式的实践'
-      ],
-    }
+      children: ['style/布局方式的实践'],
+    },
   ]
 }
 
@@ -277,40 +253,28 @@ function getToolsSide() {
     {
       title: 'Shell',
       collapsable: false,
-      children: [
-        'shell/shell',
-      ],
+      children: ['shell/shell'],
     },
     {
       title: 'Git',
       collapsable: false,
-      children: [
-        'git/git',
-      ],
+      children: ['git/git'],
     },
     {
       title: 'Chrome',
       collapsable: false,
-      children: [
-        'chromeDev/console',
-      ],
+      children: ['chromeDev/console'],
     },
     {
       title: 'IDE',
       collapsable: false,
-      children: [
-        'IDE/vim',
-        'IDE/vscode',
-      ],
+      children: ['IDE/vim', 'IDE/vscode'],
     },
     {
       title: 'Server',
       collapsable: false,
-      children: [
-        'server/TCCloud',
-        'server/nginx',
-      ],
-    }
+      children: ['server/TCCloud', 'server/nginx'],
+    },
   ]
 }
 
