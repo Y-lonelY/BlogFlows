@@ -276,7 +276,7 @@ function getToolsSide() {
     '',
     {
       title: 'Shell',
-      collapsable: true,
+      collapsable: false,
       children: [
         'shell/shell',
       ],
@@ -285,7 +285,7 @@ function getToolsSide() {
       title: 'Git',
       collapsable: false,
       children: [
-        'git/index',
+        'git/git',
       ],
     },
     {
