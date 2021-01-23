@@ -75,5 +75,3 @@ Guards 会在中间件之后执行，在任何管道/拦截器之前执行完毕
 1. 新建 `RedisModule`，通过 imports 来配置使用 redis store
 2. 在 `RedisService` 内提供操作内存的方法，比如 `get(), set()` 等
 
-
-

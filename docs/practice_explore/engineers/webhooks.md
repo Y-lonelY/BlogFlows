@@ -11,7 +11,6 @@
 - 配置 `web hooks.Payload URL` 时，注意 Github 目前不支持转发服务(Redirect)，如果你在服务器通过 nginx 配置了转发，且配置 Payload URL 为转发域名，则 Github 会返回 **502**，解决方案：暴露 `host:port/path` 
 - 注意 Github 对 secret 的加密方式和对比验证
 
-
 <img src="../assets/webhooks/webhooks.png" alt="webhooks">
 
 

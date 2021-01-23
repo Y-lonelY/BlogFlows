@@ -24,6 +24,16 @@ rsa(非对称加密)
 
 **如果不希望内次提交都输入密码，在生成 keys 时直接 enter**
 
+### 切换当前项目 http to ssh
+
+一般而言，当你配置好 SSH 验证方式之后，将之前 https 的连接方式切换成 ssh 是更优的选择
+
+- `git remote -v` 查看当前协议
+- `git remote set-url origin git@gitlab.xxxxxxx` 切换当前的连接方式
+- `git pull origin master` 验证是否成功
+
+
+
 
 
 ## rebase
@@ -47,8 +57,8 @@ rsa(非对称加密)
 - `git tag -a v0.1 -m "add a tag named v0.1"` 在本地添加一个带有 message 的 tag 标签
 - `git push origin v0.1 || --tgas` 将本地 tag 推送到远程分支上
 - `git tag` 查看所有 tag
-- `git tag -d v0.1` 删除**本地**tag
-- `git push origin --delete v0.1` 删除**远程** tag
+- `git tag -d v0.1 v0.2` 删除**本地**tag
+- `git push origin --delete v0.1 v0.2` 删除**远程** tag
 - `git checkout v0.1` 切换到指定 tag
 
 
