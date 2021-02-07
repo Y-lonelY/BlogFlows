@@ -251,6 +251,11 @@ function getToolsSide() {
   return [
     '',
     {
+      title: 'Chrome',
+      collapsable: false,
+      children: ['chromeDev/console', 'chromeDev/page-lifecycle'],
+    },
+    {
       title: 'Shell',
       collapsable: false,
       children: ['shell/shell'],
@@ -259,11 +264,6 @@ function getToolsSide() {
       title: 'Git',
       collapsable: false,
       children: ['git/git'],
-    },
-    {
-      title: 'Chrome',
-      collapsable: false,
-      children: ['chromeDev/console'],
     },
     {
       title: 'IDE',
