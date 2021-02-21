@@ -1,56 +1,105 @@
-# React
+# React ANS
 
-::: tip
-React 基础知识和概念
-:::
+> React 基础知识和概念，多看看[官方文档](https://zh-hans.reactjs.org/docs/getting-started.html)
 
-## JSX
+## React 如何避免 XSS 攻击？
 
-JavaScript 的语法扩展，执行更快，编译过程就能过滤出一些错误
+### What's XSS ?
 
-在 react 中，所有的元素都是 object，区别于浏览器的 DOM 元素
+> Cross-Site Scripting(跨站脚本攻击)简称 XSS，是一种代码注入攻击！
 
-React DOM 用来识别 JSX，将其转换为 object，然后渲染出来，并确保两者保持一致
+XSS 指：恶意代码未经处理，与正常代码混淆在一起，浏览器无法辨别哪些脚本是可靠的，导致恶意脚本被执行。由于恶意脚本在客户端执行（实际上就是获取了客户端内的部分控制权），从而可以直接获取用户信息，或者利用这些信息冒充真实用户向服务器发起攻击。
 
-React Dom 使用**驼峰命名法（camelcase）**来定义属性或者内联样式，这点区别于 HTML
+参考：
 
-值得一提，React DOM 在渲染之前都会过滤传入的值，将其转换成字符串来有效防范注入攻击
+- [前端安全: 如何防止XSS攻击？](https://tech.meituan.com/2018/09/27/fe-security.html)
+- [Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#rule-7-avoid-javascript-urls)
+- [React DOM 元素](https://zh-hans.reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml)
 
-```jsx
-// 特例字典，只要原因是处理 javascript 内的保留字
-let dict = {
-	class: 'className',
-	tabindex: 'tabIndex',
-	for: 'htmlFor',
-	// 事件绑定
-	onclick: 'onClick',
-}
+通常注入的手段有如下方式：
 
-function Jsx() {
-	return (
-		{/** htmlFor - for **/}
-		{/** tabIndex - tabindex **/}
-		<div className='jsx' tabIndex={tabIndex} htmlFor={htmlFor} onClick={onClick}>
+1. 用户 UGC 内容，比如在表单内输出一段恶意脚本，服务器未经校验，直接进行存储，当其他客户端请求该资源时，则会在客户端上执行恶意脚本；
+2. URL 参数，攻击者诱骗用户点击一个带有恶意代码的 URL, 通过脚本内容在 URL 参数内，用户点击后，可能将该恶意脚本填充到 HTML 内，从而导致恶意脚本被执行；
+3. POST 参数，这类难度较大，通过通过诱导用户填写相应内容来实现；
+4. Cookie，可能来自其他子域注入；
 
-		{/** 条件判断 **/}
-		{arr.length &&
-			<div>...</div>
-		}
+<b>XSS 类型</b>
 
-		{/** 三元表达式 **/}
-		{arr.length > 0 ?
-			<div>True</div> : <div>False</div>
-		}
+根据注入手段的不同，通常将 XSS 攻击分为三类：存储型 XSS、反射型 XSS 以及存储型 XSS，这里不再进行赘述，参考相关文章即可。
 
-		{/** 循环 **/}
-		{list.map(item => {
-			return (<div key={item.key}>item</div>)
-			})
-		}
-		</div>
-	);
-}
+事实上，大部分的 XSS 都发生在<b>前后不分离</b>的系统设计内，因为其代码和数据不分离的关系，导致存储型和反射型 XSS 都是在服务端取出恶意代码后，插入到 HTML 里的，攻击者刻意编写的“数据”被内嵌到“代码”中，被浏览器所执行。
+
+```html
+<style>
+  /* #3: HTML Style Property Values */
+  /* selector { property : ...UNTRUSTED SCRIPT...; } */
+</style>
+<body>
+<!-- #1: HTML Element Content -->
+<div>
+  ...UNTRUSTED SCRIPT...
+</div>
+
+<!-- #2: HTML Common Attributes
+URL: http://www.xss.com?keyword=<script>...UNTRUSTED SCRIPT...</script> -->
+<input type="text" value="<%= getParameter("keyword") %>">
+
+<!-- 不同的元素属性会有不同的攻击方式
+URL: http://www.xss.com?redirect_to='javascript: ...UNTRUSTED SCRIPT...' -->
+<a href="<%= escapeHTML(getParameter("redirect_to")) %>">跳转...</a>
+</body>
 ```
+
+
+
+### React 如何做的？
+
+通过对 XSS 的了解，我们知道，XSS 的攻击过程可以抽象为两步：
+
+1. 攻击者提交恶意脚本；
+2. 客户端执行恶意脚本；
+
+通常防御的手段是：
+
+1. 对 UGC 内容进行转义，即服务端不信任任何客户端的数据（这是一个好习惯）；
+2. 开启白名单，防止恶意跳转；
+3. 对 Cookie 设置 HTTP only，将数据放在服务端维护；
+
+但是，React 这了前后分离（数据和代码分离）的架构实际上已经规避了大部分的 XSS 攻击手段。除此之外，React 实现了一套独立于浏览器的 DOM 系统，它能够防止通过 HTML 注入恶意代码，比如：
+
+```react
+export default () => {
+  const xssTpl = '<script>alert('xss')</script>'
+  return (
+  	<div>
+      <span>{xssTpl}</span>
+      <input type="text" value={xssTpl} />
+    </div>
+  )
+}
+
+// after React transfer
+<div>
+  <span>"<script>alert('xss')</script>"</span>
+  <input type="text" value="<script>alert('xss')</script>" />
+</div>
+```
+
+React 会将插入变量转换为字符串，除非你在代码中通过 `dangerouslySetInnerHTML` 来插入 HTML 元素
+
+同时，React 在处理样式时，`style` 接受一个采用小驼峰命名属性的 JavaScript 对象，而不是 CSS 字符串。这与 DOM 中 `style` 的 JavaScript 属性是一致的，同时会更高效的，且能预防跨站脚本（XSS）的安全漏洞！
+
+
+
+## 受控组件
+
+<b>受控组件就是将自身 state 控制权完全移交给 React state，将其作为“唯一控制源”的一类元素</b>
+
+具体解释：在 HTML 中，存在一类元素（最常见的就是表单元素），它们通常自己维护 state，但是在 React 内，是将属性值保存在 state 内，通过 setState() 进行更新的模式，如果将 React state 作为唯一数据源，由 React state 对该元素进行控制（赋值），这类元素就是受控组件。对于受控组件来说，输入的值始终由 React 的 state 进行驱动。
+
+将控制权移交给 React state 的好处就是：在覆盖原元素功能的情况，能够对该类元素的值进行其他操作，比如展示、函数控制等
+
+
 
 ## State
 
@@ -76,94 +125,6 @@ this.setState((state, props) => ({
 
 - 对于 Class Component，`setState(null)` 和 `setState(sameValue)`（即传入相同的值）并不会触发render()方法，因为它在调用setState()时，是进行合并操作
 - 对于 Functional Component，上面两种情况均会触发render()方法，因为它是替换操作，即只要调用了state重新赋值的方法，就一定会调用render()方法
-
-
-## 组件
-
-::: tip
-组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思
-:::
-
-组件声明：
-
-- 组件本质上是一个函数对象，所以可以通过函数式来声明或者通过ES6的 class 来创建
-- 使用类来创建就允许我们使用React其它特性，例如局部状态state、生命周期钩子
-- 组件名称必须以大写字母开头
-- 组件返回值只能有一个根元素，因此组件在创建时一般用一个 `<div>` 标签来包裹
-- 注意所有的React组件必须像纯函数（即输入对应输出）那样使用它们的props，这意味着 props 获取的属性值是只读的
-
-```javascript
-// 一个 react 的组件模版
-import React from "react";
-
-class Test extends React.Component {
-	// 添加状态
-	constructor(props) {
-		super(props);
-		this.state = {
-			// javascript object
-		}
-		this.handleClick = this.handleClick.bind(this)
-	}
-
-	// 纯函数，返回渲染内容
-	render() {
-		// some deals
-		return (
-			<div>
-			// dom element
-			</div>
-		)
-	}
-
-	// 组件被插入到 dom 结构中
-	componentDidMount() {
-		// statement
-	}
-
-	/**
-	 * 组件发生更新之后，重新渲染完成
-	 * 首次渲染不会执行
-	 * 需要在条件语句内调用 setState 方法，避免死循环
-	 */
-	componentDidUpdate(prevProps) {
-		if (this.props.user !== prevProps.user) {
-			// this.setState(...)
-		}
-	}
-
-	// 组件从 dom 结构中移除，此时不能够调用 setState()，因为该组件永远不会重新渲染
-	componentWillUnmount() {
-		// statement
-	}
-
-	// 自定义事件
-	event = (data) => {
-		//statement
-	}
-
-	// 一个使用场景就是，当我们接受到新的props时，想去修改原 state 时
-	static getDerivedStateFromProps(nextProps, prevState) {
-    	if (nextProps.currentRow !== prevState.lastRow) {
-	        return {
-	            isScrollingDown:
-	            nextProps.currentRow > prevState.lastRow,
-	            lastRow: nextProps.currentRow
-	        }
-	    }
-	    return null
-	}
-}
-
-export default Test
-```
-
-
-### 受控组件和非受控组件
-
-如果一个组件被父级传入的 props 控制，则可以认为该组件是受控的
-
-如果数据仅仅保存在组件内部的 state，则该组件是非受控组件，因为外部无法直接控制 state
 
 
 ### class 组件转换为 function
