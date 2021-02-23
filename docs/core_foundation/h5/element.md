@@ -11,6 +11,24 @@ ele.classList.add('add-class')
 ele.setAttribute('name', 'hello')
 ```
 
+
+
+## fieldset && legend
+
+`<fieldset>` 元素将 HTML 表单的一部分组为一组，内置一个 `<legend>` 元素作为 `<fieldset>` 的标题
+
+```html
+<fieldset>
+	<legend>
+    Hello world form title!
+  </legend>
+  <input type="radio" id="kraken" name="monster">
+  <label for="kraken">Kraken</label>
+</fieldset>
+```
+
+
+
 ## figure
 
 HTML 元素 `<figure>` 代表一段独立的引入内容，通常配合 `<figcaption>` 使用（对引用内容的说明）。

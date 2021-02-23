@@ -59,3 +59,5 @@ class Text extends React.Component {
 什么是单向数据流？为什么 React 要实现单向数据流？
 
 什么是“受控组件” 和 “非受控组件”？
+
+什么是“状态提升”？
