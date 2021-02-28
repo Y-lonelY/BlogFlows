@@ -34,7 +34,7 @@ ele.setAttribute('name', 'hello')
 HTML 元素 `<figure>` 代表一段独立的引入内容，通常配合 `<figcaption>` 使用（对引用内容的说明）。
 这个标签通常用于在主文内引用图片、文段、代码段、表格等
 
-```html
+```　　html
 <!-- 代码块 -->
 <figure>
 	<figcaption>Figure Element!</figcaption>
