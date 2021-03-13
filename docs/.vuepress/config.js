@@ -190,14 +190,9 @@ function setExplore() {
       children: ['engineers/webhooks'],
     },
     {
-      title: 'JavaScript',
+      title: 'Monitor',
       collapsable: false,
-      children: ['js/performance', 'js/GROWTH性能优化实践'],
-    },
-    {
-      title: 'React',
-      collapsable: false,
-      children: ['react/React-Error-Catcher'],
+      children: ['monitor/React-Error-Catcher', 'monitor/performance', 'monitor/GROWTH性能优化实践'],
     },
     {
       title: 'Style',
@@ -221,14 +216,9 @@ function setProject() {
       ],
     },
     {
-      title: 'Css',
+      title: 'CSS',
       collapsable: false,
       children: ['Css/a.cluster'],
-    },
-    {
-      title: 'MySQL',
-      collapsable: false,
-      children: ['Mysql/mysql'],
     },
     {
       title: 'TypeScript',
@@ -260,6 +250,11 @@ function getToolsSide() {
       title: 'Shell',
       collapsable: false,
       children: ['shell/shell'],
+    },
+    {
+      title: 'DB',
+      collapsable: false,
+      children: ['db/mysql', 'db/redis'],
     },
     {
       title: 'Git',
