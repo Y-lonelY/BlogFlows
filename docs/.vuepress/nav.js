@@ -1,6 +1,8 @@
 module.exports = [
   {
     text: 'Explore',
+    target: '_self',
+    link: '/explores/'
   },
   {
     text: 'Practice',
