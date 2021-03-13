@@ -2,7 +2,7 @@
 home: true
 heroImage: /home.png
 actionText: Let's get it 🤜🏻
-actionLink: /practice_explore/
+actionLink: /explores/
 features:
 - title: Pleasure
   details: 保护好那个以学为乐的小男孩

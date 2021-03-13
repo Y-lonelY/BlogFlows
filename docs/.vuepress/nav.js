@@ -1,11 +1,10 @@
 module.exports = [
   {
+    text: 'Explore',
+  },
+  {
     text: 'Practice',
 		items: [
-      {
-				text: 'Explore',
-				link: '/practice_explore/'
-      },
       {
         text: 'Project',
         link: '/practice_project/'

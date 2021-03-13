@@ -28,10 +28,11 @@ module.exports = {
     smoothScroll: true,
     lastUpdated: 'Last updated at',
     sidebar: {
+      // EXPLORES
+      '/explores/': setExplore(),
       // PRACTICE MODULE
       '/practice_packages/': setPackages(),
       '/practice_rules/': setRules(),
-      '/practice_explore/': setExplore(),
       '/practice_project/': setProject(),
       // READING MODULE
       '/reading_literature/': setLiterature(),
@@ -84,7 +85,7 @@ function setCoreFoundation() {
     {
       title: 'React',
       collapsable: true,
-      children: ['react/common', 'react/advanced', 'react/hook'],
+      children: ['react/react','react/ans', 'react/advanced', 'react/hook'],
     },
     {
       title: 'TypeScript',

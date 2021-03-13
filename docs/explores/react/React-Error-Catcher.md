@@ -2,12 +2,12 @@
 
 > React 内不同类型的错误捕获
 
-![catch image](../assets/React Error Ctacher.png)
+![catch image](../assets/reactErrorCtacher.png)
 
 本文将会从三个阶段来探讨发生在在 React 内的错误捕获，并且介绍如何封装一个通用的组件：
 
-1. React 内主要错误根因和错误捕获方法
-2. 对捕获错误的数据处理
+1. React 内主要错误类型以及对应的错误捕获方法
+2. 不同错误类型的数据处理
 3. 捕获组件设计
 
 Keyword:
@@ -16,13 +16,9 @@ Keyword:
 - `ErrorEvent`
 - `Error Information`
 
-Todo:
-
-- Error 展示和数据分析
 
 
-
-## How did the error occur
+## How did the error occurs？
 
 在 React 内，一个错误是如何产生的呢？
 
@@ -79,14 +75,14 @@ render() {
 
 
 
-## How to catch in React
+## How to catch errors in React?
 
-捕获错误实际上就是弄清楚，**when and where, who did what cause what**（即什么人在什么时间因为执行了某个文件的具体方法从而导致了某个错误）
+捕获错误实际上就是弄清楚，**when and where, who did what cause what effects**（什么人在什么时间和什么模块执行了什么事件，引起了错误，并因此造成了什么影响）
 
 错误和错误的捕获方法存在一对多的关系，即一个错误可能被不同的方法捕获，在 JavaScript 内错误事件捕获的方法各司其职：
 
 - 使用 `try {} catch(e){}` 语句在事件处理器内部捕获错误
-- `React Error boundaries`，可以捕获资源引用和组件渲染错误，通常这两者在 dev 时就能发现
+- `React Error boundaries`，可以捕获资源引用和组件渲染错误，这类错误通常在开发时就能发现
 - `window.addEventListener('error')`，可以捕获**事件处理**错误
 - `window.addEventListener('unhandledrejection')`，可以捕获**异步代码**错误
 
