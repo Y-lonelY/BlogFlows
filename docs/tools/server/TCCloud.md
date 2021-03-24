@@ -60,6 +60,11 @@ Q2: [NPM not installing package. Hostname/IP address doesn't match certificate's
 dig www.npmjs.com @1.1.1.1
 # 配置 hosts 文件
 vim /etc/hosts
+
+104.16.92.83 registry.npmjs.org
+
+# 或者更换源，注意 http/https 区别
+npm config set registry http://registry.npmjs.org
 ```
 
 Q3: 在服务器上拉取代码特别慢？
