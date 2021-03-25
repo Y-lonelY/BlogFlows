@@ -10,6 +10,8 @@
 
 安装完成之后，执行 `redis-server` 启动 redis 服务，通过 `ps -ef | grep redis` 查看服务情况
 
+相关命令参考：[redis 开发运维实战](https://www.w3cschool.cn/redis_all_about/redis_all_about-pf4826ua.html)
+
 
 
 ### 后台启动 redis 服务
