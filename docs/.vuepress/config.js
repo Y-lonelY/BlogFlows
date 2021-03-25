@@ -197,7 +197,7 @@ function setExplore() {
     {
       title: 'Web API',
       collapsable: false,
-      children: ['web/page-lifecycle', 'navigator', 'console']
+      children: ['web/page-lifecycle', 'web/navigator', 'web/console']
     },
     {
       title: 'Style',

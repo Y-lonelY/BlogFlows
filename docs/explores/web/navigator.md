@@ -4,7 +4,7 @@
 
 ## sendBeacon()
 
-> `navigator.sendBeacon(url: string, data: string | Blob | FormData | ArrayBufferView)` 用于将数据异步传输到指定接口，主要鳗鱼统计和诊断代码的需要！
+> `navigator.sendBeacon(url: string, data: string | Blob | FormData | ArrayBufferView)` 用于将数据异步传输到指定接口，主要满足统计和诊断代码的需要！
 
 <a href="https://caniuse.com/?search=beacon" target="blank"><img src="../assets/beacon.png" alt="beacon" /></a>
 
