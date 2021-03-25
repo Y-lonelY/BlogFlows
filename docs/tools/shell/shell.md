@@ -38,13 +38,29 @@
 `time=$(date "+%Y%m%d-%H%M%S")` 格式化当前时间，注意 `date` 后面加空格
 
 
+### 文件可执行权限
+
+系统内，读、写和可执行权限对应的数字如下所示：
+
+- `r(read)` = 4
+- `w(write)` = 2
+- `x(execute)` = 1
+- no permissions = 0
+
+权限的设置实际上就是上面的数字求和，比如：
+
+- 7(4 + 2 + 1) 读、写、可执行
+
+为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`， `-R` 表示递归（recursive），即所有子文件同步设置权限
+
+
 
 ### 目录相关
 
 1. `cd ～` 进入当前用户目录，`cd /` 进行系统根目录
 2. `ls -al` 查看目录下文件的详细信息
 3. `du -sh *` 查看每个目录的大小
-4. 为文件设置最高权限，在文件的上级目录内执行 `sudo chmod -R 777 [targetFileName]`，然后输入密码即可
+
 
 ### 文件操作
 
@@ -78,14 +94,6 @@
 `netstat` 用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况
 - `netstat -tunlp` l:listening   n:num   t:tcp  u:udp  p:process
 
-
-## Create start.sh
-
-`touch start.sh` 创建一个 shell 脚本
-
-`chmod 755 start.sh` 赋予脚本可执行权限
-
-`./start.sh` 或者将 start.sh 文件拖入 terminal 内来执行脚本
 
 
 ## Declare Varibale

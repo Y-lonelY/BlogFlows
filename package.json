@@ -4,7 +4,7 @@
   "description": "Note the record the konwledge!",
   "main": "index.js",
   "scripts": {
-    "dev": "sudo vuepress dev docs",
+    "dev": "vuepress dev docs",
     "build": "vuepress build docs",
     "docs:build": "vuepress build docs"
   },
