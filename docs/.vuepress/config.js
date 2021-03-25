@@ -195,6 +195,11 @@ function setExplore() {
       children: ['monitor/React-Error-Catcher', 'monitor/performance', 'monitor/GROWTH性能优化实践'],
     },
     {
+      title: 'Web API',
+      collapsable: false,
+      children: ['web/page-lifecycle', 'navigator', 'console']
+    },
+    {
       title: 'Style',
       collapsable: false,
       children: ['style/布局方式的实践'],
@@ -241,11 +246,6 @@ function setProject() {
 function getToolsSide() {
   return [
     '',
-    {
-      title: 'Chrome',
-      collapsable: false,
-      children: ['chromeDev/console', 'chromeDev/page-lifecycle'],
-    },
     {
       title: 'Shell',
       collapsable: false,
