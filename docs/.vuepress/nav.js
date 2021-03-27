@@ -32,10 +32,6 @@ module.exports = [
         text: 'Packages',
         link: '/practice_packages/',
       },
-      {
-        text: 'Rules',
-        link: '/practice_rules/',
-      },
     ],
   },
   {
@@ -44,10 +40,6 @@ module.exports = [
       {
         text: 'Literature',
         link: '/reading_literature/',
-      },
-      {
-        text: 'Article',
-        link: '/reading_article/',
       },
       {
         text: 'Media',
