@@ -1,6 +1,6 @@
-# Git Rules
+# Git Standard
 
-## Git commit
+## Commit Rules
 
 通过 commitizen 来提交commit
 
