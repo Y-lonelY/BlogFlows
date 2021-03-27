@@ -19,6 +19,35 @@ const langsConfig = [
   },
 ]
 
+const toolsConfig = [
+  '',
+  {
+    title: 'Shell',
+    collapsable: false,
+    children: ['shell/shell'],
+  },
+  {
+    title: 'DB',
+    collapsable: false,
+    children: ['db/mysql', 'db/redis'],
+  },
+  {
+    title: 'Git',
+    collapsable: false,
+    children: ['git/usages', 'git/standard'],
+  },
+  {
+    title: 'IDE',
+    collapsable: false,
+    children: ['IDE/vim', 'IDE/vscode'],
+  },
+  {
+    title: 'Server',
+    collapsable: false,
+    children: ['server/TCCloud', 'server/nginx'],
+  },
+]
+
 module.exports = {
   // EXPLORES
   '/explores/': setExplore(),
@@ -33,7 +62,7 @@ module.exports = {
   '/core_foundation/': setCoreFoundation(),
   '/core_concept/': setCoreConcept(),
   // TOOL MODULE
-  '/tools/': getToolsSide(),
+  '/tools/': toolsConfig,
 }
 
 function setCoreConcept() {
@@ -203,37 +232,6 @@ function setProject() {
       title: 'Swift',
       collapsable: false,
       children: ['Swift/a.cluster', 'Swift/b.matters'],
-    },
-  ]
-}
-
-function getToolsSide() {
-  return [
-    '',
-    {
-      title: 'Shell',
-      collapsable: false,
-      children: ['shell/shell'],
-    },
-    {
-      title: 'DB',
-      collapsable: false,
-      children: ['db/mysql', 'db/redis'],
-    },
-    {
-      title: 'Git',
-      collapsable: false,
-      children: ['git/git'],
-    },
-    {
-      title: 'IDE',
-      collapsable: false,
-      children: ['IDE/vim', 'IDE/vscode'],
-    },
-    {
-      title: 'Server',
-      collapsable: false,
-      children: ['server/TCCloud', 'server/nginx'],
     },
   ]
 }

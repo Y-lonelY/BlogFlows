@@ -22,6 +22,10 @@ module.exports = [
     ],
   },
   {
+    text: 'Tools',
+    link: '/tools/',
+  },
+  {
     text: 'Practice',
     items: [
       {
@@ -59,9 +63,5 @@ module.exports = [
         link: '/core_concept/',
       },
     ],
-  },
-  {
-    text: 'Tools',
-    link: '/tools/',
-  },
+  }
 ]
