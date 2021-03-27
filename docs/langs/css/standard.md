@@ -1,12 +1,10 @@
-# Style
+# Style Standard
 
-> 用来记录前端样式的书写规范和一些很棒的实例
+::: tip 目的
+积累样式开发规范
+:::
 
 ## CSS3
-
-::: tip
-CSS3 编程规范
-:::
 
 参考 [Airbnb CSS / Sass Styleguide](https://github.com/airbnb/css)
 
