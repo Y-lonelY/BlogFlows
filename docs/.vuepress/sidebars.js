@@ -7,6 +7,16 @@ const langsConfig = [
     collapsable: false,
     children: ['nodejs/concept', 'nodejs/projects'],
   },
+  {
+    title: 'CSS',
+    collapsable: false,
+    children: ['css/concept', 'css/projects', 'css/assets', 'css/standard'],
+  },
+  {
+    title: 'HTML5',
+    collapsable: false,
+    children: ['html5/concept', 'html5/projects', 'html5/assets'],
+  },
 ]
 
 module.exports = {

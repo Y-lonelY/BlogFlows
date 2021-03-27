@@ -15,7 +15,7 @@ BFC 有点类似对象的封装特性，具有 BFC 特性的元素可以看作�
 - 浮动元素：float 除了 none 之外的值
 - 绝对定位：position: absolute || fixed
 - display 为 inline-block、table-cells、flex
-- overflow 除了 visible 之外的元素，通常使用 `overflow: hidden`或者`display: table-cell` 来实现 BFC
+- overflow 除了 visible 之外的元素，通常使用 `overflow: hidden` 或者 `display: table-cell` 来实现 BFC
 
 
 ## position
@@ -327,7 +327,7 @@ flex布局是基于轴线来进行的，可以看作是一维布局，而 grid �
 ```
 
 
-### display: table
+### display:table
 
 利用 `display:table` 和 `display: table-cell` 来进行分列布局和垂直居中
 
@@ -433,7 +433,7 @@ div {
 }
 ```
 
-![position](../assets/position1.png)
+![position](../assets/css/position1.png)
 
 第二种情况，.child 为绝对定位，.test 为相对定位，此时 .child 已经脱离了文档流，所以不能够撑开.posi元素，导致.test会覆盖在其上面
 
@@ -452,7 +452,7 @@ div {
 }
 ```
 
-![position](../assets/position2.png)
+![position](../assets/css/position2.png)
 
 
 ### float
