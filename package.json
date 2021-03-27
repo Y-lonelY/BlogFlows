@@ -21,5 +21,8 @@
   "homepage": "https://github.com/Y-lonelY/BlogFlows#readme",
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.7.1"
+  },
+  "dependencies": {
+    "vuepress": "^1.8.2"
   }
 }
