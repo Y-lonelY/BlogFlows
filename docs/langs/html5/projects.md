@@ -1,16 +1,16 @@
-# H5
+# HTML5 Project's Q&A
 
 ## Trivia
 
-1. 对于时间类型处理不要通过replace进行去0操作或者格式化，用 `new Date(string)、moment.js、dayjs`，形如2018/07/15这样的时间格式兼容性最好，兼容IE和Sarafi
+- 对于时间类型处理不要通过replace进行去0操作或者格式化，用 `new Date(string)、moment.js、dayjs`，形如2018/07/15这样的时间格式兼容性最好，兼容IE和Sarafi
 
-2. iOS 点击事件触发需要在元素上添加 `cursor:pointer;`
+- iOS 点击事件触发需要在元素上添加 `cursor:pointer;`
 
-3. 对于 `<input type="radio" name="ylone">` 要实现单选效果，需要对同一组单选按钮设置相同的 *name*
+- 对于 `<input type="radio" name="ylone">` 要实现单选效果，需要对同一组单选按钮设置相同的 *name*
 
-4. HTML展示base64编码的图片，`<img src="data:image/jpg;base64,BASE64CODE">`
+- HTML展示base64编码的图片，`<img src="data:image/jpg;base64,BASE64CODE">`
 
-5. `<a target="view_window" href="..."></a>` 表示点击该 `<a>` 标签后，浏览器会默认打开一个新TAB，并将其标记为 `view_window`，当用户从该列表再次点击另外的标签，且当前的 `view_window` 处于开启状态，则浏览器会选择在该TAB刷新内容
+- `<a target="view_window" href="..."></a>` 表示点击该 `<a>` 标签后，浏览器会默认打开一个新TAB，并将其标记为 `view_window`，当用户从该列表再次点击另外的标签，且当前的 `view_window` 处于开启状态，则浏览器会选择在该TAB刷新内容
 
 
 ## Android和iOS键盘弹起样式问题

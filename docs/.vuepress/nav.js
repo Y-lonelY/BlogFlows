@@ -5,6 +5,13 @@ module.exports = [
     link: '/explores/'
   },
   {
+    text: 'Langs',
+    items: [{
+      text: 'NodeJs',
+      link: '/langs/'
+    }]
+  },
+  {
     text: 'Practice',
 		items: [
       {

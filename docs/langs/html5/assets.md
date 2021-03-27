@@ -1,4 +1,4 @@
-# HTML5 Elements
+# HTML5 Assets
 
 ## Handle DOM Element
 
@@ -10,7 +10,6 @@ ele.classList.add('add-class')
 // 设置属性
 ele.setAttribute('name', 'hello')
 ```
-
 
 
 ## fieldset && legend
@@ -26,7 +25,6 @@ ele.setAttribute('name', 'hello')
   <label for="kraken">Kraken</label>
 </fieldset>
 ```
-
 
 
 ## figure

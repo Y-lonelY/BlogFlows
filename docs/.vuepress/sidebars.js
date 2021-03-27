@@ -1,13 +1,23 @@
+// concept - projects - assets - standard
+
+const langsConfig = [
+  '',
+  {
+    title: 'NodeJs',
+    collapsable: false,
+    children: ['nodejs/concept', 'nodejs/projects'],
+  },
+]
+
 module.exports = {
   // EXPLORES
   '/explores/': setExplore(),
+  '/langs/': langsConfig,
   // PRACTICE MODULE
   '/practice_packages/': setPackages(),
-  '/practice_rules/': setRules(),
   '/practice_project/': setProject(),
   // READING MODULE
   '/reading_literature/': setLiterature(),
-  '/reading_article/': setArticle(),
   '/reading_media/': setMedia(),
   // CORE MODULE
   '/core_foundation/': setCoreFoundation(),
@@ -15,7 +25,6 @@ module.exports = {
   // TOOL MODULE
   '/tools/': getToolsSide(),
 }
-
 
 function setCoreConcept() {
   return [
@@ -49,17 +58,12 @@ function setCoreFoundation() {
     {
       title: 'React',
       collapsable: true,
-      children: ['react/react','react/ans', 'react/advanced', 'react/hook'],
+      children: ['react/react', 'react/ans', 'react/advanced', 'react/hook'],
     },
     {
       title: 'TypeScript',
       collapsable: true,
       children: ['ts/common', 'ts/utility'],
-    },
-    {
-      title: 'HTML5',
-      collapsable: true,
-      children: ['h5/element'],
     },
     {
       title: 'Vue2',
@@ -88,10 +92,6 @@ function setMedia() {
       children: ['youtube/predict2020-2025'],
     },
   ]
-}
-
-function setArticle() {
-  return ['']
 }
 
 function setLiterature() {
@@ -141,10 +141,6 @@ function setPackages() {
   ]
 }
 
-function setRules() {
-  return ['', 'eslint', 'git']
-}
-
 function setExplore() {
   return [
     '',
@@ -156,12 +152,16 @@ function setExplore() {
     {
       title: 'Monitor',
       collapsable: false,
-      children: ['monitor/React-Error-Catcher', 'monitor/performance', 'monitor/GROWTH性能优化实践'],
+      children: [
+        'monitor/React-Error-Catcher',
+        'monitor/performance',
+        'monitor/GROWTH性能优化实践',
+      ],
     },
     {
       title: 'Web API',
       collapsable: false,
-      children: ['web/page-lifecycle', 'web/navigator', 'web/console']
+      children: ['web/page-lifecycle', 'web/navigator', 'web/console'],
     },
     {
       title: 'Style',
@@ -185,19 +185,9 @@ function setProject() {
       ],
     },
     {
-      title: 'CSS',
-      collapsable: false,
-      children: ['Css/a.cluster'],
-    },
-    {
       title: 'TypeScript',
       collapsable: false,
       children: ['TypeScript/a.typescript'],
-    },
-    {
-      title: 'HTML5',
-      collapsable: false,
-      children: ['HTML5/a.html5'],
     },
     {
       title: 'Swift',
@@ -267,56 +257,6 @@ function getConceptSide() {
       title: 'LF-Concept',
       collapsable: false,
       children: ['network', 'css'],
-    },
-  ]
-}
-
-function getCoreSide() {
-  return [
-    '/core/',
-    {
-      title: 'TypeScript',
-      collapsable: false,
-      children: ['TypeScript/basic'],
-    },
-    {
-      title: 'JavaScript',
-      // 表示不会关闭
-      collapsable: false,
-      children: [
-        'javascript/javascript',
-        'javascript/esx',
-        'javascript/typescript',
-        'javascript/array',
-      ],
-    },
-    {
-      title: 'React',
-      // 表示不会关闭
-      collapsable: false,
-      children: ['React/a.basic', 'React/b.advanced', 'React/hook'],
-    },
-    {
-      title: 'Vue',
-      // 表示不会关闭
-      collapsable: false,
-      children: ['Vue/a.basic', 'Vue/b.advanced'],
-    },
-    {
-      title: 'HTML5',
-      // 表示不会关闭
-      collapsable: false,
-      children: ['HTML5/basic', 'HTML5/elements'],
-    },
-    {
-      title: 'Swift4.x',
-      collapsable: false,
-      children: ['Swift/a.swift', 'Swift/b.component'],
-    },
-    {
-      title: 'Python3',
-      collapsable: false,
-      children: ['Python3/a.basic', 'Python3/b.advanced'],
     },
   ]
 }
