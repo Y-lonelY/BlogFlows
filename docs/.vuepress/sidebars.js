@@ -1,22 +1,27 @@
 // concept - projects - assets - standard
 
-const langsConfig = [
-  '',
+const nodeConfig = [
   {
     title: 'NodeJs',
     collapsable: false,
-    children: ['nodejs/concept', 'nodejs/projects'],
-  },
+    children: ['concept', 'projects', 'package'],
+  }
+]
+
+const cssConfig = [
   {
     title: 'CSS',
     collapsable: false,
-    children: ['css/concept', 'css/projects', 'css/assets', 'css/standard'],
-  },
+    children: ['concept', 'projects', 'assets', 'standard'],
+  }
+]
+
+const htmlConfig = [
   {
     title: 'HTML5',
     collapsable: false,
-    children: ['html5/concept', 'html5/projects', 'html5/assets'],
-  },
+    children: ['concept', 'projects', 'assets'],
+  }
 ]
 
 const toolsConfig = [
@@ -51,7 +56,10 @@ const toolsConfig = [
 module.exports = {
   // EXPLORES
   '/explores/': setExplore(),
-  '/langs/': langsConfig,
+  // langs
+  '/langs/nodejs/': nodeConfig,
+  '/langs/css/': cssConfig,
+  '/langs/html5/': htmlConfig,
   // PRACTICE MODULE
   '/practice_packages/': setPackages(),
   '/practice_project/': setProject(),

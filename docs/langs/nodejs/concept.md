@@ -1,4 +1,4 @@
-# NodeJs Concept
+# Core Concept
 
 > Node.js doesn't follow the request/response Multi-Threaded Stateless Model in which every request is processed by a separate thread
 
