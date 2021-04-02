@@ -120,13 +120,27 @@ ob.disconect()
 
 我们已经通过一些手段获取了一堆性能数据, 接下来我们要做的事情就是对这些数据进行分类和分析.
 
-我会沉淀一些通用的性能指标
+- [核心指标解读](https://web.dev/lcp/)
 
+<b>像 LCP 这类属性会随着页面内资源加载而动态改变，针对此类问题，通过 `new PerformanceObserver()` 的 `observe()` 方法进行监听，来动态获取值</b>
 
+<img src="../assets/perf/corevitals.svg" />
+
+如上图，展示了浏览器加载完资源之后的主线程执行情况！
 
 ### FP(First Paint)
 
 `FP = Anything as visually different - Navigator`, 即浏览器开始导航到浏览器屏幕发生可视化改变的时间间隔
+
+```typescript
+const entries = window.performance.getEntries()
+
+entries.forEach(entry => {
+  if (entry.name === 'first-paint') {
+    crt['fp'] = +entry.startTime.toFixed(2)
+  }
+})
+```
 
 
 
@@ -134,27 +148,115 @@ ob.disconect()
 
 浏览器从导航到渲染 DOM 内容的第一个字节(就是一个 DOM 元素的第一个字节)所花费的时间, 通常情况下 FP 等于 FCP
 
+```typescript
+const entries = window.performance.getEntries()
+
+entries.forEach(entry => {
+  if (entry.name === 'first-contentful-paint') {
+    crt['fcp'] = +entry.startTime.toFixed(2)
+  }
+})
+```
+
+
+
+### TBT(Total Blocking Time)
+
+TBT 指标用于测量 FCP 到 TTI 之间，主线程被阻塞的总时长
+
+通常存在 `Long Task` 时，主线程就被认定为“阻塞”
+
+运行在主线程且执行耗时大于 50 毫秒的任务被认定为 `Long Task`
+
+```typescript
+let tbt = 0  
+const entries = window.performance.getEntries()
+// total-block-timing
+entries.forEach(entry => {
+  if (entry.name !== 'self' || entry.startTime < crt.fcp) return
+  if (entry.duration - 50 > 0) {
+    tbt += entry.duration
+  }
+})
+```
+
+
+
 
 
 ### LCP(Largest Contentfil Paint)
 
-视窗内可见的的渲染时间最大的 `image or text block`, 比如 `<svg>`, `<image>`, `<video>` 等存在 url 属性的元素
+> "Sometimes simpler is better. A more accurate way to measure when the main content of a page is loaded is to look at when the largest element was rendered!"
+>
+> ​																																														-- Google
 
-这是一个很有意义的指标, 它基本上反映了是页面内渲染主要内容的耗时
+视窗内（视窗外的部分不计入 size，并且处于性能考虑，元素大小或位置的更改不会生成新的 LCP 候选对象）渲染时间最大的 `image or text block`, 比如 `<svg>`, `<image>`, `<video>` 等的元素。**注意，如果没有对应元素，则会返回 `<body>` **
+
+<img src="../assets/perf/lcp.png" />
 
 一个更快的 LCP 能够帮助用户确认当前页面是[可用的](https://web.dev/user-centric-performance-metrics/#questions)(即是否足够的内容让用户可以进行交互)
 
-👀注意:
-
-- 对于类 `image` 元素, 上报的 `size` 通常是指视窗内可见的尺寸, 如果元素被隐藏或者部分处于视窗外面(被裁剪或者存在不可见的溢出), 则这部分不会被计入元素的大小
-- 对于类 `text` 元素, `size` 代表包含文本内容最小矩形的尺寸
-
-并且, 为了保证计算和分配新性能条目的开销较低, 元素大小或位置的更改不会生成新的 LCP 候选对象
-
 **Load time or Render time**
 
-对于跨域的图片资源, 如果没有设置 `Timing-Allow-Origin` 的话, 出于安全的考虑, 只会记录其 LoadTime. 因此, 如果条件允许的话, 通常建议去设置 `Timing-Allow-Origin` 的请求头.
+对于跨域的图片资源, 如果没有设置 `Timing-Allow-Origin` 的话, 出于安全的考虑, 只会记录其 LoadTime. 因此, 如果条件允许的话, 通常建议去设置 `Timing-Allow-Origin` 的请求头
+
+**如何捕获 LCP**
+
+通过阅读 [web-vitals](https://github.com/GoogleChrome/web-vitals) 观察其是如何捕获 LCP 的，这里针对核心代码进行说明：
+
+```typescript
+// 1. 通过 performace observe 方法监听 largest-contentful-paint，
+export const observe = (
+    type: string,
+    callback: PerformanceEntryHandler,
+): PerformanceObserver | undefined => {
+  try {
+    // 验证是否支持监听该类事件
+    if (PerformanceObserver.supportedEntryTypes.includes(type)) {
+      const po: PerformanceObserver =
+          new PerformanceObserver((l) => l.getEntries().map(callback));
+
+      po.observe({type, buffered: true});
+      return po;
+    }
+  } catch (e) {
+    // Do nothing.
+  }
+  return;
+};
+
+// 2. 在页面 hidden 时或者用户产生交互事件时，捕获 entry 并进行上报，触发自定义回调
+const stopListening = () => {
+  // 如果定义的 metric 采集器内含有 LCP 指标，则将其记录加入到 finalMetrics 内，之后调用自定义函数
+  if (!finalMetrics.has(metric)) {
+    po.takeRecords().map(entryHandler as PerformanceEntryHandler);
+    po.disconnect();
+    finalMetrics.add(metric);
+    report();
+  }
+}
+
+['keydown', 'click'].forEach((type) => {
+  addEventListener(type, stopListening, {once: true, capture: true});
+});
+
+onHidden(stopListening, true);
+```
+
+
 
 ### FID(First Input Delay)
 
-用户在网站上发出第一个交互事件到浏览器真正对交互事件产生反应所花费的时间
+FID 用来测量用户产生第一次交互（比如点击链接、按钮或者自定义的 JavaScript 空间）到浏览器能够开始处理交互事件的时间间隔
+
+开发者往往会认定自己的代码能够被立即执行，但是用户经常会被一些延迟问题困扰，比如点击了之后没有反应。造成这种问题的原因就是，浏览器的主线程在执行其他任务（Long Task），没法执行任何 event listeners。一个常见的场景就是，浏览器忙于加载、解析和执行一个很大的 JavaScript 文件！
+
+如上图所示，第一次输入延迟通常发生在 FCP 到 TTI 之间，在这段时间内，页面已经渲染了一些内容，但是其交互不一定完全可靠。
+
+### CLS(Cumulative Layout Shift)
+
+CLS 会测量在页面生命周期内，所有发生布局移位元素的 layout shift score 总和，这个指标用来测量可视内容的稳定性。
+
+页面内容意外移动，通常是因为脚本文件异步加载或者 DOM 元素被动态添加到页面已有内容上，或者你引入了第三方组件造成了一些全局影响。更为严重的是，在生产环境和开发环境内，往往有不同的表现，在开发环境下，内容通常已经被缓存了，并且脚本的加载几乎是同步完成的，但是在线上这些问题会被放大。
+
+理论上，当一个元素的位置发生变化时，它就发生了布局偏移。　
