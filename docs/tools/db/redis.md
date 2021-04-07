@@ -1,8 +1,7 @@
 # Redis
 
 
-
-## Install
+## Start Server
 
 在 MacOS 下通过 `brew install redis` 进行安装
 
@@ -28,3 +27,16 @@ MacOS 下 `vim /usr/local/etc/redis.conf`
 
 1. 执行 `ln -f /usr/local/Cellar/redis/6.0.10/homebrew.mxcl.redis.plist ~/Library/LaunchAgents` 建立软连接，加入到 launchd 进程，当用户登录系统后会自动执行
 2. 执行 `launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist` 加载任务
+
+
+## 常用操作
+
+### 批量删除 redis key
+
+在 terminal 内执行 `redis-cli -h 127.0.0.1 -p 6379 keys "bull:q_perf:*" | xargs -r -t redis-cli -h 127.0.0.1 -p 6379 del`
+
+注意：
+
+- `|` 是管道符，需要在 shell 内执行
+- `xargs -r` 当 xargs 的输入为空的时候则停止 xargs，不用再去执行了
+- `xargs -t` 表示先打印命令，然后再执行
