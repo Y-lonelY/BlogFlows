@@ -96,7 +96,13 @@ export class TestService {
   // 写入队列
   async postSentryQueue(data: { [index: string]: any }) {
     if (!data || Object.keys(data).length === 0) return
-    await this.testQueen.add({ ...data })
+    await this.testQueen.add({ ...data }, {
+      // 默认会保存 job 在 completed 或者 failed set 内，通过设置以下参数不再存储
+      removeOnComplete: true,
+      removeOnFail: true,
+      // 设置多少毫秒后任务失败
+      timeout: 300 * 1000
+    })
   }
   // ...
 }
