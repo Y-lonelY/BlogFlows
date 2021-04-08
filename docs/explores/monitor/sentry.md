@@ -2,8 +2,6 @@
 
 > Sentry is a service that helps you monitor and fix crashes in realtime!
 
-
-
 ## 名词
 
 - event volume：事件体量
@@ -13,11 +11,16 @@
 
 Sentry 能够提供在生产环境内的实时错误追踪，并且包含针对错误一系列的处理流程。
 
-针对开发者来说：
-
 - 及时发现、响应线上问题
 - 通过合理的信息展示，验证问题修复情况
 - 针对问题进行多维分析
+
+## Architecture
+
+这里对 Sentry 的[架构](https://develop.sentry.dev/architecture/) 进行理解
+
+
+
 
 
 
@@ -46,7 +49,6 @@ Sentry 能够提供在生产环境内的实时错误追踪，并且包含针对�
 在引入第三方服务时，我们需要搞清楚哪些数据能够允许被发送到 sentry, 哪些允许被存储。除了如上提到的通过 SDK 的方式来筛选和清理敏感数据外，Sentry 也提供配置来在服务端进行[数据清洗](https://docs.sentry.io/product/data-management-settings/server-side-scrubbing/)
 
 通过一个新的配置项 `setting > Security & Privacy` 来配置数据清洗的[高级操作](https://docs.sentry.io/product/data-management-settings/advanced-datascrubbing/)
-
 
 
 ### Aggregation

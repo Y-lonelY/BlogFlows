@@ -8,6 +8,7 @@
 2. 为什么要用队列，队列能解决什么问题？
 3. 用 redis 实现队列的优势？
 4. 如何在 NestJs 内进行实践？
+5. 使用队列的注意点
 
 ---
 
@@ -96,13 +97,16 @@ export class TestService {
   // 写入队列
   async postSentryQueue(data: { [index: string]: any }) {
     if (!data || Object.keys(data).length === 0) return
-    await this.testQueen.add({ ...data }, {
-      // 默认会保存 job 在 completed 或者 failed set 内，通过设置以下参数不再存储
-      removeOnComplete: true,
-      removeOnFail: true,
-      // 设置多少毫秒后任务失败
-      timeout: 300 * 1000
-    })
+    await this.testQueen.add(
+      { ...data },
+      {
+        // 默认会保存 job 在 completed 或者 failed set 内，通过设置以下参数不再存储
+        removeOnComplete: true,
+        removeOnFail: true,
+        // 设置多少毫秒后任务失败
+        timeout: 300 * 1000,
+      }
+    )
   }
   // ...
 }
@@ -121,7 +125,6 @@ import { Job } from 'bull'
 
 @Processor('q_sentry')
 export class SentryConsumer {
-
   @Process()
   async transData(job: Job<unknown>) {
     return job.data
@@ -133,4 +136,42 @@ export class SentryConsumer {
   }
 }
 // ...
+```
+
+### QA
+
+#### 写入队列
+
+在使用 `@nest/bull` 时，注意对于不需要存储的数据及时进行清理，参考 [reference-add](https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueadd) 进行了解
+
+下面提供一个简单例子：
+
+```typescript
+// 写入队列
+async postSentryQueue(data: { [index: string]: any }) {
+  if (!data || Object.keys(data).length === 0) return
+  await this.testQueen.add({ ...data }, {
+    // 默认会保存 job 在 completed 或者 failed set 内，通过设置以下参数不再存储
+    removeOnComplete: true,
+    removeOnFail: true,
+    // 设置多少毫秒后任务失败
+    timeout: 300 * 1000
+  })
+}
+```
+
+#### 清除指定队列
+
+如果在写入队列时没有设置相应配置，可能会造成队列不断堆积，导致 Redis 不断扩容，因此，这里提供方法来清理指定队列
+
+参考 [clean](https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean) 进行理解
+
+```typescript
+// ...
+clearQueue() {
+  return Promise.all([
+    this.sentryQueen.clean(100, 'completed'),
+    this.sentryQueen.clean(100, 'failed')
+  ])
+}
 ```
