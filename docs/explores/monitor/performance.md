@@ -259,4 +259,15 @@ CLS 会测量在页面生命周期内，所有发生布局移位元素的 layout
 
 页面内容意外移动，通常是因为脚本文件异步加载或者 DOM 元素被动态添加到页面已有内容上，或者你引入了第三方组件造成了一些全局影响。更为严重的是，在生产环境和开发环境内，往往有不同的表现，在开发环境下，内容通常已经被缓存了，并且脚本的加载几乎是同步完成的，但是在线上这些问题会被放大。
 
-理论上，当一个元素的位置发生变化时，它就发生了布局偏移。　
+理论上，当一个元素的位置发生变化时，它就发生了布局偏移
+
+
+### DeviceMemory
+
+通过 [navigator.deviceMemory](https://github.com/w3c/device-memory) 我们可以观察硬件的 RAM 信息
+
+通常一个服务请求或者事件处理在不同内存设备下的表现会出现差异，Chrome telemetry 表明在低内存的设备 tab 上发生了大量的 OOM 崩溃。因此，我们需要收集该指标来作为分析的维度，也能够为我们提供 “lite” 版本的服务提供依据
+
+其值为 GiB 中 RAM 数量的近似值
+
+<b>The client hint header and API will only be available on HTTPS secure connections.</b>
