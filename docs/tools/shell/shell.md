@@ -1,12 +1,42 @@
 # Shell
 
-## Linux 常用命令
+## 字符串判断
 
-通过一些经常遇到的场景来进行学习，通过 `|` 实现管道设计模式，即上一个操作的输出作为下一个操作的输入
+```shell
+a="abc"
+b="cde"
+# = / != 判断是否相等
+[$a=$b]
+
+# -z 判断字符串长度是否为 0
+[-z $a]
+
+# -n 判断字符串长度是否不为 0
+[-n $a]
+
+# $ 判断字符串是否为空
+[$a]
+```
+
+
+
+
+
+
+
+## Client 的 url 工具 -- curl
+
+执行 `curl https://www.xxx.com` 就可以发出一个 GET 请求，服务器返回值会在命令行内输出
+
+- `-A` 表示请求头内 `user-agent`
+- `-H` 表示请求头
+- `-b` 用来像服务器发送 cookie，比如 `curl -b 'key=value' https://www.xxx.com`
+- `-d` 用来表示 post 请求的 body 内容
+- `-G` 用来构造 URL 的查询参数，比如 `curl -G -d 'key1=v1' -d 'k2=v2' https://www.xxx.com`，表示发送一个 GET 请求，`https://www.xxx.com?key1=v1&key2=v2`，如果不指定  -G，则会发送一个 POST 请求
+
+
 
 ### 解决端口占用
-
-
 
 **查看端口占用情况**
 
