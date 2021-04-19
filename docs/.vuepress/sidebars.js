@@ -24,6 +24,14 @@ const htmlConfig = [
   }
 ]
 
+const coreServerConfig = [
+  {
+    title: 'Server',
+    collapsable: false,
+    children: ['cache'],
+  }
+]
+
 const toolsConfig = [
   '',
   {
@@ -60,6 +68,8 @@ module.exports = {
   '/langs/nodejs/': nodeConfig,
   '/langs/css/': cssConfig,
   '/langs/html5/': htmlConfig,
+  // core
+  '/core/server/': coreServerConfig,
   // PRACTICE MODULE
   '/practice_packages/': setPackages(),
   '/practice_project/': setProject(),

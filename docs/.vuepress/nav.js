@@ -62,6 +62,10 @@ module.exports = [
         text: 'Concept',
         link: '/core_concept/',
       },
+      {
+        text: 'Server',
+        link: '/core/server/cache',
+      },
     ],
   }
 ]
