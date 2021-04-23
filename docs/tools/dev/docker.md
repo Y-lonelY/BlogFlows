@@ -47,7 +47,10 @@ Docker daemon 是服务器组件，以 Linux 后台服务的方式运行，是 D
 - ran `docker image rm [image id]` 删除指定的镜像
 
 
+### 进入容器实例
 
+- ran `docker container ls` 查看所有实例
+- ran `docker exec -it [container id] bash` 通过命令行进行容器实例
 
 
 ## Dockerfile
