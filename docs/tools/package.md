@@ -1,14 +1,24 @@
-# Package Manage Tools
+# Package Managers
 
 
 
 ## npm
 
-**更换源库地址**
+<b>更换源库地址</b>
 
 - 临时换源 `npm --registry https://registry.npmjs.org/ install [package]`
 - 永久更换  `npm config set registry https://registry.npmjs.org/`
 - 查看源地址 `npm config get registry`
+
+
+<b>查看</b>
+
+`npm list -g --depth 0` 查看全局安装包
+
+- `npm list` 查看安装过的包
+- `-g` 指定为全局安装的包
+- `--depth 0` 限制输出模块层级
+
 
 ### npm publish 指定文件（或者指定不发布的文件）
 

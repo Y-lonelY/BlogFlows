@@ -5,7 +5,7 @@ const nodeConfig = [
     title: 'NodeJs',
     collapsable: false,
     children: ['concept', 'projects', 'package', 'nestjs'],
-  }
+  },
 ]
 
 const reactConfig = [
@@ -13,7 +13,7 @@ const reactConfig = [
     title: 'React',
     collapsable: false,
     children: ['concept', 'ans', 'hooks'],
-  }
+  },
 ]
 
 const cssConfig = [
@@ -21,7 +21,7 @@ const cssConfig = [
     title: 'CSS',
     collapsable: false,
     children: ['concept', 'projects', 'assets', 'standard'],
-  }
+  },
 ]
 
 const htmlConfig = [
@@ -29,7 +29,7 @@ const htmlConfig = [
     title: 'HTML5',
     collapsable: false,
     children: ['concept', 'projects', 'assets'],
-  }
+  },
 ]
 
 const coreServerConfig = [
@@ -37,35 +37,23 @@ const coreServerConfig = [
     title: 'Server',
     collapsable: false,
     children: ['cache'],
-  }
+  },
 ]
 
 const toolsConfig = [
   '',
+  'shell',
+  'package',
+  'ide',
   {
-    title: 'Shell',
+    title: 'Env',
     collapsable: false,
-    children: ['shell/shell'],
-  },
-  {
-    title: 'DB',
-    collapsable: false,
-    children: ['db/mysql', 'db/redis'],
+    children: ['env/docker', 'env/TCCloud', 'env/nginx'],
   },
   {
     title: 'Git',
     collapsable: false,
     children: ['git/usages', 'git/standard'],
-  },
-  {
-    title: 'IDE',
-    collapsable: false,
-    children: ['IDE/vim', 'IDE/vscode'],
-  },
-  {
-    title: 'Server',
-    collapsable: false,
-    children: ['server/TCCloud', 'server/nginx'],
   },
 ]
 
@@ -78,7 +66,7 @@ module.exports = {
   '/langs/react/': reactConfig,
   '/langs/css/': cssConfig,
   '/langs/html5/': htmlConfig,
-  
+
   // core
   '/core/server/': coreServerConfig,
   // PRACTICE MODULE
