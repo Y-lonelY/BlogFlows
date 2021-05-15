@@ -1,6 +1,6 @@
 # React Hook
 
-> 它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性，即 `Stateless Functional Component -> Functional Component`
+> 它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性
 
 
 ## Why?
@@ -37,73 +37,7 @@ Hook 是一个特殊的函数，它可以让你“钩入” React 的特性，�
 
 ## useEffect
 
-> **useEffect** 就是给函数组件提供作用(执行数据获取、订阅或者手动修改 DOM)的能力
-
-**知识要点**：
-
-1. useEffect 用来告知 React 组件需要在渲染后执行某些操作，且 useEffect 会在每次 `render()` 之后执行**（注意：初始化后，会执行所有 useEffect）**，保证执行 useEffect 时， DOM 已经渲染完毕
-
-2. Hook 允许我们按照代码的用途分离他们，即一个组件内可以多次调用 useEffect，React 会按照顺序依次执行
-
-3. React 会等待浏览器完成渲染页面之后才会延迟调用 useEffect
-
----
-
-通常根据依赖项（第二个参数），来对应 class component 不同的生命周期：
-
-- 通过设置依赖项为空数组，来钩入 `componentDidMount`
-- 依赖项不传，即没有第二个参数，则对应 `componentDidMount` 和 `componentDidUpdate`，即在每次 `render()` 完成之后都会直接执行，**注意判断是否需要更新，否则会把浏览器内存打爆**
-- 通过 return 一个方法，来钩入 `componentWillUnmount`
-- 设置依赖项为指定 state，表示当该 state 发生变化时，会触发该 useEffect，且优先执行其 return 函数
-
-**⚠︎注意**
-
-1. 不管依赖项如何设置，都会在初始化时执行所有的 useEffect，此时要避免陷入死循环
-2. useEffect 在 render 之后一定会调用，并且是同步调用，如果希望某个值变化后立即执行操作，可以利用**设置依赖项为指定 state** 来进行
-
-```js
-import React, { useState, useEffect } from 'react';
-
-function Test(props) {
-	const [count, setCount] = useState(0);
-
-	/**
-	 * 利用 useEffect 来执行初始化操作，相当于 componentDidMount
-	 */
-	useEffect(() => {
-		// 假如订阅了某个事件，则需要在退出时销毁它，防止内存泄漏
-		subscribeFromFriendStatus();
-
-		return function cleanup() {
-			// 在组件销毁时，取消订阅事件
-      // 通过参数 return 一个函数，来表示 `componentWillUnmount` 执行操作
-			unsubscribeFromFriendStatus();
-		}
-	}, []);
-
-	/**
-	 * 如果不传入依赖项，则在 `componentDidMount` 和 `componentDidUpdate` 时触发
-	 */
-	useEffect(() => {
-		if (props.count !== count) {
-        	setCount(props.count)
-       }
-	});
-
-	// 通过返回的 setCount 方法来改变 count 的值
-	return (
-		<div>
-			<button onClick={() => setCount(count + 1)}>click</button>
-		</div>
-	);
-}
-```
-
-
-
----
-
-接下来，我希望谈谈如何在 `useEffect` 内发起一个异步请求？
+如何在 `useEffect` 内发起一个异步请求？
 
 ```typescript
 	/**
@@ -121,7 +55,7 @@ function Test(props) {
 	}, [query]);
 ```
 
-这里通过局部变量 `ignore` 来处理：**异步请求返回结果前，组件已经销毁了**的场景。当组件已经销毁了，我们不应该继续使用 `useState` 方法来继续为其赋值（没啥大的影响，但是会有 warning 信息）。此时通过一个局部变量来进行标记，当组件卸载后不再执行后续步骤。
+这里通过局部变量 `ignore` 来处理：<b>异步请求返回结果前，组件已经销毁了</b>的场景。当组件已经销毁了，我们不应该继续使用 `useState` 方法来继续为其赋值（没啥大的影响，但是会有 warning 信息）。此时通过一个局部变量来进行标记，当组件卸载后不再执行后续步骤。
 
 
 

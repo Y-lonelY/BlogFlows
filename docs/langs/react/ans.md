@@ -162,7 +162,7 @@ function Test(props) {
 
 React 的生命周期经过了一次迭代，这里记录 React V16 之后的版本
 
-![React生命周期](../assets/react-life.png)
+![React生命周期](../assets/react/lifecycle.png)
 
 React 生命周期的不同阶段，可以从横向和纵向来分别进行理解，下面重点对**横向比较**进行理解：
 
@@ -202,7 +202,7 @@ React 生命周期的不同阶段，可以从横向和纵向来分别进行理�
 
 - 将子组件 this 作为参数传递给父组件，父组件通过 `this.child` 来挂载（这样有点暴力）
 - 更好的方式是通过，父组件将包含`setState()` 的方法传递给子组件，子组件通过 `this.props` 来调用该方法
-- 通过 `this.myRef = React.createref()` 和 `ref={this.myRef}` 将 ref 挂载至子组件，从而获取子组件的对象实例，完成通信，[相关链接](./b.advanced.md#context)
+- 通过 `this.myRef = React.createref()` 和 `ref={this.myRef}` 将 ref 挂载至子组件，从而获取子组件的对象实例，完成通信
 
 子组件使用父组件方法，直接将父组件定义好的方法传递给子组件，子组件通过 `this.props` 来访问方法
 
@@ -216,7 +216,7 @@ React 生命周期的不同阶段，可以从横向和纵向来分别进行理�
 跨级组件通信
 
 - 通过组合组件将深层组件通过 props 进行传递
-- 通过 context 来进行组件通信，[相关链接](./b.advanced.md#ref)
+- 通过 context 来进行组件通信
 - 还可以利用第三方库，比如 redux 来对系统内通信进行统一管理 
 
 ```javascript

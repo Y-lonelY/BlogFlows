@@ -16,6 +16,7 @@ Keyword:
 - `ErrorEvent`
 - `Error Information`
 
+具体实现可以参考[React-error-catcher](https://github.com/Y-lonelY/react-error-catcher)
 
 
 ## How did the error occurs？

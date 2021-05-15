@@ -86,7 +86,9 @@ Sentry 能够提供在生产环境内的实时错误追踪，并且包含针对�
 
 观察 `Makefile`，这里梳理本地 run 的流程：
 
-1. `relay-generate` 内依赖 [uap-core](https://github.com/ua-parser/uap-core)，以 submodule 的形式进行引入，因此需要执行 `make setup` 来初始化依赖，注意，如果碰到 `pip command not found` 的问题，查看本地的 pip 映射目录，我通过将 Makefile 内的 pip 替换成 pip3 解决
+1. `relay-generate` 内依赖 [uap-core](https://github.com/ua-parser/uap-core)，以 submodule 的形式进行引入，因此需要执行 `make setup` 来初始化依赖，
+   - 如果碰到 `pip command not found` 的问题，查看本地的 pip 映射目录，我通过将 Makefile 内的 pip 替换成 pip3 解决
+   - 碰到 `couldn't read relay-general/src/../uap-core/regexes.yaml: No such file or directory` 直接手动文件拷贝到 `/relay-general/uap-core` 目录下即可
 2. Ran `make test` 检查 rust, python 以及 integration 的编译和测试用例情况
 3. Ran `cargo run --all-features -- config init` 初始化 Relay 服务
 4. Ran `cargo run --all-features -- run` 启动本地服务

@@ -8,6 +8,14 @@ const nodeConfig = [
   }
 ]
 
+const reactConfig = [
+  {
+    title: 'React',
+    collapsable: false,
+    children: ['concept', 'ans', 'hooks'],
+  }
+]
+
 const cssConfig = [
   {
     title: 'CSS',
@@ -64,10 +72,13 @@ const toolsConfig = [
 module.exports = {
   // EXPLORES
   '/explores/': setExplore(),
+
   // langs
   '/langs/nodejs/': nodeConfig,
+  '/langs/react/': reactConfig,
   '/langs/css/': cssConfig,
   '/langs/html5/': htmlConfig,
+  
   // core
   '/core/server/': coreServerConfig,
   // PRACTICE MODULE
@@ -111,11 +122,6 @@ function setCoreFoundation() {
       title: 'JavaScript',
       collapsable: false,
       children: ['js/common', 'js/array', 'js/es'],
-    },
-    {
-      title: 'React',
-      collapsable: true,
-      children: ['react/react', 'react/ans', 'react/advanced', 'react/hook'],
     },
     {
       title: 'TypeScript',
@@ -202,12 +208,12 @@ function setExplore() {
   return [
     '',
     {
-      title: 'Frontend Engineer',
+      title: 'Engineering',
       collapsable: false,
       children: ['engineers/webhooks'],
     },
     {
-      title: 'Monitor',
+      title: 'WPM',
       collapsable: false,
       children: [
         'monitor/React-Error-Catcher',

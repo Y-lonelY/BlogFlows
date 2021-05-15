@@ -12,6 +12,10 @@ module.exports = [
         link: '/langs/nodejs/concept',
       },
       {
+        text: 'React',
+        link: '/langs/react/concept',
+      },
+      {
         text: 'CSS',
         link: '/langs/css/concept',
       },
