@@ -173,12 +173,6 @@ function setPackages() {
       collapsable: true,
       children: ['javascript/common'],
     },
-
-    {
-      title: 'NodeJS',
-      collapsable: true,
-      children: ['node/common', 'node/koa'],
-    },
     {
       title: 'Vue',
       collapsable: true,
