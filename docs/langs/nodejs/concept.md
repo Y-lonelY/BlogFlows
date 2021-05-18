@@ -108,11 +108,9 @@ JavaScript 是一门单线程执行的语言，本身也没有异步的实现规
 
 Node.js 内的事件执行机制和 [浏览器内 JavaScript 执行机制](https://7k7k.life/core_concept/js/common.html#%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6) 存在差异，在浏览器的运行时内，无所谓高并发
 
-在 Node.js 运行时内，事件循环由底层的 libuv 实现，它将事件循环分割为不同阶段，每个阶段都维护一个回调函数的队列
+参考 [Node.js 事件循环](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/)
 
-
-
-
+在 Node.js 运行时内，事件循环由底层的 libuv 实现，它将事件循环分割为不同阶段，每个阶段都维护一个回调函数的队列（FIFO），每次循环，都会依次处理队列内的回调
 
 
 
