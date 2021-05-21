@@ -14,10 +14,18 @@
 安装成功之后
 
 - `cd /usr/local/var/www` 查看主页内容
-- `cd /usr/local/etc/nginx/nginx.conf` 修改配置文件
+- `cd /usr/local/etc/nginx/nginx.conf` 修改配置文件（ubuntu 在 `/etc/nginx` 目录下）
 - `nginx` 启动 nginx server
 - `nginx -s stop` 终止 nginx server
 - `nginx -s reload` 重启 nginx server
+
+
+
+<b>解决 80 被 nginx welcome 页面默认占用的问题</b>
+
+你希望把自己的主站绑定到 80 端口，但是发现 80 端口对应的页面已经被 nginx welcome 页面占用了，此时需要修改 `/etc/nginx/sites-enabled/default` 文件，将 80 端口换成其他端口，重启 nginx 即可
+
+
 
 
 ## Config
@@ -32,6 +40,7 @@
 - 将不同子域名的访问分发到不同的 location
 
 参考
+
 - [腾讯云 nginx 配置 SSL](https://cloud.tencent.com/document/product/400/35244)
 
 ```

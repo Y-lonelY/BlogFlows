@@ -68,6 +68,7 @@ b="cde"
 `time=$(date "+%Y%m%d-%H%M%S")` 格式化当前时间，注意 `date` 后面加空格
 
 
+
 ### 文件可执行权限
 
 系统内，读、写和可执行权限对应的数字如下所示：
@@ -109,6 +110,13 @@ b="cde"
 2. `unzip xxx.zip` 直接解压指定文件，输出到当前目录
 3. `zip xxx.zip 1.txt 2.txt` 将 1.txt 和 2.txt 压缩为 xxx.zip
 4. `unzip xxx.zip -d /home` 将 xxx.zip 解压到 /home 目录下
+
+<b>通过 tar 命令</b>
+
+- `tar -zcvf target.tar.gz [package files]` 进行压缩
+- `tar -zxvf target.tar.gz` 解压文件
+
+
 
 ### 创建用户
 
@@ -226,6 +234,8 @@ READ_USER_INPUT "this is title" "${options_value[*]}" ${#options_value[*]}
 # get the return value
 option_select=$?
 ```
+
+
 
 ## 创建并行命令
 
