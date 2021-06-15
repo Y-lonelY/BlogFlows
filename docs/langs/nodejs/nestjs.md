@@ -2,6 +2,14 @@
 
 
 
+## Cores
+
+Nest 生命周期
+
+<img src="../assets/nodejs/nest-lifecycle.jpg" alt="nest-lifecycle" />
+
+
+
 ## QA
 
 ### 解决 @Body() 解析为空的情况
