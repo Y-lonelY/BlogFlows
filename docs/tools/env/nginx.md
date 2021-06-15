@@ -21,9 +21,49 @@
 
 
 
+<b>查看 nginx logs</b>
+
+- `cat /etc/nginx/nginx.conf` 查看 log 文件地址
+- `cat [log address]` 查看日志
+
+
+
 <b>解决 80 被 nginx welcome 页面默认占用的问题</b>
 
 你希望把自己的主站绑定到 80 端口，但是发现 80 端口对应的页面已经被 nginx welcome 页面占用了，此时需要修改 `/etc/nginx/sites-enabled/default` 文件，将 80 端口换成其他端口，重启 nginx 即可
+
+
+
+### 通过二进制编译 nginx
+
+一般而言，我们可以通过模块管理工具来引入 nginx，比如 brew、apt-get 等。但是，当我们需要引入第三方模块时，我们需要结合二进制文件和第三方模块进行编译后替换原文件，这里我们以 [nginx-upload-module](https://github.com/fdintino/nginx-upload-module) 作为案例对其步骤讲解
+
+1. 安装之前，配置相应的环境：`yum -y install gcc gcc-c++ make libtool zlib zlib-devel openssl openssl-devel pcre pcre-devel`
+
+2. 查看当前 nginx 版本及其配置：`nginx -V` ，注意将其配置拷贝出来
+
+3. 根据步骤 2 的版本号到官网上下载相应的二进制包：`wget http://nginx.org/download/nginx-1.14.0.tar.gz` ，并解析道指定目录：`tar -xvf nginx-1.14.0.tar.gz`
+
+4. 下载第三方模块的源码到指定目录：`git clone https://github.com/fdintino/nginx-upload-module.git`
+
+5. 进入指定目录，添加编译时配置：`sh configure [configs]`，注意添加 `--add-module=/home/pkgs/nginx-upload-module` 和 `--sbin-path=/home/pkgs/nginx` 来指定第三方模块和输出内容路径
+
+   ```nginx
+   root@VM-0-6-ubuntu:~# nginx -V
+   nginx version: nginx/1.14.0
+   built by gcc 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04)
+   built with OpenSSL 1.1.1  11 Sep 2018
+   TLS SNI support enabled
+   configure arguments: --sbin-path=/home/pkgs/nginx --with-cc-opt='-g -O2 -fdebug-prefix-map=/build/nginx-GkiujU/nginx-1.14.0=. -fstack-protector-strong -Wformat -Werror=format-security -fPIC -Wdate-time -D_FORTIFY_SOURCE=2' --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -fPIC' --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_geoip_module=dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_xslt_module=dynamic --with-stream=dynamic --with-stream_ssl_module --with-mail=dynamic --with-mail_ssl_module --add-module=/home/pkgs/nginx-upload-module
+   ```
+
+   
+
+6. 执行 `make && make install` 来编译 nginx
+
+7. 拷贝 nginx 副本：`cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak` ，替换 nginx：`cp ./nginx /usr/local/nginx/sbin/`
+
+8. 重启 nginx：`nginx -s reload`，验证配置： `nginx -V`
 
 
 
@@ -43,7 +83,7 @@
 
 - [腾讯云 nginx 配置 SSL](https://cloud.tencent.com/document/product/400/35244)
 
-```
+```nginx
 #user  ylonely;
 worker_processes  1;
 events {
@@ -113,6 +153,84 @@ http {
 
 
 
+### 配置 nginx-upload-module
+
+[Nginx-upload-module](https://github.com/fdintino/nginx-upload-module) 是 nginx 用来处理文件上传的第三方模块
+
+具体编译方法可以参考上文 -- 通过二进制编译 nginx
+
+这里介绍 nginx 的相关配置以及回调处理服务
+
+我建议重新部署一个 server 来专门处理文件上传：
+
+```nginx
+	# 文件上传服务
+	server {
+		listen 8077;
+		client_max_body_size 3000m;
+
+		location /upload/ {
+    	# 回调服务地址
+			upload_pass  /api/upload;
+
+			# 上传文件默认保存地址
+			upload_store  /home/apps/crt_images/;
+			# 设置上传文件的权限默认为可读可写
+			upload_store_access all:rw;
+			# 设置 body 内容
+			upload_set_form_field $upload_field_name.name "$upload_file_name";
+			upload_set_form_field $upload_field_name.content_type "$upload_content_type";
+			upload_set_form_field $upload_field_name.path "$upload_tmp_path";
+			upload_aggregate_form_field $upload_field_name.md5 "$upload_file_md5";
+			upload_aggregate_form_field $upload_field_name.size "$upload_file_size";
+			# 支持所有字段回传到回调服务
+			upload_pass_form_field "^.*$";
+			# 返回值为以下则清除文件
+			# upload_cleanup 400 404 499 500-505;
+		}
+
+		location /api/upload {
+			# rewrite ^ /api/upload$1;
+			proxy_pass http://127.0.0.1:7727/api/upload;
+		}
+	}
+```
+
+我通过 nestjs 实现了一个回调服务，用来重命名文件（你可以在这里处理自己的业务逻辑）：
+
+```typescript
+  // 基于 nestjs 处理 nginx-upload-module 上传文件回调
+  @Post('upload')
+  upload(@Headers() h: any, @Req() req: Request) {
+    try {
+      // nginx-upload-module 的回调信息在 req.body 内，如下所示
+      // {
+				// "file.name": "logo.png",
+				// "file.content_type": "image/png",
+				// "file.path": "/home/apps/crt_images/0000000029",
+				// "file.md5": "45a6f2a3656de762a590bd80305400b8",
+				// "file.size": "29237"
+			// }
+      const { body } = req
+      this.Logger.log(body)
+      // 这里对文件进行重命名操作
+      const file_path = body['file.path']
+      const file_name = body['file.name']
+      const dir = dirname(file_path)
+      renameSync(file_path, join(dir, file_name))
+      return success({ req })
+    } catch (error) {
+      return success({
+        error,
+      })
+    }
+  }
+```
+
+
+
+
+
 ### 理解 alias root location
 
 nginx 指定文件路径有两种方式 root 和 alias
@@ -122,8 +240,8 @@ nginx 指定文件路径有两种方式 root 和 alias
 
 两者的区别在于如何解释 location 的 uri 值，导致两者分别以不同的方式将请求映射到服务器文件上
 
-- root的处理结果是：root＋location
 - alias的处理结果是：使用 alias 替换 location，注意，使用 alias 时，目录名后面一定要加 /，否则会找不到文件
+- root的处理结果是：root＋location
 
 
 

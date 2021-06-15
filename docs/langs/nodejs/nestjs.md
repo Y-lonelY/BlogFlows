@@ -1,5 +1,38 @@
 # NestJs
 
+
+
+## QA
+
+### 解决 @Body() 解析为空的情况
+
+在 nestJs 内，`@Body()` 无法解析 form、text/plain 等 <b>readable === true</b> 的内容类型，因此需要利用 buffer 来进行解析处理，核心代码如下：
+
+```typescript
+  @Post()
+  postPerf(@Body() d: any, @Req() req: Request) {
+    if (req.readable) {
+      const buffer = []
+      // 监听 onData 事件，将其写入 buffer
+      req.on('data', (buff) => {
+        buffer.push(buff)
+      })
+      // 数据上传结束，解析 buffer 对象
+      req.on('end', () => {
+        const crt = Buffer.concat(buffer).toString('utf-8')
+        const data = JSON.parse(crt)
+        console.log(data)
+      })
+    } else {
+      // 直接通过 @Body() 方法解析
+      console.log(d)
+    }
+    return success()
+  }
+```
+
+
+
 ## Queues
 
 参考[Queues](https://docs.nestjs.com/techniques/queues)，我从以下四个方面进行解读：

@@ -130,6 +130,8 @@ ob.disconect()
 
 ### FP(First Paint)
 
+通常等于 FCP，衡量标准类比
+
 `FP = Anything as visually different - Navigator`, 即浏览器开始导航到浏览器屏幕发生可视化改变的时间间隔
 
 ```typescript
@@ -146,6 +148,12 @@ entries.forEach(entry => {
 
 ### FCP(First Contentful Paint)
 
+<b>衡量标准</b>
+
+- Good: < 1.8s
+- Needs improvemnt: 1.8s ~ 3s
+- Poor: > 3s
+
 浏览器从导航到渲染 DOM 内容的第一个字节(就是一个 DOM 元素的第一个字节)所花费的时间, 通常情况下 FP 等于 FCP
 
 ```typescript
@@ -161,6 +169,8 @@ entries.forEach(entry => {
 
 
 ### TBT(Total Blocking Time)
+
+> < 300 milliseconds means good experience
 
 TBT 指标用于测量 FCP 到 TTI 之间，主线程被阻塞的总时长
 
@@ -189,6 +199,12 @@ entries.forEach(entry => {
 > "Sometimes simpler is better. A more accurate way to measure when the main content of a page is loaded is to look at when the largest element was rendered!"
 >
 > ​																																														-- Google
+
+<b>衡量标准</b>
+
+- Good: < 2.5s
+- Needs improvement: 2.5s ~ 4s
+- Poor: > 4s
 
 视窗内（视窗外的部分不计入 size，并且处于性能考虑，元素大小或位置的更改不会生成新的 LCP 候选对象）渲染时间最大的 `image or text block`, 比如 `<svg>`, `<image>`, `<video>` 等的元素。**注意，如果没有对应元素，则会返回 `<body>` **
 
@@ -247,13 +263,27 @@ onHidden(stopListening, true);
 
 ### FID(First Input Delay)
 
+<b>衡量标准</b>
+
+- Good: < 100ms
+- Needs improvement: 100ms ~ 300ms
+- Poor: > 300ms
+
 FID 用来测量用户产生第一次交互（比如点击链接、按钮或者自定义的 JavaScript 空间）到浏览器能够开始处理交互事件的时间间隔
 
 开发者往往会认定自己的代码能够被立即执行，但是用户经常会被一些延迟问题困扰，比如点击了之后没有反应。造成这种问题的原因就是，浏览器的主线程在执行其他任务（Long Task），没法执行任何 event listeners。一个常见的场景就是，浏览器忙于加载、解析和执行一个很大的 JavaScript 文件！
 
 如上图所示，第一次输入延迟通常发生在 FCP 到 TTI 之间，在这段时间内，页面已经渲染了一些内容，但是其交互不一定完全可靠。
 
+
+
 ### CLS(Cumulative Layout Shift)
+
+<b>衡量标准</b>
+
+- Good: < 0.1
+- Needs improvement: 0.1 ~ 0.25
+- Poor: > 0.25
 
 CLS 会测量在页面生命周期内，所有发生布局移位元素的 layout shift score 总和，这个指标用来测量可视内容的稳定性。
 
