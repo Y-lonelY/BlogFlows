@@ -1,16 +1,24 @@
 #!/bin/bash
 
+# git commit id 
+commitid=$(git rev-parse --short HEAD)
+# git commit author
+author=$(git log --pretty=format:'%an' HEAD -1)
+name="${author}:${commitid}"
+time=$(date "+%Y/%m/%d/%H/%M/%S")
+
 
 function tag() {
-    echo "Current tag version is $1"
-    time=$(date "+%Y/%m/%d-%H:%M:%S")
-    echo "${time}"
-    git tag -a "$1" -m "${time}"
-    git push --tag
+  echo "Current tag version is ${name}"
+
+  git tag -a "$name" -m "${name} at ${time}"
+
+  git push --tag
 }
 
 
 function help() {
+    echo ${name}
     echo "bash $0 --cmd [tag]"
 }
 
