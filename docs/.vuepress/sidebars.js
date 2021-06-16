@@ -198,9 +198,10 @@ function setExplore() {
       title: 'WPM',
       collapsable: false,
       children: [
-        'monitor/React-Error-Catcher',
-        'monitor/performance',
-        'monitor/GROWTH性能优化实践',
+        'wpm/React-Error-Catcher',
+        'wpm/performance',
+        'wpm/GROWTH性能优化实践',
+        'wpm/sentry'
       ],
     },
     {

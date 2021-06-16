@@ -11,14 +11,14 @@ time=$(date "+%Y/%m/%d/%H/%M/%S")
 function tag() {
   echo "Current tag version is ${name}"
 
-  git tag -a "$name" -m "${name} at ${time}"
+  git tag -a "$commitid" -m "${name} at ${time}"
 
   git push --tag
 }
 
 
 function help() {
-    echo ${name}
+    echo "${name}"
     echo "bash $0 --cmd [tag]"
 }
 

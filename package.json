@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "docs:build": "vuepress build docs"
+    "release": "npm run build && sh control.sh tag"
   },
   "repository": {
     "type": "git",

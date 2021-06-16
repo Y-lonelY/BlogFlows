@@ -184,8 +184,6 @@ Webpack 通过 `entry` 来解决文件入口的问题, `resolve` 则是用类似
 
 **要明白, 最终的目的是找到正确的文件, 并以正确的方式对其进行解析和打包**
 
-![webpack module resolve](../assets/resolve.png)
-
 如果指定的路径是一个文件: webpack 会直接打包这个文件, 这个过程会结合 `resolve.extensions` 配置来判断哪些文件类型是被支持的
 
 如果指定的路径是一个目录: 
