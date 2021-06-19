@@ -68,6 +68,16 @@ Node.js 通过单线程 + 事件机制实现并发，不同于 Java 通过多线
 
 
 
+## Features
+
+### Async hooks
+
+> [async-hooks](https://nodejs.org/api/async_hooks.html#async_hooks_async_hooks) provides an API to track asynchronous resources!
+
+Async hooks 是 Nodejs 提供用来跟踪异步资源处理的 API ，具体使用可参考官网，这里提炼核心点
+
+
+
 
 
 

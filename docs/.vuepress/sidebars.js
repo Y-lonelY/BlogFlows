@@ -4,7 +4,7 @@ const nodeConfig = [
   {
     title: 'NodeJs',
     collapsable: false,
-    children: ['concept', 'projects', 'package', 'nestjs'],
+    children: ['concept', 'projects', 'package', 'nestjs', 'express'],
   },
 ]
 
