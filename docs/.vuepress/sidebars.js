@@ -56,6 +56,30 @@ const envsCommonConfig = [
   },
 ]
 
+const notesEnsConfig = [
+  {
+    title: 'Ens',
+    collapsable: false,
+    children: ['term'],
+  },
+]
+
+const notesPiecesConfig = [
+  {
+    title: 'Pieces',
+    collapsable: false,
+    children: ['medium', 'module'],
+  },
+]
+
+const notesReadingsConfig = [
+  {
+    title: 'Readings',
+    collapsable: false,
+    children: ['算法优化', '从入门到微前端'],
+  },
+]
+
 module.exports = {
   // EXPLORES
   '/explores/': setExplore(),
@@ -70,14 +94,17 @@ module.exports = {
   '/envs/cloud/': envsCloudConfig,
   '/envs/common/': envsCommonConfig,
 
+  // NOTES MODULE
+  '/notes/ens/': notesEnsConfig,
+  '/notes/pieces/': notesPiecesConfig,
+  '/notes/readings/': notesReadingsConfig,
+
   // core
   '/core/server/': coreServerConfig,
   // PRACTICE MODULE
   '/practice_packages/': setPackages(),
   '/practice_project/': setProject(),
-  // READING MODULE
-  '/reading_literature/': setLiterature(),
-  '/reading_media/': setMedia(),
+
   // CORE MODULE
   '/core_foundation/': setCoreFoundation(),
   '/core_concept/': setCoreConcept(),
@@ -126,37 +153,6 @@ function setCoreFoundation() {
       title: 'Python3',
       collapsable: true,
       children: ['python3/common', 'python3/advanced'],
-    },
-  ]
-}
-
-function setMedia() {
-  return [
-    '',
-    {
-      title: 'Medium',
-      collapsable: false,
-      children: ['medium/common', 'medium/callback'],
-    },
-    {
-      title: 'YouTube',
-      collapsable: true,
-      children: ['youtube/predict2020-2025'],
-    },
-  ]
-}
-
-function setLiterature() {
-  return [
-    '',
-    {
-      title: 'Literature',
-      collapsable: false,
-      children: [
-        'webpack/深入浅出webpack',
-        '前端架构--从入门到微前端',
-        'Go语言开发实战',
-      ],
     },
   ]
 }

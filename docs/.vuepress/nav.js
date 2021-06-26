@@ -39,6 +39,23 @@ module.exports = [
     ],
   },
   {
+    text: 'Notes',
+    items: [
+      {
+        text: 'Ens',
+        link: '/notes/ens/term',
+      },
+      {
+        text: 'Pieces',
+        link: '/notes/pieces/medium',
+      },
+      {
+        text: 'Readings',
+        link: '/notes/readings/算法优化',
+      },
+    ],
+  },
+  {
     text: 'Practice',
     items: [
       {
@@ -48,19 +65,6 @@ module.exports = [
       {
         text: 'Packages',
         link: '/practice_packages/',
-      },
-    ],
-  },
-  {
-    text: 'Reading',
-    items: [
-      {
-        text: 'Literature',
-        link: '/reading_literature/',
-      },
-      {
-        text: 'Media',
-        link: '/reading_media/',
       },
     ],
   },
