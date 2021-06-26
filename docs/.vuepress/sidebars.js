@@ -40,20 +40,19 @@ const coreServerConfig = [
   },
 ]
 
-const toolsConfig = [
-  '',
-  'shell',
-  'package',
-  'ide',
+const envsCloudConfig = [
   {
-    title: 'Env',
+    title: 'Cloud',
     collapsable: false,
-    children: ['env/docker', 'env/TCCloud', 'env/nginx'],
+    children: ['tencent', 'ubuntu'],
   },
+]
+
+const envsCommonConfig = [
   {
-    title: 'Git',
+    title: 'Common',
     collapsable: false,
-    children: ['git/usages', 'git/standard'],
+    children: ['docker', 'git', 'nginx', 'shell', 'package', 'ide'],
   },
 ]
 
@@ -67,6 +66,10 @@ module.exports = {
   '/langs/css/': cssConfig,
   '/langs/html5/': htmlConfig,
 
+  // ENV MODULE
+  '/envs/cloud/': envsCloudConfig,
+  '/envs/common/': envsCommonConfig,
+
   // core
   '/core/server/': coreServerConfig,
   // PRACTICE MODULE
@@ -78,8 +81,6 @@ module.exports = {
   // CORE MODULE
   '/core_foundation/': setCoreFoundation(),
   '/core_concept/': setCoreConcept(),
-  // TOOL MODULE
-  '/tools/': toolsConfig,
 }
 
 function setCoreConcept() {
@@ -201,7 +202,7 @@ function setExplore() {
         'wpm/React-Error-Catcher',
         'wpm/performance',
         'wpm/GROWTH性能优化实践',
-        'wpm/sentry'
+        'wpm/sentry',
       ],
     },
     {

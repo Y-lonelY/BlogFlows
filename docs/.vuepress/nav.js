@@ -26,8 +26,17 @@ module.exports = [
     ],
   },
   {
-    text: 'Tools',
-    link: '/tools/',
+    text: 'Envs',
+    items: [
+      {
+        text: 'Cloud',
+        link: '/envs/cloud/tencent',
+      },
+      {
+        text: 'Common',
+        link: '/envs/common/docker',
+      },
+    ],
   },
   {
     text: 'Practice',
@@ -71,5 +80,5 @@ module.exports = [
         link: '/core/server/cache',
       },
     ],
-  }
+  },
 ]

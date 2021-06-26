@@ -1,15 +1,15 @@
-# 腾讯云服务器
-
-
-
-## 环境和工具
+# Tencent Cloud
 
 ### wget
 
-`wget --version` 查看是否安装 wget，
+`wget --version` 查看是否安装 wget
+
 wget 是一个从网络上自动下载文件的自由工具，支持通过 HTTP、HTTPS、FTP 三个最常见的 TCP/IP协议 下载，并可以使用 HTTP 代理
 
+ubuntu 通常内置 `yum` 和 `apt-get`
 
+- `apt-get update`
+- `apt-get install xxx`
 
 ### FTP 服务
 
@@ -20,12 +20,13 @@ wget 是一个从网络上自动下载文件的自由工具，支持通过 HTTP�
 - [FileZilla](https://filezilla-project.org/download.php?platform=osx)
 
 
+### Node.js
 
-### 安装服务/环境/cli
+<b>建议通过 [volta](https://github.com/volta-cli/volta) 来管理 node.js 的环境</b>
 
-这里以安装 node 环境为例进行说明，其他环境的安装类似
+这里同样介绍常规 node.js 环境的搭建步骤
 
-**node --version** 查看是否安装 NodeJS，如果没有安装，可以参考[自定义安装](https://cloud.tencent.com/document/product/213/38237)
+这里以安装 node 环境为例进行说明，其他环境的安装类似，可以参考[自定义安装](https://cloud.tencent.com/document/product/213/38237)
 
 - `cd root` 进入根目录
 - `wget https://nodejs.org/dist/v12.13.1/node-v12.13.1-linux-x64.tar.xz` 下载安装包
@@ -34,14 +35,12 @@ wget 是一个从网络上自动下载文件的自由工具，支持通过 HTTP�
 - `ln -s /root/node-v12.13.1-linux-x64/bin/npm /usr/local/bin/npm` 建立 npm 命令的软链接
 
 
-
 ### 软硬链接
 
 在上文中，我们通过软链接来做了一个指向绝对路径的“快捷方式”，这里我们简单区分一下软/硬链接的概念：
 
 - 硬链接：其 `inode`(可以理解为指针) 都指向同一个文件在内存中的区块，这意味着改变链接文件，另一个文件也会同步改变，`ln file hard`
 - 软链接：保存了其代表文件的绝对路径，在内存上有自己独立的区块，访问时会替换自身路径
-
 
 
 ## Q&&A
@@ -85,4 +84,5 @@ Q4: 如何查看 npm 全局的安装路径？
 # 通过 npm 配置信息进行查看
 npm config get registry
 ```
+
 

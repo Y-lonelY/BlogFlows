@@ -1,4 +1,31 @@
-# Git Usages
+# Git Standard
+
+## Commit Rules
+
+通过 commitizen 来提交commit
+
+- 执行 `npm install commitizen --save `
+- 在 **package.json** 内进行如下配置
+
+```json
+{
+  "scripts": {
+    "commit": "git-cz",
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+}
+```
+
+项目内添加CHANGELOG
+
+- 执行`npm install conventional-changelog-cli --save`
+- 通过 `npx conventional-changelog --help` 查看相关命令
+- 一般在 package.json 内配置 `"changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"`，来指定使用 angular 规范，且重新生成CHANGELOG.md文件
+- 通过 `npm run changelog`来执行
 
 
 ## 添加license
@@ -22,7 +49,7 @@ rsa(非对称加密)
 
 之后到指定目录内复制 `pub` 内容到 github 即可
 
-**如果不希望内次提交都输入密码，在生成 keys 时直接 enter**
+<b>如果不希望内次提交都输入密码，在生成 keys 时直接 enter</b>
 
 ### 切换当前项目 http to ssh
 
@@ -43,9 +70,11 @@ rsa(非对称加密)
 1. 通过 `git log` 查看提交历史，找到需要合并的 commit 段
 	- `git rebase -i HEAD~3` 表示合并最新的三个 commit
 	- `git rebase -i xxxxxx` 通过版本号控制合并，注意标识版本号（即 xxxxxx）的 commit 不参与合并
+
 2. 接着，再次确认需要合并的分支，将 `pick` 变更为 `squash`，注意第一行提交信息必须为 `pick`，保存后退出
 	- `git rebase --continue` 在当前修改上继续操作
 	- `git rebase --abort` 撤销当前的 rebase 操作
+
 3. 再次编辑提交信息后提交
 
 
@@ -69,9 +98,4 @@ rsa(非对称加密)
 
 - 这种操作带来的风险点：如果另一个人在该分支上也提交了内容，那么会将他的提交内容也覆盖（清空）
 
-
-
-## Checkout
-
-- `git checkout .` **清除当前工作区改动**
 
